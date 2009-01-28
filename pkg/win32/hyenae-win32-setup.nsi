@@ -8,6 +8,8 @@ InstallDir $PROGRAMFILES\Hyenae
 ; Required for Windows Vista
 RequestExecutionLevel admin
 
+!define MUI_ABORTWARNING
+
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_BITMAP ".\components\header.bmp" ; optional
 
