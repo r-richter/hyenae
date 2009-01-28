@@ -1,0 +1,138 @@
+.TH "Hyenae Daemon" "1" "Jan. 2009" "Robin Richter" "Hyenae Users Manual"
+.SH NAME
+hyenaed - Advanced Network Packet Generator Daemon
+.SH SYNOPSIS
+hyenaed [\fB-i\fR if-n] [\fB-I\fR if-i] [\fB-a\fR bind-ip] [\fB-p\fR port] [\fB-b\fR bcklog]
+        [\fB-t\fR tru-ip-lst] [\fB-T\fR none-tru-ip-lst] [\fB-A\fR ip-v]
+        [\fB-c\fR cli-pkt-lmt] [\fB-u\fR cli-dur-lmt] [\fB-C\fR max-cl]
+        [\fB-k\fR pwd] [\fB-flV\fR]
+
+.SH DESCRIPTION
+Hyenae is a highly flexible and platform independent network packet generator.
+It allows you to reproduce low level ethernet attack scenarios (such as MITM,
+DoS and DDoS) to reveal the potential security vulnerabilities of your
+network. Besides smart wildcard-based address randomization and a highly
+customizable packet generation control, Hyenae comes with a clusterable remote
+daemon for setting up distributed attack networks.
+
+Hyenae was developed with ease of use in mind while still remaining flexible
+and configurable. To realize this aim, Hyenae uses address patterns, which
+will minimize the number of arguments you have to provide because all
+necessary parameters, such as the way you want to randomize your addresses or
+the IP address version to use, can be derived from the pattern format you
+provided. See section 4, "Address Patterns", for more detailed information.
+
+This utility suite was developed for network reliability testing purposes such
+as firewall rules, flood detection and intrusion detection testing only. The
+author is not responsible for any illegal use or actions, or damage caused by
+or with a utility of this suite.
+
+.SH OPTIONS
+\fB-i\fR    Network interface to attack on
+      (specified by name). This will not set
+      the network interface on which to
+      listen for connections.
+
+\fB-I\fR    Network interface to attack on
+      (specified by index). This will not
+      set the network interface on which to
+      listen for connections. A list of all
+      available network interfaces and their
+      indices can be obtained by starting
+      Hyenae with the -l option.
+
+\fB-a\fR    IP address to bind the daemon's
+      server socket to. The default value is
+      127.0.0.1 (localhost). The Hyenae
+      Daemon can not be bound to the network
+      interface you want to attack from.
+
+\fB-p\fR    The port number on which the
+      daemon shall listen for incoming
+      connections. By default the daemon
+      will listen on port 666.
+
+\fB-b\fR    Number of backlog connections
+      the daemon shall handle. The default
+      value 5.
+
+\fB-t\fR    Trusted IP address list.
+      Specifies an IP list file which will
+      be used as a trusted list of IP
+      addresses. If set, only clients using
+      the specified IP addresses will be
+      allowed to connect to the daemon. An
+      IP address list has the following
+      format:
+
+        # Comment
+        IP-Address=[IP-Address]
+        IP-Address=[IP-Address]
+        ...
+
+      Wildcards are not valid within IP
+      address list files.
+
+\fB-T\fR    Untrusted IP address list.
+      Specifies an IP list file which will
+      be used as a list of untrusted IP
+      addresses. If set, all clients using
+      the specified IP addresses will not be
+      able to connect to the daemon. An IP
+      address list has the following format:
+
+        # Comment
+        IP-Address=[IP-Address]
+        IP-Address=[IP-Address]
+        ...
+
+      Wildcards are not valid within IP
+      address list files.
+
+\fB-A\fR    IP version the listening socket
+      shall use. This can be either 4 or 6.
+      The default version is 4 (IPv4).
+
+\fB-c\fR    Packet limit for clients.
+      Specifies the maximum number of
+      packets a single client can request to
+      attack with. If not set or set to 0,
+      you must specify an attack duration
+      limit.
+
+\fB-u\fR    Attack duration limit for
+      clients. Specifies the maximum number
+      of milliseconds a single client can
+      request to attack for. If not set or
+      set to 0, you must specify a packet
+      limit.
+
+\fB-C\fR    Maximum number of clients
+      allowed to connect. The default value
+      is 10.
+
+\fB-k\fR    Password protection. If set,
+      only clients which are using this
+      password will be able to control this
+      daemon. Note: Since Hyenae currently
+      does not support encrypted
+      communication, your password is
+      transfered in plain text, and can be
+      logged by others.
+
+\fB-f\fR    Log-File path. By default, all
+      daemon logs will be written to
+      /var/log/hyenaed.log on *nix systems
+      or .\\hyenaed.log on windows systems.
+
+\fB-l\fR    Prints a list of all available
+      network interfaces and exits.
+
+\fB-V\fR    Prints the current version of
+      Hyenae and exits.
+
+.SH SEE ALSO
+  hyenae(1)
+
+.SH AUTHOR
+  Robin Richter (richterr@users.sourceforge.net)

@@ -1,0 +1,31 @@
+--------------------------------------------------------------------------------
+
+                               Hyenae Thanks
+
+--------------------------------------------------------------------------------
+
+  Hyenae
+    Advanced Network Packet Generator
+
+  Copyright (C) 2009  Robin Richter
+
+  Contact  : richterr@users.sourceforge.net
+  Homepage : http://sourceforge.net/projects/hyenae/
+
+--------------------------------------------------------------------------------
+
+  Project Support
+    * _acid_ (Advice and Debian package creation)
+    * Thomas Foss (Documentation improvements and corrections)
+
+  External Libraries
+    * Dug Song (dnet)
+    * WinPcap Team
+    * tcpdump/libpcap Team
+
+  Other Resources
+    * Sourceforge.net
+    * Morgan McGuire's (POSIX _kbhit implementation)
+    * NSIS Environmental Variables Update Script (EnvVarUpdate.nsh)
+
+--------------------------------------------------------------------------------

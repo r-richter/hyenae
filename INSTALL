@@ -1,0 +1,51 @@
+--------------------------------------------------------------------------------
+
+                             Hyenae Installation
+
+--------------------------------------------------------------------------------
+
+  Hyenae
+    Advanced Network Packet Generator
+
+  Copyright (C) 2009  Robin Richter
+
+  Contact  : richterr@users.sourceforge.net
+  Homepage : http://sourceforge.net/projects/hyenae/
+
+--------------------------------------------------------------------------------
+
+  1. Prerequisites
+
+  In order to build and install Hyenae from source, you first need to make
+  sure that the following software packages are installed on your system:
+
+  Windows:
+    Cygwin                   http://www.cygwin.com/
+    MingGW                   http://www.mingw.org/
+    WinPCAP + Headers        http://www.winpcap.org/
+    libdnet + Headers        http://libdnet.sourceforge.net/
+
+  Linux/BSD:
+    libpcap                  http://sourceforge.net/projects/libpcap/
+    libdnet + Headers        http://libdnet.sourceforge.net/
+
+  Mac OS X:
+    libdnet + Headers        http://libdnet.sourceforge.net/
+    Apple Developer-Tools    http://developer.apple.com/tools/
+
+--------------------------------------------------------------------------------
+
+  2. Compilation & Installation
+
+  Once your system matches the requirements above, go to the Hyenae source
+  folder and execute:
+
+    # ./configure && make
+
+  Windows users are now ready to go. If you are using a *nix-based operating
+  system, you might want to install Hyenae to your binary folder and also copy
+  the man pages and configuration files. This can be achieved by executing:
+
+    # sudo make install
+
+--------------------------------------------------------------------------------
