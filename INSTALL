@@ -20,18 +20,18 @@
   sure that the following software packages are installed on your system:
 
   Windows:
-    Cygwin                   http://www.cygwin.com/
-    MingGW                   http://www.mingw.org/
-    WinPCAP + Headers        http://www.winpcap.org/
-    libdnet + Headers        http://libdnet.sourceforge.net/
+    Cygwin                          http://www.cygwin.com/
+    MingGW                          http://www.mingw.org/
+    WinPCAP + Headers               http://www.winpcap.org/
+    libdnet + Headers               http://libdnet.sourceforge.net/
 
   Linux/BSD:
-    libpcap                  http://sourceforge.net/projects/libpcap/
-    libdnet + Headers        http://libdnet.sourceforge.net/
+    libpcap                         http://sourceforge.net/projects/libpcap/
+    libdnet/libdumbnet + Headers    http://libdnet.sourceforge.net/
 
   Mac OS X:
-    libdnet + Headers        http://libdnet.sourceforge.net/
-    Apple Developer-Tools    http://developer.apple.com/tools/
+    libdnet + Headers               http://libdnet.sourceforge.net/
+    Apple Developer-Tools           http://developer.apple.com/tools/
 
 --------------------------------------------------------------------------------
 

@@ -58,7 +58,11 @@
 #endif /* OS_WINDOWS */
 
 #include <pcap.h>
-#include <dnet.h>
+#ifdef HAVE_LIBDUMBNET
+  #include <dumbnet.h>
+#else
+  #include <dnet.h>
+#endif /* HAVE_LIBDUMBNET */
 
 /* Common errors */
 #define HY_ER_OK                0

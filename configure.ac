@@ -124,19 +124,34 @@ if test "$OS" = "UNIX"; then
   fi
 
   #
-  # Check for dnet
+  # Check for dnet/dumbnet
   #
 
   DNET=""
   AC_CHECK_LIB([dnet], [eth_set], , DNET="no")
   if test "$DNET" = "no"; then
-    AC_MSG_ERROR([Missing library: libdnet])
+    DNET=""
+    AC_CHECK_LIB([dumbnet], [eth_set], , DNET="no")
+    if test "$DNET" = "no"; then
+      AC_MSG_ERROR([Missing library: libdnet/libdumbnet])
+    fi
+    DNET_NAME="dumbnet"
+  else
+    DNET_NAME="dnet"
   fi
 
-  DNET=""
-  AC_CHECK_HEADER([dnet.h], , DNET="no")
-  if test "$DNET" = "no"; then
-    AC_MSG_ERROR([Missing header file: dnet.h])
+  if test "$DNET_NAME" = "dumbnet"; then
+    DNET=""
+    AC_CHECK_HEADER([dumbnet.h], , DNET="no")
+    if test "$DNET" = "no"; then
+      AC_MSG_ERROR([Missing header file: dumbnet.h])
+    fi
+  else
+    DNET=""
+    AC_CHECK_HEADER([dnet.h], , DNET="no")
+    if test "$DNET" = "no"; then
+      AC_MSG_ERROR([Missing header file: dnet.h])
+    fi
   fi
 
   #
@@ -159,7 +174,7 @@ if test "$OS" = "UNIX"; then
   # Assign required libraries to link
   #
 
-  LIBS="$LIBS -lpthread -lpcap -ldnet"
+  LIBS="$LIBS -lpthread -lpcap -l$DNET_NAME"
 
   #
   # Define OS_UNIX
