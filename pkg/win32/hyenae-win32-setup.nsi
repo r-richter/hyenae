@@ -8,8 +8,10 @@ InstallDir $PROGRAMFILES\Hyenae
 ; Required for Windows Vista
 RequestExecutionLevel admin
 
-!insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "..\..\LICENSE"
+!define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_BITMAP ".\components\header.bmp" ; optional
+
+!insertmacro MUI_PAGE_LICENSE ".\components\License.rtf"
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
