@@ -1,7 +1,7 @@
 !include "MUI2.nsh"
 !include ".\include\EnvVarUpdate.nsh"
 
-Name "Hyenae 0.26 Setup"
+Name "Hyenae 0.26"
 OutFile "hyenae-0.26-win32.exe"
 InstallDir $PROGRAMFILES\Hyenae
 
