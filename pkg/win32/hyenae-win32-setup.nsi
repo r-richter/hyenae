@@ -11,7 +11,7 @@ RequestExecutionLevel admin
 !define MUI_ABORTWARNING
 
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP ".\components\header.bmp" ; optional
+!define MUI_HEADERIMAGE_BITMAP ".\components\hyenae.bmp" ; optional
 
 !insertmacro MUI_PAGE_LICENSE ".\components\License.rtf"
 !insertmacro MUI_PAGE_COMPONENTS
