@@ -13,6 +13,7 @@ RequestExecutionLevel admin
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_BITMAP ".\components\hyenae.bmp" ; optional
 
+!insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE ".\components\License.rtf"
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
