@@ -1,5 +1,7 @@
 #
-# Hyenae - Network Reliability / Security Tester
+# Hyenae
+#   Advanced Network Packet Generator
+#
 # Copyright (C) 2009  Robin Richter
 #
 #   Contact  : richterr@users.sourceforge.net
