@@ -459,8 +459,9 @@ void
     ) {
 
   /*
-   * Writes a loggable comparison of the given
-   * attack parameters to the given buffer.
+   * USAGE:
+   *   Writes a loggable comparison of the given
+   *   attack parameters to the given buffer.
    */
 
   char tcp_flgs[1024];
