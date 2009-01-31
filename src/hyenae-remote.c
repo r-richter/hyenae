@@ -235,12 +235,12 @@ void
   rcv_buf = malloc(rcv_buf_len);
   /* Build remote attack request packet (send buffer) */
   if ((result->ret =
-         hy_build_remote_attack_request(
+         hy_build_remote_attack_request_buffer(
            attack,
            &snd_buf)) != HY_ER_OK) {
     return;
   }
-  snd_buf_len = sizeof(hy_ra_request_h_t) + attack->pay_len;
+  snd_buf_len = sizeof(hy_attack_t) + attack->pay_len;
   dur_start = hy_get_milliseconds_of_day();
   for (srv = server_list; srv; srv = srv->next) {
     hy_output(

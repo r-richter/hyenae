@@ -65,42 +65,8 @@ typedef
 
 /* -------------------------------------------------------------------------- */
 
-typedef
-  struct hy_ra_request_h {
-
-  /*
-   * USAGE:
-   *   Represents a remote attack request header.
-   */
-
-  int att_type;
-  hy_pattern_t src_pat;
-  hy_pattern_t dst_pat;
-  hy_pattern_t snd_pat;
-  hy_pattern_t trg_pat;
-  unsigned long min_cnt;
-  unsigned long max_cnt;
-  unsigned int min_del;
-  unsigned int max_del;
-  unsigned long min_dur;
-  unsigned long max_dur;
-  unsigned int ip_ttl;
-  unsigned int tcp_flgs;
-  unsigned long tcp_seq;
-  unsigned long tcp_seq_ins;
-  unsigned long tcp_ack;
-  unsigned int tcp_wnd;
-  unsigned int ip_v_asm;
-  unsigned int ign_mtu;
-  unsigned int cld_run;
-  unsigned int pay_len;
-
-} hy_ra_request_h_t;
-
-/* -------------------------------------------------------------------------- */
-
 int
-  hy_build_remote_attack_request
+  hy_build_remote_attack_request_buffer
     (
       hy_attack_t*,
       unsigned char**
@@ -109,7 +75,7 @@ int
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_parse_remote_attack_request
+  hy_parse_remote_attack_request_buffer
     (
       unsigned char*,
       int len,

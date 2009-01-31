@@ -576,7 +576,7 @@ void
         break;
       }
       hs_recv = 1;
-    } else if (rcv_len >= sizeof(hy_ra_request_h_t)) {
+    } else if (rcv_len >= sizeof(hy_attack_t)) {
       /* Assume remote attack request */
       if (hs_recv != 1) {
         hy_output(
@@ -589,7 +589,7 @@ void
       }
       /* Log attack parameters */
       if ((res.ret =
-             hy_parse_remote_attack_request(
+             hy_parse_remote_attack_request_buffer(
                buf,
                rcv_len,
                &att)) == HY_ER_OK) {
