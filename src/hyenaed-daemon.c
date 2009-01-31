@@ -450,6 +450,189 @@ int
 
 /* -------------------------------------------------------------------------- */
 
+void
+  hy_attack_to_string
+    (
+      hy_attack_t* attack,
+      char* buffer,
+      int len
+    ) {
+
+  /*
+   * Writes a loggable comparison of the given
+   * attack parameters to the given buffer.
+   */
+
+  char tcp_flgs[1024];
+
+  memset(buffer, 0, len);
+  sprintf(
+    buffer,
+    "%s  > Attack-Type: %s\n",
+    buffer,
+    hy_get_attack_name(attack->type));
+  if (strlen(attack->src_pat.src) > 0) {
+    sprintf(
+      buffer,
+      "%s  > Source-Pattern: \"%s\"\n",
+      buffer,
+      attack->src_pat.src);
+  } else {
+    sprintf(
+      buffer,
+      "%s  > Source-Pattern: <empty>\n",
+      buffer);
+  }
+  if (strlen(attack->dst_pat.src) > 0) {
+    sprintf(
+      buffer,
+      "%s  > Destination-Pattern: \"%s\"\n",
+      buffer,
+      attack->dst_pat.src);
+  } else {
+    sprintf(
+      buffer,
+      "%s  > Destination-Pattern: <empty>\n",
+      buffer);
+  }
+  if (strlen(attack->snd_pat.src) > 0) {
+    sprintf(
+      buffer,
+      "%s  > Sender-Pattern: \"%s\"\n",
+      buffer,
+      attack->snd_pat.src);
+  } else {
+    sprintf(
+      buffer,
+      "%s  > Sender-Pattern: <empty>\n",
+      buffer);
+  }
+  if (strlen(attack->trg_pat.src) > 0) {
+    sprintf(
+      buffer,
+      "%s  > Target-Pattern: \"%s\"\n",
+      buffer,
+      attack->trg_pat.src);
+  } else {
+    sprintf(
+      buffer,
+      "%s  > Target-Pattern: <empty>\n",
+      buffer);
+  }
+  sprintf(
+    buffer,
+    "%s  > Payload length: %i\n",
+    buffer,
+    attack->pay_len);
+  sprintf(
+    buffer,
+    "%s  > Min-Count: %i\n",
+    buffer,
+    attack->min_cnt);
+  sprintf(
+    buffer,
+    "%s  > Max-Count: %i\n",
+    buffer,
+    attack->max_cnt);
+  sprintf(
+    buffer,
+    "%s  > Min-Delay: %i\n",
+    buffer,
+    attack->min_del);
+  sprintf(
+    buffer,
+    "%s  > Max-Delay: %i\n",
+    buffer,
+    attack->max_del);
+  sprintf(
+    buffer,
+    "%s  > Min-Duration: %u\n",
+    buffer,
+    attack->min_dur);
+  sprintf(
+    buffer,
+    "%s  > Max-Duration: %u\n",
+    buffer,
+    attack->max_dur);
+  sprintf(
+    buffer,
+    "%s  > IP hop limit (TTL): %i\n",
+    buffer,
+    attack->ip_ttl);
+  if (attack->type == HY_AT_T_TCP) {
+    memset(tcp_flgs, 0, 1024);
+    if (attack->tcp_flgs & TH_FIN) {
+      strcat(tcp_flgs, "FIN ");
+    }
+    if (attack->tcp_flgs & TH_SYN) {
+      strcat(tcp_flgs, "SYN ");
+    }
+    if (attack->tcp_flgs & TH_RST) {
+      strcat(tcp_flgs, "RST ");
+    }
+    if (attack->tcp_flgs & TH_PUSH) {
+      strcat(tcp_flgs, "PSH ");
+    }
+    if (attack->tcp_flgs & TH_ACK) {
+      strcat(tcp_flgs, "ACK ");
+    }
+    sprintf(
+      buffer,
+      "%s  > TCP flags: %s\n",
+      buffer,
+      tcp_flgs);
+    sprintf(
+      buffer,
+      "%s  > TCP seq. number: %u\n",
+      buffer,
+      attack->tcp_seq);
+    sprintf(
+      buffer,
+      "%s  > TCP seq. number incr. steps: %u\n",
+      buffer,
+      attack->tcp_seq_ins);
+    sprintf(
+      buffer,
+      "%s  > TCP ack. number: %u\n",
+      buffer,
+      attack->tcp_ack);
+    sprintf(
+      buffer,
+      "%s  > TCP window size: %i\n",
+      buffer,
+      attack->tcp_wnd);
+  }
+  sprintf(
+    buffer,
+    "%s  > IP-Version-Assumption: %i\n",
+    buffer,
+    attack->ip_v_asm);
+  if (attack->ign_mtu == 1) {
+    sprintf(
+      buffer,
+      "%s  > Ignore MTU limit: Yes\n",
+      buffer);
+  } else {
+    sprintf(
+      buffer,
+      "%s  > Ignore MTU limit: No\n",
+      buffer);
+  }
+  if (attack->cld_run == 1) {
+    sprintf(
+      buffer,
+      "%s  > Cold Run: Yes",
+      buffer);
+  } else {
+    sprintf(
+      buffer,
+      "%s  > Cold Run: No",
+      buffer);
+  }
+} /* hy_attack_to_string */
+
+/* -------------------------------------------------------------------------- */
+
 /* Win32 and UNIX thread functions to handle
  * client connections, these functions only
  * delegate their parameters to hy_handle_client
@@ -495,8 +678,7 @@ void
   char* fin_line = NULL;
   unsigned char buf[HY_MAX_RA_PKT_LEN];
   char* ip_a = NULL;
-  char tcp_flgs[1024];
-  char rar_log_buf[10240];
+  char att_log_buf[10000];
   hy_ra_handshake_t* ra_hs = NULL;
   hy_attack_result_t res;
   hy_attack_t* att = NULL;
@@ -593,177 +775,14 @@ void
                buf,
                rcv_len,
                &att)) == HY_ER_OK) {
-        memset(rar_log_buf, 0, 10240);
-        sprintf(
-          rar_log_buf,
-          "%s  > Attack-Type: %s\n",
-          rar_log_buf,
-          hy_get_attack_name(att->type));
-        if (strlen(att->src_pat.src) > 0) {
-          sprintf(
-            rar_log_buf,
-            "%s  > Source-Pattern: \"%s\"\n",
-            rar_log_buf,
-            att->src_pat.src);
-        } else {
-          sprintf(
-            rar_log_buf,
-            "%s  > Source-Pattern: <empty>\n",
-            rar_log_buf);
-        }
-        if (strlen(att->dst_pat.src) > 0) {
-          sprintf(
-            rar_log_buf,
-            "%s  > Destination-Pattern: \"%s\"\n",
-            rar_log_buf,
-            att->dst_pat.src);
-        } else {
-          sprintf(
-            rar_log_buf,
-            "%s  > Destination-Pattern: <empty>\n",
-            rar_log_buf);
-        }
-        if (strlen(att->snd_pat.src) > 0) {
-          sprintf(
-            rar_log_buf,
-            "%s  > Sender-Pattern: \"%s\"\n",
-            rar_log_buf,
-            att->snd_pat.src);
-        } else {
-          sprintf(
-            rar_log_buf,
-            "%s  > Sender-Pattern: <empty>\n",
-            rar_log_buf);
-        }
-        if (strlen(att->trg_pat.src) > 0) {
-          sprintf(
-            rar_log_buf,
-            "%s  > Target-Pattern: \"%s\"\n",
-            rar_log_buf,
-            att->trg_pat.src);
-        } else {
-          sprintf(
-            rar_log_buf,
-            "%s  > Target-Pattern: <empty>\n",
-            rar_log_buf);
-        }
-        sprintf(
-          rar_log_buf,
-          "%s  > Payload length: %i\n",
-          rar_log_buf,
-          att->pay_len);
-        sprintf(
-          rar_log_buf,
-          "%s  > Min-Count: %i\n",
-          rar_log_buf,
-          att->min_cnt);
-        sprintf(
-          rar_log_buf,
-          "%s  > Max-Count: %i\n",
-          rar_log_buf,
-          att->max_cnt);
-        sprintf(
-          rar_log_buf,
-          "%s  > Min-Delay: %i\n",
-          rar_log_buf,
-          att->min_del);
-        sprintf(
-          rar_log_buf,
-          "%s  > Max-Delay: %i\n",
-          rar_log_buf,
-          att->max_del);
-        sprintf(
-          rar_log_buf,
-          "%s  > Min-Duration: %u\n",
-          rar_log_buf,
-          att->min_dur);
-        sprintf(
-          rar_log_buf,
-          "%s  > Max-Duration: %u\n",
-          rar_log_buf,
-          att->max_dur);
-        sprintf(
-          rar_log_buf,
-          "%s  > IP hop limit (TTL): %i\n",
-          rar_log_buf,
-          att->ip_ttl);
-        if (att->type == HY_AT_T_TCP) {
-          memset(tcp_flgs, 0, 1024);
-          if (att->tcp_flgs & TH_FIN) {
-            strcat(tcp_flgs, "FIN ");
-          }
-          if (att->tcp_flgs & TH_SYN) {
-            strcat(tcp_flgs, "SYN ");
-          }
-          if (att->tcp_flgs & TH_RST) {
-            strcat(tcp_flgs, "RST ");
-          }
-          if (att->tcp_flgs & TH_PUSH) {
-            strcat(tcp_flgs, "PSH ");
-          }
-          if (att->tcp_flgs & TH_ACK) {
-            strcat(tcp_flgs, "ACK ");
-          }
-          sprintf(
-            rar_log_buf,
-            "%s  > TCP flags: %s\n",
-            rar_log_buf,
-            tcp_flgs);
-          sprintf(
-            rar_log_buf,
-            "%s  > TCP seq. number: %u\n",
-            rar_log_buf,
-            att->tcp_seq);
-          sprintf(
-            rar_log_buf,
-            "%s  > TCP seq. number incr. steps: %u\n",
-            rar_log_buf,
-            att->tcp_seq_ins);
-          sprintf(
-            rar_log_buf,
-            "%s  > TCP ack. number: %u\n",
-            rar_log_buf,
-            att->tcp_ack);
-          sprintf(
-            rar_log_buf,
-            "%s  > TCP window size: %i\n",
-            rar_log_buf,
-            att->tcp_wnd);
-        }
-        sprintf(
-          rar_log_buf,
-          "%s  > IP-Version-Assumption: %i\n",
-          rar_log_buf,
-          att->ip_v_asm);
-        if (att->ign_mtu == 1) {
-          sprintf(
-            rar_log_buf,
-            "%s  > Ignore MTU limit: Yes\n",
-            rar_log_buf);
-        } else {
-          sprintf(
-            rar_log_buf,
-            "%s  > Ignore MTU limit: No\n",
-            rar_log_buf);
-        }
-        if (att->cld_run == 1) {
-          sprintf(
-            rar_log_buf,
-            "%s  > Cold Run: Yes",
-            rar_log_buf);
-        } else {
-          sprintf(
-            rar_log_buf,
-            "%s  > Cold Run: No",
-            rar_log_buf);
-        }
+        hy_attack_to_string(att, att_log_buf, 10000);
         hy_output(
           params->log_f,
           HY_OUT_T_TASK,
           1,
           "Received RA-Request (%s)\n%s",
           ip_a,
-          rar_log_buf);
+          att_log_buf);
       } else {
         hy_output(
           params->log_f,
