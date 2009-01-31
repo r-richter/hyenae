@@ -15,6 +15,7 @@
 --------------------------------------------------------------------------------
 
   Version 0.26-2
+    * Refactored daemon attack request logging
     * Stripped remote attack request processing
 
   Version 0.26-1 (Jan. 30th, 2009)
