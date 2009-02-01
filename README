@@ -30,7 +30,7 @@
   the IP address version to use, can be derived from the pattern format you
   provided. See section 4, "Address Patterns", for more detailed information.
 
-  This utility suite was developed for network reliability testing purposes such
+  This utility suite was developed for network security testing purposes such
   as firewall rules, flood detection and intrusion detection testing only. The
   author is not responsible for any illegal use or actions, or damage caused by
   or with a utility of this suite.
