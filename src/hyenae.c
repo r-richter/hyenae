@@ -367,6 +367,14 @@ int
           HY_HOMEPAGE);
         return 0;
       default:
+        printf(
+          "usage: hyenae [-s src-pat] [-d dst-pat] [-S snd-pat] [-T trg-pat]\n"
+          "              [-a att-type] [-p rnd-payload] [-P payload-file]\n"
+          "              [-i if-n] [-I if-i] [-c min-cnt] [-C max-cnt]\n"
+          "              [-e min-del] [-E max-del] [-u min-dur] [-U max-dur]\n"
+          "              [-A ip-v-asm] [-t ip-ttl] [-r srv-pat] [-R srv-file]\n"
+          "              [-f tcp-flags] [-q tcp-seq] [-Q tcp-seq-ins]\n"
+          "              [-k tcp-ack] [-w tcp-win] [-mnlLV]\n");
         return -1;
     }
   }

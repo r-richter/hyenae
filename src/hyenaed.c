@@ -241,6 +241,11 @@ int
           HY_HOMEPAGE);
         return 0;
       default:
+        printf(
+          "usage: hyenaed [-i if-n] [-I if-i] [-a bind-ip] [-p port] [-b bcklog]\n"
+          "               [-t tru-ip-lst] [-T none-tru-ip-lst] [-A ip-v]\n"
+          "               [-c cli-pkt-lmt] [-u cli-dur-lmt] [-C max-cl]\n"
+          "               [-k pwd] [-flV]\n");
         return -1;
     }
   }
