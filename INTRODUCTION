@@ -73,12 +73,13 @@
     > tcp
     > udp
 
-  You can provide the attack protocol by its name (-a). Every attack protocol
-  has its own pattern and argument requirements and in certain cases additional
-  protocol options. For more informations on see the README file or Manpages.
-  The attack protocol to use depends on the kind of attack you want to launch.
-  Without knowing what to do here, you won't be able to land a successfull
-  attack and you should consider not using this utility suite.
+  You can provide the attack protocol by its name (-a). Most of the attack
+  protocols are using a different address pattern format and in certain cases
+  require additional protocol dependend arguments. The attack protocol to use
+  depends on the kind of attack you want to launch. Without knowing what to do
+  here, you won't be able to land a successfull attack and you should consider
+  not using this utility suite. For more informations about the required address
+  pattern format of each attack protocol, see the README file or Manpages.
 
 --------------------------------------------------------------------------------
 
