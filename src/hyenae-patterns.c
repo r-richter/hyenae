@@ -134,8 +134,8 @@ void
             rnd_val = 1;
           }
         } else if ((i == 1 ||
-                     *(address + i - 2) == '.') &&
-                    (i + 1) < len &&
+                    *(address + i - 2) == '.') &&
+                  (i + 1) < len &&
                     *(address + i + 1) != '.') {
           if (*(address + i - 1) > '1') {
             rnd_val = hy_random(0, 5);
@@ -145,7 +145,7 @@ void
             }
           }
         } else if ((i == 2 ||
-                     *(address + i - 3) == '.')) {
+                    *(address + i - 3) == '.')) {
           if (*(address + i - 2) > '1' &&
               *(address + i - 1) > '4'){
             rnd_val = hy_random(0, 5);
