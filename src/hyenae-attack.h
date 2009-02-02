@@ -120,7 +120,7 @@ typedef
   pcap_t* dsc;
   hy_attack_t* att;
   hy_attack_result_t* res;
-  unsigned long pkt_cnt;
+  unsigned long pkt_lmt;
   unsigned char* pkt_buf;
   int run_stat;
 

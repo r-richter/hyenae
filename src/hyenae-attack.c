@@ -151,7 +151,7 @@ void
     pthread_t thr;
   #endif /* OS_WINDOWS */
 
-  prm.pkt_cnt = 0;
+  prm.pkt_lmt = 0;
   prm.dsc = pcap_dsc;
   prm.att = attack;
   prm.res = result;
@@ -194,12 +194,12 @@ void
   }
   /* Set packet count */
   if (attack->min_cnt > 0 ||  attack->max_cnt > 0) {
-    prm.pkt_cnt = hy_random(attack->min_cnt, attack->max_cnt);
-    if (prm.pkt_cnt < 1) {
-      prm.pkt_cnt = 1;
+    prm.pkt_lmt = hy_random(attack->min_cnt, attack->max_cnt);
+    if (prm.pkt_lmt < 1) {
+      prm.pkt_lmt = 1;
     }
   } else {
-    prm.pkt_cnt = 0;
+    prm.pkt_lmt = 0;
   }
   #ifdef OS_WINDOWS
     if ((thr =
@@ -331,7 +331,7 @@ void
   }
   /* Enter attack loop */
   dur_start = hy_get_milliseconds_of_day();
-  while (i < params->pkt_cnt || params->pkt_cnt < 1) {
+  while (i < params->pkt_lmt || params->pkt_lmt < 1) {
     fflush(stdin);
     if (params->run_stat == HY_RUN_STAT_REQUESTED_STOP) {
       break;
@@ -452,9 +452,9 @@ void
       #endif /* OS_WINDOWS */
     }
     if (params->res->tc_flg & HY_TC_PKT_CNT ||
-        (params->pkt_cnt != 1 &&
+        (params->pkt_lmt != 1 &&
          params->res->pkt_cnt < 1 ||
-         (params->res->pkt_cnt + 1) < params->pkt_cnt)) {
+         (params->res->pkt_cnt + 1) < params->pkt_lmt)) {
       hy_sleep(
         hy_random(
           params->att->min_del,
@@ -465,7 +465,7 @@ void
         params->res->tc_flg + HY_TC_TOT_BYT;
     }
     params->res->tot_byt = params->res->tot_byt + pkt_len;
-    if (params->pkt_cnt >= 1) {
+    if (params->pkt_lmt >= 1) {
       i = i + 1;
     }
     /* Check for turncation */
