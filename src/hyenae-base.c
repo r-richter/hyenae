@@ -226,7 +226,7 @@ void
    *   given buffer.
    */
 
-  unsigned int i = 0;
+  unsigned i = 0;
 
   while (i < len) {
     *(buffer + i) = hy_random(1, 255);
@@ -319,7 +319,7 @@ unsigned long
 void
   hy_sleep
     (
-      unsigned int msec
+      int msec
     )
      {
 
@@ -340,7 +340,7 @@ void
 int
   hy_get_if_name_by_index
     (
-      unsigned int index,
+      int index,
       char** if_name
     ) {
 
@@ -351,8 +351,8 @@ int
    *   given index.
    */
 
-  unsigned int i = 0;
-  unsigned int if_fnd = 0;
+  int i = 0;
+  int if_fnd = 0;
   char err_buf[PCAP_ERRBUF_SIZE];
   pcap_if_t* if_n = NULL;
   pcap_if_t* if_lst = NULL;

@@ -270,7 +270,7 @@ unsigned long
 void
   hy_sleep
     (
-      unsigned int
+      int
     );
 
 /* -------------------------------------------------------------------------- */
@@ -278,7 +278,7 @@ void
 int
   hy_get_if_name_by_index
     (
-      unsigned int,
+      int,
       char**
     );
 
