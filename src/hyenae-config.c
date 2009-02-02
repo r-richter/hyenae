@@ -46,7 +46,7 @@ int
   int key_i = 0;
   int val_i = -1;
   int ret = HY_ER_OK;
-  int len = 0;
+  unsigned int len = 0;
   unsigned char* buf = NULL;
   hy_key_list_t* cur_key = NULL;
 
