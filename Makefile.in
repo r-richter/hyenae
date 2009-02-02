@@ -198,7 +198,7 @@ EXTRA_DIST = \
 dist_doc_DATA = \
   LICENSE \
   README \
-  INTRODUCION
+  INTRODUCTION
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
