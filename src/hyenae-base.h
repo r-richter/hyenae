@@ -247,7 +247,7 @@ void
   hy_randomize_buffer
     (
       unsigned char*,
-      int
+      unsigned int
     );
 
 /* -------------------------------------------------------------------------- */
@@ -270,7 +270,7 @@ unsigned long
 void
   hy_sleep
     (
-      int
+      unsigned int
     );
 
 /* -------------------------------------------------------------------------- */
@@ -278,7 +278,7 @@ void
 int
   hy_get_if_name_by_index
     (
-      int,
+      unsigned int,
       char**
     );
 

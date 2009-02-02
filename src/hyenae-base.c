@@ -217,7 +217,7 @@ void
   hy_randomize_buffer
     (
       unsigned char* buffer,
-      int len
+      unsigned int len
     ) {
 
   /*
@@ -226,7 +226,7 @@ void
    *   given buffer.
    */
 
-  int i = 0;
+  unsigned int i = 0;
 
   while (i < len) {
     *(buffer + i) = hy_random(1, 255);
@@ -249,9 +249,9 @@ int
    *   Loads a file into the given buffer.
    */
 
-  int i = 0;
   int c = 0;
   int ret = HY_ER_OK;
+  unsigned int i = 0;
   FILE* f = NULL;
 
   if ((f = fopen(filename, "r")) == NULL) {
@@ -319,7 +319,7 @@ unsigned long
 void
   hy_sleep
     (
-      int msec
+      unsigned int msec
     )
      {
 
@@ -340,7 +340,7 @@ void
 int
   hy_get_if_name_by_index
     (
-      int index,
+      unsigned int index,
       char** if_name
     ) {
 
@@ -351,8 +351,8 @@ int
    *   given index.
    */
 
-  int i = 0;
-  int if_fnd = 0;
+  unsigned int i = 0;
+  unsigned int if_fnd = 0;
   char err_buf[PCAP_ERRBUF_SIZE];
   pcap_if_t* if_n = NULL;
   pcap_if_t* if_lst = NULL;
