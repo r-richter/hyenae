@@ -1,0 +1,165 @@
+--------------------------------------------------------------------------------
+
+                               Hyenae Introducion
+
+--------------------------------------------------------------------------------
+
+  Hyenae
+    Advanced Network Packet Generator
+
+  Copyright (C) 2009  Robin Richter
+
+  Contact  : richterr@users.sourceforge.net
+  Homepage : http://sourceforge.net/projects/hyenae/
+
+--------------------------------------------------------------------------------
+
+  1. Introducion
+
+  The following document is a short introduction to the Hyenae utility suite and
+  its command line usage. This is not a detailed tutorial on how to setup denial
+  of service or MITM attacks. Please keep in mind that Hyenae was develped for
+  an advanced target audience of users such as network administrators and
+  alayzers, so this document will not go into the details of the shown attack
+  examples nor it will cover the whole potential of this utility suite. It will
+  focus only on the very minimum required arguments to give you a rough overview
+  of how to work with Hyenae. For a complete overview of all possible command
+  line arguments, please reffer to the README file or Manpage.
+
+--------------------------------------------------------------------------------
+
+  2. What do i need to get started?
+
+  * You should have installed the latest version of Hyenae (See INSTALL)
+  * You should know how address patterns work (See README or Manpages)
+  * You should have a strong knowledge on how the ethernet works (See RFC)
+
+--------------------------------------------------------------------------------
+
+  3. Determining available network interfaces
+
+  First of all, you need to select the network interface to operate on. You
+  can obtain a list of all available network interfaces, including their
+  interface index, by starting Hyenae with the -l argument. On UNIX based
+  operation systems you will need root privileges to run Hyenae.
+
+  # hyenae -l
+
+  * Initializing
+  * Obtaining network interfaces
+    > 1. en0
+    > 2. fw0
+    > 3. en1
+    > 4. lo0
+
+  You can either provide the network interface by name (-i) or its index (-I).
+  On windows based operation systems you only should use an interface index.
+
+--------------------------------------------------------------------------------
+
+  4. Selecting an attack protocol
+
+  The next step is to determine which attack protocol you want to use. You can
+  obtain a list of all available attack protocols by starting Hyenae with the
+  -L argument.
+
+  # hyenae -L
+
+  * Initializing
+  * Obtaining available attacks
+    > arp-request
+    > arp-reply
+    > icmp-echo
+    > tcp
+    > udp
+
+  You can provide the attack protocol by its name (-a). Every attack protocol
+  has its own pattern and argument requirements and in certain cases additional
+  protocol options. For more informations on see the README file or Manpages.
+  The attack protocol to use depends on the kind of attack you want to launch.
+  Without knowing what to do here, you won't be able to land a successfull
+  attack and you should consider not using this utility suite.
+
+--------------------------------------------------------------------------------
+
+  5. Examples
+
+  These are only a very few examples of what you are able to do with Hyenae.
+  The following attack examples are based on known attack scenarios against a
+  fictional host. Most of the shown examples below will be only possible if
+  the target host is on the same subnet as you are.
+
+    5.1 ICMP-Echo Flood
+      This example will send a random amount of ICMP-Echo packets between 1 and
+      10000 against a fictional target from a random source.
+
+      # hyenae -I 3 -a icmp-echo -s %-% -d 00:f0:21:03:c6:00-192.168.0.1 \
+      # -c 1 -c 10000
+
+    5.2 TCP-SYN Attack
+      This example will send an unlimited amount of TCP packets with set SYN
+      flag against a fictional target from a random source and a random send
+      delay between 1 and 1000 milliseconds.
+
+      # hyenae -I 3 -a tcp -f s -s %-%@% -d 00:f0:21:03:c6:00-192.168.0.1@21 \
+      # -e 1 -E 1000
+
+    5.3 Blind TCP Brute-RST Attack
+      This example will send an unlimited amount of TCP packets with set RST
+      flag against a fictional target from fictional random source and an
+      incrementing TCP sequence number.
+
+      # hyenae -I 3 -a tcp -f s -s 00:c0:33:d4:03:06-192.168.0.2@1093 \
+      # -d 00:f0:21:03:c6:00-192.168.0.1@21 -q 1 -Q 1
+
+--------------------------------------------------------------------------------
+
+  6. Seting up the Hyenae daemon
+
+  Hyenae comes with a daemon for setting up remote attacks. The daemon can be
+  started with only a minium of arguments. The only required arguments are the
+  network interface to start incoming remote attack requests from and either a
+  packet count or duration limit. For a list of all available daemon options
+  see the README file or man pages.
+
+  # hyenaed -I 3 -u 10000
+
+  * Initializing
+  * Starting daemon
+  * Opening network interface (en1)
+  * Binding server to 127.0.0.1@666
+  * Hyenae Daemon v0.26-2: Online
+
+  If the port argument was not given, the daemon will listen on port 666 by
+  default. Alternatively you can specify the port to listen on with the -p
+  argment.
+
+--------------------------------------------------------------------------------
+
+  7. Starting a remote attack
+
+  Starting a remote attack doesn't differ a lot from starting a local one but
+  Instead of defining a network interface to operate on you will have to specify
+  the remote daemon(s) you want to launch the attack from. You can either
+  specify a single remote attack daemon to attack from (-r)  or multiple ones
+  by passing a file containing a list of remote daemon addresses (-R). On UNIX
+  based operation systems you will need root privileges to run the Hyenae
+  daemon.
+
+  # hyenae -r 127.0.0.1@666 -a icmp-echo -s %-%@% -d %-%@%
+
+  * Initializing
+  * Launching remote attack
+  * Acquiring daemon on 127.0.0.1@666
+  * Sending remote attack requests
+  * Receiving remote attack results
+  * Waiting for 127.0.0.1
+    > No errors
+    > Finished: 96950 packets sent (4071900 bytes) in 10.0 seconds
+  * Finished: 96950 packets sent (4071900 bytes) in 10.2 seconds
+
+  Note that if you are not providing an attack limitation (packet count and or
+  an attack duration), the maximum packet and or attack duration limit of the
+  remote daemon will be used instead.
+
+--------------------------------------------------------------------------------

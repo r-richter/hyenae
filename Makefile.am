@@ -33,4 +33,5 @@ EXTRA_DIST = \
 
 dist_doc_DATA = \
   LICENSE \
-  README
+  README \
+  INTRODUCION
