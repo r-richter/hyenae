@@ -27,6 +27,7 @@ Section "Base Components (Required)"
 
   File ..\..\README
   File ..\..\LICENSE
+  File ..\..\INTRODUCION
   File ..\..\src\hyenae.exe
 
   ${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR"
