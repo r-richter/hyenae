@@ -25,9 +25,9 @@ Section "Base Components (Required)"
   SectionIn RO
   SetOutPath $INSTDIR
 
+  File ..\..\HOWTO
   File ..\..\README
   File ..\..\LICENSE
-  File ..\..\INTRODUCTION
   File ..\..\src\hyenae.exe
 
   ${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR"
