@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 
-                               Hyenae HowTo
+                                 Hyenae Howto
 
 --------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@
   1. Introduction 
 
   The following document is a brief overview of the Hyenae utility suite and its
-  command line usage. The following paragraphs outline how Hyenae can  be used
+  command line usage. The following paragraphs outline how Hyenae can be used
   to reproduce low level ethernet attack scenarios (such as MITM, DoS and DDoS)
   to reveal potential security vulnerabilities of your network. Some examples
   are enumerated here to illustrate the potential of the Hyenae utility suite.
@@ -37,7 +37,7 @@
 --------------------------------------------------------------------------------
 
   3. Determining Available Network Interfaces 
-  
+
   Firstly, you will need to select the network interface to operate on. You
   can obtain a list of all available network interfaces and the corresponding
   interface index, by starting Hyenae with the -l argument. On UNIX-based
@@ -59,7 +59,7 @@
 --------------------------------------------------------------------------------
 
   4. Selecting an Attack Protocol 
-  
+
   The next step is to determine the attack protocol you want to use. Choose an
   attack protocol based on the kind of attack you want to launch.  You can
   obtain a list of all available attack protocols by starting Hyenae with the -L
@@ -110,7 +110,7 @@
     5.3 Blind TCP Brute-RST Attack
 
     This example will send an unlimited amount of TCP packets with set RST
-    flag, from fictional random source to a fictional target, with an
+    flag, from a fictional random source to a fictional target, with an
     incrementing TCP sequence number.
 
     # hyenae -I 3 -a tcp -f r -s 00:c0:33:d4:03:06-192.168.0.2@1093 \
