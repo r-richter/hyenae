@@ -14,7 +14,7 @@
 
 --------------------------------------------------------------------------------
 
-  1. Introduction 
+  1. Introduction
 
   The following document is a brief overview of the Hyenae utility suite and its
   command line usage. The following paragraphs outline how Hyenae can be used
@@ -28,7 +28,7 @@
 
 --------------------------------------------------------------------------------
 
-  2. Getting Started 
+  2. Getting Started
 
   * You will need to install the latest version of Hyenae (See INSTALL)
   * You should know how address patterns work (See README or Manpages)
@@ -36,21 +36,21 @@
 
 --------------------------------------------------------------------------------
 
-  3. Determining Available Network Interfaces 
+  3. Determining Available Network Interfaces
 
   Firstly, you will need to select the network interface to operate on. You
   can obtain a list of all available network interfaces and the corresponding
   interface index, by starting Hyenae with the -l argument. On UNIX-based
   operating systems, you will need root privileges to run Hyenae.
 
-  # hyenae -l 
+  # hyenae -l
 
   * Initializing
   * Obtaining network interfaces
     > 1. en0
     > 2. fw0
     > 3. en1
-    > 4. lo0 
+    > 4. lo0
 
   You may provide the network interface either by name, using -i argument, or by
   index, using -I argument. On Windows-based operating systems,  you should use
@@ -58,14 +58,14 @@
 
 --------------------------------------------------------------------------------
 
-  4. Selecting an Attack Protocol 
+  4. Selecting an Attack Protocol
 
   The next step is to determine the attack protocol you want to use. Choose an
   attack protocol based on the kind of attack you want to launch.  You can
   obtain a list of all available attack protocols by starting Hyenae with the -L
   argument.
 
-  # hyenae -L 
+  # hyenae -L
 
   * Initializing
   * Obtaining available attacks
@@ -73,17 +73,17 @@
     > arp-reply
     > icmp-echo
     > tcp
-    > udp 
+    > udp
 
-  You can provide the attack protocol by its name (-a). The attack protocols 
-  use different address patterns and in certain cases, may require additional 
+  You can provide the attack protocol by its name (-a). The attack protocols
+  use different address patterns and in certain cases, may require additional
   protocol-dependent arguments. For more information about the required address
   pattern format and supplementary arguments of each attack protocol, please
   refer to the README file or the Manpages.
 
 --------------------------------------------------------------------------------
 
-  5. Examples 
+  5. Examples
 
   Here are a few examples of what you can do with the Hyenae utility suite.
   The following attack examples are based on known attack scenarios against a
@@ -127,7 +127,7 @@
     5.5 ARP-Request Flood
 
     This attack will send an unlimited amount of ARP-Request packets from a
-    random source to all available machines on the network. 
+    random source to all available machines on the network.
 
     # hyenae -I 3 -a arp-request -s % -d ff:ff:ff:ff:ff:ff \
     # -S %-% -T 00:00:00:00:00:00-192.168.0.1
@@ -163,7 +163,7 @@
   remote daemon(s) you want to launch the attack from. You can specify either
   a single remote attack daemon to attack from (-r), or multiple ones by passing
   a file containing the list of remote daemon addresses (-R). On UNIX-based
-  operating systems you will need root privileges to run the Hyenae daemon. 
+  operating systems you will need root privileges to run the Hyenae daemon.
 
   # hyenae -r 127.0.0.1@666 -a icmp-echo -s %-%@% -d %-%@%
 
@@ -179,6 +179,6 @@
 
   Note that unless you specify an attack limitation (a packet count and/or an
   attack duration), the maximum packet count and/or attack duration limit of the
-  remote daemon will be used. 
+  remote daemon will be used.
 
 --------------------------------------------------------------------------------
