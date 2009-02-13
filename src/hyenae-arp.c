@@ -38,7 +38,7 @@ int
       int ip_v_assumption,
       unsigned char** packet,
       int* packet_len,
-      int optcode
+      int opcode
     ) {
 
   /*
@@ -112,7 +112,7 @@ int
   arp_h->ar_pro = htons(ARP_PRO_IP);
   arp_h->ar_hln = ETH_ADDR_LEN;
   arp_h->ar_pln = IP_ADDR_LEN;
-  arp_h->ar_op = htons(optcode);
+  arp_h->ar_op = htons(opcode);
   /* Build ARP-Repy block */
   eth_pton(
     snd_pattern->hw_addr,
