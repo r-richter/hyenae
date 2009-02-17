@@ -30,6 +30,7 @@
 #include "hyenae-base.h"
 #include "hyenae-config.h"
 #include "hyenae-patterns.h"
+#include "hyenae-eth.h"
 #include "hyenae-arp.h"
 #include "hyenae-ip.h"
 #include "hyenae-icmp.h"

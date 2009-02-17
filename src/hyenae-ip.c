@@ -49,7 +49,8 @@ int
    */
 
   int ret = HY_ER_OK;
-  eth_h_t* eth_h = NULL;
+  int ip_pkt_len = sizeof(ip_v6_h_t) + data_len;
+  unsigned char ip_pkt[ip_pkt_len];
   ip_v4_h_t* ip_v4_h = NULL;
   ip_v6_h_t* ip_v6_h = NULL;
 
@@ -74,29 +75,14 @@ int
   if (src_pattern->ip_v != dst_pattern->ip_v) {
     return HY_ER_MULTIPLE_IP_V;
   }
-  if (*packet == NULL) {
-    *packet_len =
-      sizeof(eth_h_t) +
-      data_len;
-    if (src_pattern->ip_v == HY_AD_T_IP_V4) {
-      *packet_len = *packet_len + sizeof(ip_v4_h_t);
-    } else {
-      *packet_len = *packet_len + sizeof(ip_v6_h_t);
-    }
-    *packet = malloc(*packet_len);
-  }
-  memset(*packet, 0, *packet_len);
-  /* Build Ethernet header */
-  eth_h = (eth_h_t*) *packet;
-  eth_pton(dst_pattern->hw_addr, &eth_h->eth_dst);
-  eth_pton(src_pattern->hw_addr, &eth_h->eth_src);
-  eth_h->eth_type = htons(ETH_TYPE_IP);
+  memset(ip_pkt, 0, ip_pkt_len);
   if (src_pattern->ip_v == HY_AD_T_IP_V4) {
     /* Build IP header (IPv4) */
-    ip_v4_h = (ip_v4_h_t*) (*packet + sizeof(eth_h_t));
+    ip_pkt_len = sizeof(ip_v4_h_t) + data_len;
+    ip_v4_h = (ip_v4_h_t*) ip_pkt;
     ip_v4_h->ip_v = 4;
     ip_v4_h->ip_hl = 5;
-    ip_v4_h->ip_len = htons(*packet_len - sizeof(eth_h_t));
+    ip_v4_h->ip_len = htons(ip_pkt_len);
     ip_v4_h->ip_id = htons(hy_random(10000, 32000));
     ip_v4_h->ip_ttl = ip_ttl;
     ip_v4_h->ip_p = ip_proto;
@@ -104,10 +90,11 @@ int
     ip_pton(dst_pattern->ip_addr, &ip_v4_h->ip_dst);
   } else {
     /* Build IP header (IPv6) */
-    ip_v6_h = (ip_v6_h_t*) (*packet + sizeof(eth_h_t));
+    ip_pkt_len = sizeof(ip_v6_h_t) + data_len;
+    ip_v6_h = (ip_v6_h_t*) ip_pkt;
     ip_v6_h->ip6_ctlun.ip6_un2_vfc = IP6_VERSION;
     ip_v6_h->ip6_ctlun.ip6_un1.ip6_un1_plen =
-      *packet_len - sizeof(eth_h_t) - sizeof(ip_v6_h_t);
+      ip_pkt_len - sizeof(ip_v6_h_t);
     ip_v6_h->ip6_ctlun.ip6_un1.ip6_un1_nxt = ip_proto;
     ip_v6_h->ip6_ctlun.ip6_un1.ip6_un1_hlim = ip_ttl;
     ip6_pton(src_pattern->ip_addr, &ip_v6_h->ip6_src);
@@ -115,18 +102,34 @@ int
   }
   /* Add data */
   if (data_len > 0) {
-    memcpy(
-      *packet + (*packet_len - data_len),
-      data,
-      data_len);
+    if (src_pattern->ip_v == HY_AD_T_IP_V4) {
+      memcpy(
+        ip_pkt + sizeof(ip_v4_h_t),
+        data,
+        data_len);
+    } else {
+      memcpy(
+        ip_pkt + sizeof(ip_v6_h_t),
+        data,
+        data_len);
+    }
   }
   /* Calculate the checksums */
   if (src_pattern->ip_v == HY_AD_T_IP_V4) {
-    ip_checksum(ip_v4_h, *packet_len - sizeof(eth_h_t));
+    ip_checksum(ip_v4_h, ip_pkt_len);
   } else {
-    ip6_checksum(ip_v6_h, *packet_len - sizeof(eth_h_t));
+    ip6_checksum(ip_v6_h, ip_pkt_len);
   }
-  return HY_ER_OK;
+  /* Wrap Ethernet-Layer */
+  return hy_build_eth_packet(
+           src_pattern,
+           dst_pattern,
+           ip_v_assumption,
+           packet,
+           packet_len,
+           ip_pkt,
+           ip_pkt_len,
+           ETH_TYPE_IP);
 } /* hy_build_ip_packet */
 
 /* -------------------------------------------------------------------------- */

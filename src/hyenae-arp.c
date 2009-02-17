@@ -47,11 +47,16 @@ int
    *   on the given arguments.
    */
 
+
   int ret = HY_ER_OK;
-  eth_h_t* eth_h = NULL;
+  int arp_pkt_len =
+    sizeof(arp_h_t) +
+    sizeof(arp_eth_ip_t);
+  unsigned char arp_pkt[arp_pkt_len];
   arp_h_t* arp_h = NULL;
   arp_eth_ip_t* arp_eth_ip = NULL;
   addr_t addr;
+
   if ((ret =
          hy_parse_pattern(
            src_pattern,
@@ -90,30 +95,16 @@ int
   if (snd_pattern->ip_v != HY_AD_T_IP_V4) {
     return HY_ER_WRONG_IP_V;
   }
-  if (*packet == NULL) {
-    *packet_len =
-      sizeof(eth_h_t) +
-      sizeof(arp_h_t) +
-      sizeof(arp_eth_ip_t);
-    *packet = malloc(*packet_len);
-  }
-  memset(*packet, 0, *packet_len);
-  eth_h = (eth_h_t*) *packet;
-  arp_h = (arp_h_t*) (*packet + sizeof(eth_h_t));
-  arp_eth_ip =
-    (arp_eth_ip_t*)
-      (*packet + sizeof(eth_h_t) + sizeof(arp_h_t));
-  /* Build Ethernet header */
-  eth_pton(dst_pattern->hw_addr, &eth_h->eth_dst);
-  eth_pton(src_pattern->hw_addr, &eth_h->eth_src);
-  eth_h->eth_type = htons(ETH_TYPE_ARP);
+  memset(arp_pkt, 0, arp_pkt_len);
   /* Build ARP header */
+  arp_h = (arp_h_t*) arp_pkt;
   arp_h->ar_hrd = htons(ARP_HRD_ETH);
   arp_h->ar_pro = htons(ARP_PRO_IP);
   arp_h->ar_hln = ETH_ADDR_LEN;
   arp_h->ar_pln = IP_ADDR_LEN;
   arp_h->ar_op = htons(opcode);
-  /* Build ARP-Repy block */
+  /* Build ARP Data-Blockk */
+  arp_eth_ip = (arp_eth_ip_t*) (arp_pkt + sizeof(arp_h_t));
   eth_pton(
     snd_pattern->hw_addr,
     (eth_addr_t*) &arp_eth_ip->ar_sha);
@@ -130,7 +121,16 @@ int
     &arp_eth_ip->ar_tpa,
     &addr.__addr_u.__ip,
     IP_ADDR_LEN);
-  return HY_ER_OK;
+  /* Wrap Ethernet-Layer */
+  return hy_build_eth_packet(
+           src_pattern,
+           dst_pattern,
+           ip_v_assumption,
+           packet,
+           packet_len,
+           arp_pkt,
+           arp_pkt_len,
+           ETH_TYPE_ARP);
 } /* hy_build_arp_reply_packet */
 
 /* -------------------------------------------------------------------------- */
