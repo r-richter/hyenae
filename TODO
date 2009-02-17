@@ -1,0 +1,28 @@
+--------------------------------------------------------------------------------
+
+                             Hyenae Todo-List
+
+--------------------------------------------------------------------------------
+
+  Hyenae
+    Advanced Network Packet Generator
+
+  Copyright (C) 2009  Robin Richter
+
+  Contact  : richterr@users.sourceforge.net
+  Homepage : http://sourceforge.net/projects/hyenae/
+
+--------------------------------------------------------------------------------
+
+  High Priority
+    * Add ICMP "Destination Unreachable" message support
+
+  Medium Priority
+    * DNS-Protocol support
+    * DHCP-Protocol support
+
+  Low Priority
+    * Add RTP-Protocol support
+    * Client/Daemon conversation encryption
+
+--------------------------------------------------------------------------------
