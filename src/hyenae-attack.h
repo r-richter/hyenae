@@ -31,6 +31,7 @@
 #include "hyenae-config.h"
 #include "hyenae-patterns.h"
 #include "hyenae-arp.h"
+#include "hyenae-ip.h"
 #include "hyenae-icmp.h"
 #include "hyenae-tcp.h"
 #include "hyenae-udp.h"

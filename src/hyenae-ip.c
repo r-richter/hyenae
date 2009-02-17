@@ -24,12 +24,12 @@
  *
  */
 
-#include "hyenae-icmp.h"
+#include "hyenae-ip.h"
 
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_build_icmp_echo_packet
+  hy_build_ip_packet
     (
       hy_pattern_t* src_pattern,
       hy_pattern_t* dst_pattern,
@@ -38,23 +38,20 @@ int
       int* packet_len,
       unsigned char* data,
       int data_len,
+      unsigned int ip_proto,
       unsigned int ip_ttl
     ) {
 
   /*
    * USAGE:
-   *   Builds an ICMP-Echo packet based
+   *   Builds an IP packet based
    *   on the given arguments.
    */
 
   int ret = HY_ER_OK;
-  int icmp_echo_pkt_len =
-    sizeof(icmp_h_t) +
-    sizeof(icmp_echo_t) +
-    data_len;
-  unsigned char icmp_echo_pkt[icmp_echo_pkt_len];
-  icmp_h_t* icmp_h = NULL;
-  icmp_echo_t* icmp_echo = NULL;
+  eth_h_t* eth_h = NULL;
+  ip_v4_h_t* ip_v4_h = NULL;
+  ip_v6_h_t* ip_v6_h = NULL;
 
   if ((ret =
          hy_parse_pattern(
@@ -77,37 +74,59 @@ int
   if (src_pattern->ip_v != dst_pattern->ip_v) {
     return HY_ER_MULTIPLE_IP_V;
   }
-  if (src_pattern->ip_v != HY_AD_T_IP_V4) {
-    return HY_ER_WRONG_IP_V;
+  if (*packet == NULL) {
+    *packet_len =
+      sizeof(eth_h_t) +
+      data_len;
+    if (src_pattern->ip_v == HY_AD_T_IP_V4) {
+      *packet_len = *packet_len + sizeof(ip_v4_h_t);
+    } else {
+      *packet_len = *packet_len + sizeof(ip_v6_h_t);
+    }
+    *packet = malloc(*packet_len);
   }
-  memset(icmp_echo_pkt, 0, icmp_echo_pkt_len);
-  /* Build ICMP header */
-  icmp_h = (icmp_h_t*) icmp_echo_pkt;
-  icmp_h->icmp_type = ICMP_ECHO;
-  /* Build ICMP-Echo block */
-  icmp_echo = (icmp_echo_t*) (icmp_echo_pkt + sizeof(icmp_h_t));
-  icmp_echo->icmp_id = htons(hy_random(1, 200));
-  icmp_echo->icmp_seq = htons(hy_random(1, 200));
+  memset(*packet, 0, *packet_len);
+  /* Build Ethernet header */
+  eth_h = (eth_h_t*) *packet;
+  eth_pton(dst_pattern->hw_addr, &eth_h->eth_dst);
+  eth_pton(src_pattern->hw_addr, &eth_h->eth_src);
+  eth_h->eth_type = htons(ETH_TYPE_IP);
+  if (src_pattern->ip_v == HY_AD_T_IP_V4) {
+    /* Build IP header (IPv4) */
+    ip_v4_h = (ip_v4_h_t*) (*packet + sizeof(eth_h_t));
+    ip_v4_h->ip_v = 4;
+    ip_v4_h->ip_hl = 5;
+    ip_v4_h->ip_len = htons(*packet_len - sizeof(eth_h_t));
+    ip_v4_h->ip_id = htons(hy_random(10000, 32000));
+    ip_v4_h->ip_ttl = ip_ttl;
+    ip_v4_h->ip_p = ip_proto;
+    ip_pton(src_pattern->ip_addr, &ip_v4_h->ip_src);
+    ip_pton(dst_pattern->ip_addr, &ip_v4_h->ip_dst);
+  } else {
+    /* Build IP header (IPv6) */
+    ip_v6_h = (ip_v6_h_t*) (*packet + sizeof(eth_h_t));
+    ip_v6_h->ip6_ctlun.ip6_un2_vfc = IP6_VERSION;
+    ip_v6_h->ip6_ctlun.ip6_un1.ip6_un1_plen =
+      *packet_len - sizeof(eth_h_t) - sizeof(ip_v6_h_t);
+    ip_v6_h->ip6_ctlun.ip6_un1.ip6_un1_nxt = ip_proto;
+    ip_v6_h->ip6_ctlun.ip6_un1.ip6_un1_hlim = ip_ttl;
+    ip6_pton(src_pattern->ip_addr, &ip_v6_h->ip6_src);
+    ip6_pton(dst_pattern->ip_addr, &ip_v6_h->ip6_dst);
+  }
   /* Add data */
   if (data_len > 0) {
     memcpy(
-      icmp_echo_pkt +
-      sizeof(icmp_h_t) +
-      sizeof(icmp_echo_t),
+      *packet + (*packet_len - data_len),
       data,
       data_len);
   }
-  /* Wrap IP layer */
-  return hy_build_ip_packet(
-            src_pattern,
-            dst_pattern,
-            ip_v_assumption,
-            packet,
-            packet_len,
-            icmp_echo_pkt,
-            icmp_echo_pkt_len,
-            IP_PROTO_ICMP,
-            ip_ttl);
-} /* hy_build_icmp_echo_packet */
+  /* Calculate the checksums */
+  if (src_pattern->ip_v == HY_AD_T_IP_V4) {
+    ip_checksum(ip_v4_h, *packet_len - sizeof(eth_h_t));
+  } else {
+    ip6_checksum(ip_v6_h, *packet_len - sizeof(eth_h_t));
+  }
+  return HY_ER_OK;
+} /* hy_build_ip_packet */
 
 /* -------------------------------------------------------------------------- */

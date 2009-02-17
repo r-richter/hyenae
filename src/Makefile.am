@@ -39,6 +39,7 @@ hyenae_SOURCES = \
   hyenae-common.h hyenae-common.c \
   hyenae-protocol.h hyenae-protocol.c \
   hyenae-arp.h hyenae-arp.c \
+  hyenae-ip.h hyenae-ip.c \
   hyenae-icmp.h hyenae-icmp.c \
   hyenae-tcp.h hyenae-tcp.c \
   hyenae-udp.h hyenae-udp.c \
@@ -59,6 +60,7 @@ hyenaed_SOURCES = \
   hyenae-common.h hyenae-common.c \
   hyenae-protocol.h hyenae-protocol.c \
   hyenae-arp.h hyenae-arp.c \
+  hyenae-ip.h hyenae-ip.c \
   hyenae-icmp.h hyenae-icmp.c \
   hyenae-tcp.h hyenae-tcp.c \
   hyenae-udp.h hyenae-udp.c \

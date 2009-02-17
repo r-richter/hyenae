@@ -70,7 +70,7 @@ binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_hyenae_OBJECTS = hyenae.$(OBJEXT) hyenae-remote.$(OBJEXT) \
 	hyenae-common.$(OBJEXT) hyenae-protocol.$(OBJEXT) \
-	hyenae-arp.$(OBJEXT) hyenae-icmp.$(OBJEXT) \
+	hyenae-arp.$(OBJEXT) hyenae-ip.$(OBJEXT) hyenae-icmp.$(OBJEXT) \
 	hyenae-tcp.$(OBJEXT) hyenae-udp.$(OBJEXT) \
 	hyenae-attack.$(OBJEXT) hyenae-patterns.$(OBJEXT) \
 	hyenae-config.$(OBJEXT) hyenae-base.$(OBJEXT)
@@ -79,7 +79,7 @@ am__DEPENDENCIES_1 =
 hyenae_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_hyenaed_OBJECTS = hyenaed.$(OBJEXT) hyenaed-daemon.$(OBJEXT) \
 	hyenae-common.$(OBJEXT) hyenae-protocol.$(OBJEXT) \
-	hyenae-arp.$(OBJEXT) hyenae-icmp.$(OBJEXT) \
+	hyenae-arp.$(OBJEXT) hyenae-ip.$(OBJEXT) hyenae-icmp.$(OBJEXT) \
 	hyenae-tcp.$(OBJEXT) hyenae-udp.$(OBJEXT) \
 	hyenae-attack.$(OBJEXT) hyenae-patterns.$(OBJEXT) \
 	hyenae-config.$(OBJEXT) hyenae-base.$(OBJEXT)
@@ -192,6 +192,7 @@ hyenae_SOURCES = \
   hyenae-common.h hyenae-common.c \
   hyenae-protocol.h hyenae-protocol.c \
   hyenae-arp.h hyenae-arp.c \
+  hyenae-ip.h hyenae-ip.c \
   hyenae-icmp.h hyenae-icmp.c \
   hyenae-tcp.h hyenae-tcp.c \
   hyenae-udp.h hyenae-udp.c \
@@ -211,6 +212,7 @@ hyenaed_SOURCES = \
   hyenae-common.h hyenae-common.c \
   hyenae-protocol.h hyenae-protocol.c \
   hyenae-arp.h hyenae-arp.c \
+  hyenae-ip.h hyenae-ip.c \
   hyenae-icmp.h hyenae-icmp.c \
   hyenae-tcp.h hyenae-tcp.c \
   hyenae-udp.h hyenae-udp.c \
@@ -294,6 +296,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-common.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-icmp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-ip.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-patterns.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-protocol.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-remote.Po@am__quote@
