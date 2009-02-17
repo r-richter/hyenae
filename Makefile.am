@@ -29,7 +29,8 @@ SUBDIRS = \
 
 EXTRA_DIST = \
   ChangeLog \
-  THANKS
+  THANKS \
+  TODO
 
 dist_doc_DATA = \
   HOWTO \
