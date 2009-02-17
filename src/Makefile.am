@@ -38,6 +38,7 @@ hyenae_SOURCES = \
   hyenae-remote.h hyenae-remote.c \
   hyenae-common.h hyenae-common.c \
   hyenae-protocol.h hyenae-protocol.c \
+  hyenae-eth.h hyenae-eth.c \
   hyenae-arp.h hyenae-arp.c \
   hyenae-ip.h hyenae-ip.c \
   hyenae-icmp.h hyenae-icmp.c \
@@ -59,6 +60,7 @@ hyenaed_SOURCES = \
   hyenaed-daemon.h hyenaed-daemon.c \
   hyenae-common.h hyenae-common.c \
   hyenae-protocol.h hyenae-protocol.c \
+  hyenae-eth.h hyenae-eth.c \
   hyenae-arp.h hyenae-arp.c \
   hyenae-ip.h hyenae-ip.c \
   hyenae-icmp.h hyenae-icmp.c \
