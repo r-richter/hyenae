@@ -100,17 +100,15 @@ int
   eth_pton(dst_pattern->hw_addr, &eth_h->eth_dst);
   eth_pton(src_pattern->hw_addr, &eth_h->eth_src);
   eth_h->eth_type = htons(ETH_TYPE_IP);
-  if (src_pattern->ip_v == HY_AD_T_IP_V4) {
-    /* Build IP header (IPv4) */
-    ip_v4_h->ip_v = 4;
-    ip_v4_h->ip_hl = 5;
-    ip_v4_h->ip_len = htons(*packet_len - sizeof(eth_h_t));
-    ip_v4_h->ip_id = htons(hy_random(10000, 32000));
-    ip_v4_h->ip_ttl = ip_ttl;
-    ip_v4_h->ip_p = IP_PROTO_ICMP;
-    ip_pton(src_pattern->ip_addr, &ip_v4_h->ip_src);
-    ip_pton(dst_pattern->ip_addr, &ip_v4_h->ip_dst);
-  }
+  /* Build IP header (IPv4) */
+  ip_v4_h->ip_v = 4;
+  ip_v4_h->ip_hl = 5;
+  ip_v4_h->ip_len = htons(*packet_len - sizeof(eth_h_t));
+  ip_v4_h->ip_id = htons(hy_random(10000, 32000));
+  ip_v4_h->ip_ttl = ip_ttl;
+  ip_v4_h->ip_p = IP_PROTO_ICMP;
+  ip_pton(src_pattern->ip_addr, &ip_v4_h->ip_src);
+  ip_pton(dst_pattern->ip_addr, &ip_v4_h->ip_dst);
   /* Build ICMP header */
   icmp_h->icmp_type = ICMP_ECHO;
   /* Build ICMP echo block */
