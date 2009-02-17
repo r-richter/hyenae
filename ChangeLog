@@ -17,6 +17,7 @@
   Version 0.26-2
     * Added TODO file
     * Added HOWTO file
+    * Refactored protocol wrapping
     * Fixed possible integer truncations
     * Added usage info on unknown argument
     * Refactored daemon attack request logging
