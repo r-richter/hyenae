@@ -15,16 +15,18 @@
 --------------------------------------------------------------------------------
 
   High Priority
+    * Add ICMPv6 support
     * Add ICMP "Destination Unreachable" message support
 
   Medium Priority
-    * Add ICMPv6 support
-    * DNS-Protocol support
-    * DHCP-Protocol support
+    * Add NDP support
+    * Add DNS support
+    * Add DHCP support
+    * Add PPPoE support
 
   Low Priority
-    * Add RTP-Protocol support
-    * Add LLDP-Protocol support
+    * Add RTP support
+    * Add LLDP support
     * Client/Daemon conversation encryption
 
 --------------------------------------------------------------------------------
