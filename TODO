@@ -18,12 +18,13 @@
     * Add ICMP "Destination Unreachable" message support
 
   Medium Priority
+    * Add ICMPv6 support
     * DNS-Protocol support
     * DHCP-Protocol support
 
   Low Priority
-    * Add ICMPv6 support
     * Add RTP-Protocol support
+    * Add LLDP-Protocol support
     * Client/Daemon conversation encryption
 
 --------------------------------------------------------------------------------
