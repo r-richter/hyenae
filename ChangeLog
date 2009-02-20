@@ -22,6 +22,7 @@
     * Added usage info on unknown argument
     * Refactored daemon attack request logging
     * Stripped remote attack request processing
+    * Documentation corrections and improvements by Siji Kurien
 
   Version 0.26-1 (Jan. 30th, 2009)
     * First public release
