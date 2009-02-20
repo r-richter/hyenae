@@ -18,22 +18,26 @@
 
   Hyenae is a highly flexible and platform independent network packet generator.
   It allows you to reproduce low level ethernet attack scenarios (such as MITM,
-  DoS and DDoS) to reveal the potential security vulnerabilities of your
-  network. Besides smart wildcard-based address randomization and a highly
-  customizable packet generation control, Hyenae comes with a clusterable remote
-  daemon for setting up distributed attack networks.
+  DoS and DDoS) to reveal potential security vulnerabilities of your network.
+  Besides smart wildcard-based address randomization and a highly customizable
+  packet generation control, Hyenae comes with a clusterable remote daemon for
+  setting up distributed attack networks.
 
-  Hyenae was developed with ease of use in mind while still remaining flexible
+  Hyenae was developed with ease-of-use in mind while still remaining flexible
   and configurable. To realize this aim, Hyenae uses address patterns, which
   will minimize the number of arguments you have to provide because all
   necessary parameters, such as the way you want to randomize your addresses or
   the IP address version to use, can be derived from the pattern format you
-  provided. See section 4, "Address Patterns", for more detailed information.
+  provided. See section 5, "Address Patterns", for more detailed information.
 
-  This utility suite was developed for network security testing purposes such
-  as firewall rules, flood detection and intrusion detection testing only. The
-  author is not responsible for any illegal use or actions, or damage caused by
-  or with a utility of this suite.
+  This utility suite was developed only for network security testing purposes
+  such as evaluation of firewall rules, flood detection and intrusion detection.
+  Hyenae's developers disclaim all liability for any direct, indirect or
+  consequential damages arising out of or connected with the use or misuse of
+  Hyenae Utility Suite. The user alone assumes all risks and responsibility of
+  his/her own actions associated with the use of the Hyenae Utility Suite. Every
+  effort has been made to supply accurate information related to Hyenae. It is
+  subject to change without prior notice.
 
 --------------------------------------------------------------------------------
 
@@ -67,25 +71,23 @@
 
     -d Destination address pattern
 
-    -a Attack type. A list of all available attacks can be obtained by starting
-       Hyenae with the -L option.
+    -a Attack (protocol) type. A list of all available attacks can be obtained
+       by starting Hyenae with the -L option.
 
     -p Random packet payload. If set, a random data block (payload) of the
        given length will be added to the generated packets (if supported by the
        chosen attack type). By default all packets will be generated with an
-       empty data block. If the total length of the packet (including the
-       protocol headers) would exceed the MTU limit and Hyenae was called
-       without the -m option, it will give out an error. The total length of a
-       packet depends on IP protocol and the attack type used. The default MTU
-       limit is 1500 bytes.
+       empty data block.  If the total length of the packet (including the
+       protocol headers) exceeds the MTU limit and Hyenae was called without the
+       -m option, an error occurs. The total length of a packet depends on IP
+       protocol and the attack type used. The default MTU limit is 1500 bytes.
 
     -P File-based packet payload. If set, the contents of a file at the
        given path will be added as the data block (payload) of the generated
-       packets. If the total length of the packet (including the protocol
-       headers) would exceed the MTU limit and Hyenae was called without the
-       -m option, it will give out an error. The total length of a packet
-       depends on IP protocol and the attack type used. The default MTU limit is
-       1500 bytes.
+       packets.  If the total length of the packet (including the protocol
+       headers) exceeds the MTU limit and Hyenae was called without the -m
+       option, an error occurs. The total length of a packet depends on IP
+       protocol and the attack type used. The default MTU limit is 1500 bytes.
 
     -S ARP-Reply sender address pattern
 
@@ -113,8 +115,9 @@
 
     -e Minimum number of milliseconds to wait until the next packet is sent.
 
-    -E If set, Hyenae will wait a random number of milliseconds between the
-       minimum (-e X or 0 if not set) and the maximum number (-E X) before
+    -E Maximum number of milliseconds that may pass before the next packet is
+       sent. If set, Hyenae will wait a random number of milliseconds between
+       the minimum (-e X or 0 if not set) and the maximum number (-E X) before
        sending the next packet. This is useful for breaking flood detections.
 
     -u Minimum attack duration in milliseconds. If not set or set to 0, the
@@ -169,11 +172,11 @@
        Wildcards are not valid within server address patterns. The password
        strip is only required when connecting to a Hyenae Daemon which has
        activated password authentication. Note: Since Hyenae currently does not
-       support encrypted communication, your password is transfered in plain
+       support encrypted communication, your password is transferred in plain
        text, and can be logged by others.
 
-    -R Clustered remote attack. If set, hyenae will simultaneously execute the
-       specified attack on the Hyenae Daemons specified in the server file at
+    -R Clustered remote attack. If set, Hyenae will simultaneously execute the
+       specified attack using the Hyenae Daemons specified in the server file at
        the given path. A server list file should have the following format:
 
          # Comment
@@ -181,12 +184,12 @@
          Server=[HW-Address]@[IP-Address]+[Password]
          ...
 
-       Hyenae will automatically recognize the provided IP address version.
-       Wildcards are not valid within server address patterns. The password
-       strip is only required when connecting to a Hyenae Daemon which has
-       activated password authentication. Note: Since Hyenae currently does not
-       support encrypted communication, your password is transfered in plain
-       text, and can be logged by others.
+       Hyenae will automatically recognize the version of the IP address
+       provided. Wildcards are not valid within server address patterns. The
+       password strip is only required when connecting to a Hyenae Daemon which
+       has activated password authentication. Note: Since Hyenae currently does
+       not support encrypted communication, your password is transferred in
+       plain text, and can be logged by others.
 
     -m If set, the default MTU limit of 1500 bytes will be ignored and even
        packets with a length greater than 1500 bytes will by sent. If the packet
@@ -230,7 +233,7 @@
        connections. By default the daemon will listen on port 666.
 
     -b Number of backlog connections the daemon shall handle. The default
-       value 5.
+       value is 5.
 
     -t Trusted IP address list. Specifies an IP list file which will be used as
        a trusted list of IP addresses. If set, only clients using the specified
@@ -271,8 +274,8 @@
 
     -k Password protection. If set, only clients which are using this password
        will be able to control this daemon. Note: Since Hyenae currently does
-       not support encrypted communication, your password is transfered in plain
-       text, and can be logged by others.
+       not support encrypted communication, your password is transferred in
+       plain text, and can be logged by others.
 
     -f Log-File path. By default, all daemon logs will be written to
        /var/log/hyenaed.log on *nix systems or .\hyenaed.log on windows
@@ -303,9 +306,9 @@
 
   Hyenae will automatically recognize the pattern and even every single
   address format (HW, IPv4 or IPv4), so you don't have to pass extra arguments,
-  everything we need to know can be derived from the given pattern. If you want
-  to randomize a complete address strip (HW-Address or IP-Address) simply put a
-  single % in it:
+  since everything we need to know can be derived from the given pattern. If you
+  want to randomize a complete address strip (HW-Address or IP-Address) simply
+  put a single % in it:
 
     %-192.1%%.%.%%@%2%
 
@@ -339,28 +342,28 @@
   6. Attack Synopsis
 
   hyenae -a arp-reply
-         -s [MAC-Address]
-         -d [MAC-Address]
-         -S [MAC-Address]-[IP-Address (IPv4 only)]
-         -T [MAC-Address]-[IP-Address (IPv4 only)]
+         -s [HW-Address]
+         -d [HW-Address]
+         -S [HW-Address]-[IP-Address (IPv4 only)]
+         -T [HW-Address]-[IP-Address (IPv4 only)]
 
   hyenae -a arp-request
-         -s [MAC-Address]
-         -d [MAC-Address]
-         -S [MAC-Address]-[IP-Address (IPv4 only)]
+         -s [HW-Address]
+         -d [HW-Address]
+         -S [HW-Address]-[IP-Address (IPv4 only)]
          -T [MAC-Address]-[IP-Address (IPv4 only)]
 
   hyenae -a icmp-echo
-         -s [MAC-Address]-[IP-Address (IPv4 or IPv6)]
-         -d [MAC-Address]-[IP-Address (IPv4 or IPv6)]
+         -s [HW-Address]-[IP-Address (IPv4 or IPv6)]
+         -d [HW-Address]-[IP-Address (IPv4 or IPv6)]
 
   hyenae -a tcp
-         -s [MAC-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
-         -d [MAC-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
+         -s [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
+         -d [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
          -f [TCP-Flags]
 
   hyenae -a udp
-         -s [MAC-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
-         -d [MAC-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
+         -s [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
+         -d [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
 
 --------------------------------------------------------------------------------

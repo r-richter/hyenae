@@ -10,22 +10,26 @@ hyenaed [\fB-i\fR if-n] [\fB-I\fR if-i] [\fB-a\fR bind-ip] [\fB-p\fR port] [\fB-
 .SH DESCRIPTION
 Hyenae is a highly flexible and platform independent network packet generator.
 It allows you to reproduce low level ethernet attack scenarios (such as MITM,
-DoS and DDoS) to reveal the potential security vulnerabilities of your
-network. Besides smart wildcard-based address randomization and a highly
-customizable packet generation control, Hyenae comes with a clusterable remote
-daemon for setting up distributed attack networks.
+DoS and DDoS) to reveal potential security vulnerabilities of your network.
+Besides smart wildcard-based address randomization and a highly customizable
+packet generation control, Hyenae comes with a clusterable remote daemon for
+setting up distributed attack networks.
 
-Hyenae was developed with ease of use in mind while still remaining flexible
+Hyenae was developed with ease-of-use in mind while still remaining flexible
 and configurable. To realize this aim, Hyenae uses address patterns, which
 will minimize the number of arguments you have to provide because all
 necessary parameters, such as the way you want to randomize your addresses or
 the IP address version to use, can be derived from the pattern format you
-provided. See section 4, "Address Patterns", for more detailed information.
+provided. See section 5, "Address Patterns", for more detailed information.
 
-This utility suite was developed for network reliability testing purposes such
-as firewall rules, flood detection and intrusion detection testing only. The
-author is not responsible for any illegal use or actions, or damage caused by
-or with a utility of this suite.
+This utility suite was developed only for network security testing purposes
+such as evaluation of firewall rules, flood detection and intrusion detection.
+Hyenae's developers disclaim all liability for any direct, indirect or
+consequential damages arising out of or connected with the use or misuse of
+Hyenae Utility Suite. The user alone assumes all risks and responsibility of
+his/her own actions associated with the use of the Hyenae Utility Suite. Every
+effort has been made to supply accurate information related to Hyenae. It is
+subject to change without prior notice.
 
 .SH OPTIONS
 \fB-i\fR    Network interface to attack on
@@ -54,7 +58,7 @@ or with a utility of this suite.
 
 \fB-b\fR    Number of backlog connections
       the daemon shall handle. The default
-      value 5.
+      value is 5.
 
 \fB-t\fR    Trusted IP address list.
       Specifies an IP list file which will
@@ -117,7 +121,7 @@ or with a utility of this suite.
       daemon. Note: Since Hyenae currently
       does not support encrypted
       communication, your password is
-      transfered in plain text, and can be
+      transferred in plain text, and can be
       logged by others.
 
 \fB-f\fR    Log-File path. By default, all
