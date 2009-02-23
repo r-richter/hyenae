@@ -25,7 +25,7 @@
  */
 
 #ifndef HYENAE_TCP_H
-  #define HYENAE_SYN_H
+  #define HYENAE_TCP_H
 
 #include "hyenae-base.h"
 #include "hyenae-patterns.h"
@@ -52,4 +52,4 @@ int
 
 /* -------------------------------------------------------------------------- */
 
-#endif /* HYENAE_TCP_SYN_H */
+#endif /* HYENAE_TCP_H */
