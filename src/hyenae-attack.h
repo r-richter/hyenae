@@ -36,17 +36,19 @@
 #include "hyenae-icmp.h"
 #include "hyenae-tcp.h"
 #include "hyenae-udp.h"
+#include "hyenae-dhcp.h"
 
 /* MTU limit */
 #define HY_MTU_LIMIT 1500
 
 /* Attack types */
-#define HY_AT_T_UNKNOWN     -1
-#define HY_AT_T_ARP_REQUEST  1
-#define HY_AT_T_ARP_REPLY    2
-#define HY_AT_T_ICMP_ECHO    3
-#define HY_AT_T_TCP          4
-#define HY_AT_T_UDP          5
+#define HY_AT_T_UNKNOWN      -1
+#define HY_AT_T_ARP_REQUEST   1
+#define HY_AT_T_ARP_REPLY     2
+#define HY_AT_T_ICMP_ECHO     3
+#define HY_AT_T_TCP           4
+#define HY_AT_T_UDP           5
+#define HY_AT_T_DHCP_REQUEST  6
 
 /* Turncation flags */
 #define HY_TC_NONE    0

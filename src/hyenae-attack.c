@@ -49,6 +49,8 @@ int
     return HY_AT_T_TCP;
   } else if (strcmp(name, "udp") == 0) {
     return HY_AT_T_UDP;
+  } else if (strcmp(name, "dhcp-request") == 0) {
+    return HY_AT_T_DHCP_REQUEST;
   }
   return HY_AT_T_UNKNOWN;
 } /* hy_get_attack_type_value */
@@ -77,6 +79,8 @@ const char*
       return "tcp";
     case HY_AT_T_UDP:
       return "udp";
+    case HY_AT_T_DHCP_REQUEST:
+      return "dhcp-request";
     default:
       return "Unknown";
   }
@@ -174,13 +178,19 @@ void
   }
   memset(result, 0, sizeof(hy_attack_result_t));
   /* Check required patterns */
+  if (attack->type == HY_AT_T_UNKNOWN) {
+    result->ret = HY_ER_AT_T_UNKNOWN;
+    return;
+  }
   if (strlen(attack->src_pat.src) == 0) {
       result->ret = HY_ER_NO_SRC_PT_GIVEN;
       return;
   }
-  if (strlen(attack->dst_pat.src) == 0) {
-      result->ret = HY_ER_NO_DST_PT_GIVEN;
-      return;
+  if (attack->type != HY_AT_T_DHCP_REQUEST) {
+    if (strlen(attack->dst_pat.src) == 0) {
+        result->ret = HY_ER_NO_DST_PT_GIVEN;
+        return;
+    }
   }
   if (attack->type == HY_AT_T_ARP_REPLY) {
     if (strlen(attack->snd_pat.src) == 0) {
@@ -324,7 +334,8 @@ void
   /* Check payload support */
   if (params->att->pay_len > 0 &&
       (params->att->type == HY_AT_T_ARP_REQUEST ||
-       params->att->type == HY_AT_T_ARP_REPLY)) {
+       params->att->type == HY_AT_T_ARP_REPLY ||
+       params->att->type == HY_AT_T_DHCP_REQUEST)) {
     params->res->ret = HY_ER_PKT_PAY_UNSUPPORTED;
     params->run_stat = HY_RUN_STAT_STOPPED;
     return;
@@ -420,6 +431,16 @@ void
                &pkt_len,
                params->att->pay,
                params->att->pay_len,
+               params->att->ip_ttl)) != HY_ER_OK) {
+        break;
+      }
+    } else if (params->att->type == HY_AT_T_DHCP_REQUEST) {
+      if ((params->res->ret =
+             hy_build_dhcp_request_packet(
+               &params->att->src_pat,
+               params->att->ip_v_asm,
+               &params->pkt_buf,
+               &pkt_len,
                params->att->ip_ttl)) != HY_ER_OK) {
         break;
       }
