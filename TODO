@@ -21,7 +21,6 @@
   Medium Priority
     * Add NDP support
     * Add DNS support
-    * Add DHCP support
     * Add PPPoE support
 
   Low Priority
