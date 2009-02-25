@@ -48,6 +48,7 @@
   * Customizable ICMP-Echo based attacks (IPv4)
   * Customizable TCP based attacks (IPv4 and IPv6)
   * Customizable UDP based attacks (IPv4 and IPv6)
+  * Customizable DHCP-Request based attacks (IPv4 and IPv6)
   * Random or fixed packet count and or attack duration
   * Random or fixed send delay for breaking flood detections
   * Pattern based packet address configuration
@@ -365,5 +366,11 @@
   hyenae -a udp
          -s [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
          -d [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
+
+  hyenae -a dhcp-request
+         -s [HW-Address]
+
+  hyenae -a dhcp-request
+         -s [HW-Address]-[IP-Address (IPv4 only, used for IP-Address request)]
 
 --------------------------------------------------------------------------------
