@@ -58,6 +58,7 @@ int
   unsigned char tcp_pkt[tcp_pkt_len];
   tcp_h_t* tcp_h = NULL;
 
+   /* Parse address patterns */
   if ((ret =
          hy_parse_pattern(
            src_pattern,
@@ -68,6 +69,7 @@ int
            ip_v_assumption)) != HY_ER_OK) {
       return ret;
   }
+  /* Validate pattern format */
   if (strlen(src_pattern->hw_addr) == 0 ||
       strlen(src_pattern->ip_addr) == 0 ||
       src_pattern->port == 0) {

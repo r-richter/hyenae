@@ -54,6 +54,7 @@ int
   unsigned char udp_pkt[udp_pkt_len];
   udp_h_t* udp_h = NULL;
 
+   /* Parse address patterns */
   if ((ret =
          hy_parse_pattern(
            src_pattern,
@@ -64,6 +65,7 @@ int
            ip_v_assumption)) != HY_ER_OK) {
       return ret;
   }
+  /* Validate pattern format */
   if (strlen(src_pattern->hw_addr) == 0 ||
       strlen(src_pattern->ip_addr) == 0 ||
       src_pattern->port == 0) {

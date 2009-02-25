@@ -56,6 +56,7 @@ int
   icmp_h_t* icmp_h = NULL;
   icmp_echo_t* icmp_echo = NULL;
 
+   /* Parse address patterns */
   if ((ret =
          hy_parse_pattern(
            src_pattern,
@@ -66,6 +67,7 @@ int
            ip_v_assumption)) != HY_ER_OK) {
       return ret;
   }
+  /* Validate pattern format */
   if (strlen(src_pattern->hw_addr) == 0 ||
       strlen(src_pattern->ip_addr) == 0) {
     return HY_ER_WRONG_PT_FMT_SRC;

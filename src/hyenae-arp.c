@@ -57,6 +57,7 @@ int
   arp_eth_ip_t* arp_eth_ip = NULL;
   addr_t addr;
 
+   /* Parse address patterns */
   if ((ret =
          hy_parse_pattern(
            src_pattern,
@@ -75,6 +76,7 @@ int
           ip_v_assumption)) != HY_ER_OK) {
       return ret;
   }
+  /* Validate pattern format */
   if (strlen(src_pattern->hw_addr) == 0) {
     return HY_ER_WRONG_PT_FMT_SRC;
   }
