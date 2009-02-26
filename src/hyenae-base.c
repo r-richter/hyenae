@@ -473,6 +473,8 @@ const char*
     return "No destination pattern given";
   } else if (error == HY_ER_NO_SND_PT_GIVEN) {
     return "No sender pattern given";
+  } else if (error == HY_ER_NO_IP_REQ_GIVEN) {
+    return "No \"Requested IP-Address\" pattern given";
   } else if (error == HY_ER_NO_TRG_PT_GIVEN) {
     return "No target pattern given";
   } else if (error == HY_ER_PKT_PAY_UNSUPPORTED) {
@@ -497,8 +499,6 @@ const char*
     return "Wrong address pattern format (target)";
   } else if (error == HY_ER_WRONG_PT_FMT_IP_REQ) {
     return "Wrong address pattern format (IP-Address request)";
-  } else if (error == HY_ER_WRONG_PT_FMT_DHCP_SRV_IP) {
-    return "Wrong address pattern format (DHCP Server IP-Address)";
   } else if (error == HY_ER_NO_TCP_FLAGS) {
     return "No TCP flags given";
   } else if (error == HY_ER_MAX_RA_PKT_LEN_EXCEED) {

@@ -47,7 +47,8 @@
 #define HY_DHCP_OPT_END          255
 
 /* DHCP messages */
-#define DHCP_MSG_DHCPREQUEST 3
+#define HY_DHCP_MSG_DISCOVER 1
+#define HY_DHCP_MSG_REQUEST  3
 
 /* -------------------------------------------------------------------------- */
 
@@ -80,7 +81,6 @@ unsigned char*
 int
   hy_build_dhcp_request_packet
     (
-      hy_pattern_t*,
       hy_pattern_t*,
       hy_pattern_t*,
       hy_pattern_t*,

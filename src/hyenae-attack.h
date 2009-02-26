@@ -49,7 +49,8 @@
 #define HY_AT_T_ICMP_ECHO     3
 #define HY_AT_T_TCP           4
 #define HY_AT_T_UDP           5
-#define HY_AT_T_DHCP_REQUEST  6
+#define HY_AT_T_DHCP_DISCOVER 6
+#define HY_AT_T_DHCP_REQUEST  7
 
 /* Turncation flags */
 #define HY_TC_NONE    0

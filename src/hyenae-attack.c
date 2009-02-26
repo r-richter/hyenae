@@ -49,6 +49,8 @@ int
     return HY_AT_T_TCP;
   } else if (strcmp(name, "udp") == 0) {
     return HY_AT_T_UDP;
+  } else if (strcmp(name, "dhcp-discover") == 0) {
+    return HY_AT_T_DHCP_DISCOVER;
   } else if (strcmp(name, "dhcp-request") == 0) {
     return HY_AT_T_DHCP_REQUEST;
   }
@@ -79,6 +81,8 @@ const char*
       return "tcp";
     case HY_AT_T_UDP:
       return "udp";
+    case HY_AT_T_DHCP_DISCOVER:
+      return "dhcp-discover";
     case HY_AT_T_DHCP_REQUEST:
       return "dhcp-request";
     default:
@@ -190,14 +194,21 @@ void
       result->ret = HY_ER_NO_DST_PT_GIVEN;
       return;
   }
-  if (attack->type == HY_AT_T_ARP_REPLY) {
+  if (attack->type == HY_AT_T_ARP_REPLY ||
+      attack->type == HY_AT_T_DHCP_REQUEST) {
     if (strlen(attack->snd_pat.src) == 0) {
-        result->ret = HY_ER_NO_SND_PT_GIVEN;
+        if (attack->type == HY_AT_T_DHCP_REQUEST) {
+          result->ret = HY_ER_NO_IP_REQ_GIVEN;
+        } else {
+          result->ret = HY_ER_NO_SND_PT_GIVEN;
+        }
         return;
     }
-    if (strlen(attack->trg_pat.src) == 0) {
-        result->ret = HY_ER_NO_TRG_PT_GIVEN;
-        return;
+    if (attack->type == HY_AT_T_ARP_REPLY) {
+      if (strlen(attack->trg_pat.src) == 0) {
+          result->ret = HY_ER_NO_TRG_PT_GIVEN;
+          return;
+      }
     }
   }
   /* Set packet count */
@@ -432,18 +443,30 @@ void
                params->att->ip_ttl)) != HY_ER_OK) {
         break;
       }
+    } else if (params->att->type == HY_AT_T_DHCP_DISCOVER) {
+      if ((params->res->ret =
+             hy_build_dhcp_request_packet(
+               &params->att->src_pat,
+               &params->att->dst_pat,
+               &params->att->snd_pat,
+               params->att->ip_v_asm,
+               &params->pkt_buf,
+               &pkt_len,
+               params->att->ip_ttl,
+               HY_DHCP_MSG_DISCOVER)) != HY_ER_OK) {
+        break;
+      }
     } else if (params->att->type == HY_AT_T_DHCP_REQUEST) {
       if ((params->res->ret =
              hy_build_dhcp_request_packet(
                &params->att->src_pat,
                &params->att->dst_pat,
                &params->att->snd_pat,
-               &params->att->trg_pat,
                params->att->ip_v_asm,
                &params->pkt_buf,
                &pkt_len,
                params->att->ip_ttl,
-               DHCP_MSG_DHCPREQUEST)) != HY_ER_OK) {
+               HY_DHCP_MSG_REQUEST)) != HY_ER_OK) {
         break;
       }
     } else {
