@@ -36,6 +36,7 @@
 #include "hyenae-icmp.h"
 #include "hyenae-tcp.h"
 #include "hyenae-udp.h"
+#include "hyenae-bootp.h"
 #include "hyenae-dhcp.h"
 
 /* MTU limit */

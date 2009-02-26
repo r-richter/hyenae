@@ -24,70 +24,68 @@
  *
  */
 
-#ifndef HYENAE_DHCP_H
-  #define HYENAE_DHCP_H
+#ifndef HYENAE_BOOTP_H
+  #define HYENAE_BOOTP_H
 
 #include "hyenae-base.h"
 #include "hyenae-patterns.h"
 #include "hyenae-attack.h"
 
-/* DHCP magic cookie */
-#define HY_DHCP_COOKIE 0x63825363
+/* BOOTP Op-Codes */
+#define HY_BOOTP_OP_BOOTREQUEST 1
+#define HY_BOOTP_OP_BOOTREPLY   2
 
-/* DHCP options */
-#define HY_DHCP_OPT_NETMASK      1
-#define HY_DHCP_OPT_ROUTERS      3
-#define HY_DHCP_OPT_DNSSERVERS   6
-#define HY_DHCP_OPT_DOMAINNAME   15
-#define HY_DHCP_OPT_REQUESTEDIP  50
-#define HY_DHCP_OPT_DHCPMSGTYPE  53
-#define HY_DHCP_OPT_SERVERID     54
-#define HY_DHCP_OPT_PARAMREQLIST 55
-#define HY_DHCP_OPT_CLIENT_IDENT 61
-#define HY_DHCP_OPT_END          255
+/* BOOTP hardware types */
+#define HY_HTYPE_ETHERNET 1
 
-/* DHCP messages */
-#define DHCP_MSG_DHCPREQUEST 3
+/* BOOTP port definitions */
+#define HY_BOOTP_PORT_SERVER 67
+#define HY_BOOTP_PORT_CLIENT 68
 
 /* -------------------------------------------------------------------------- */
 
 typedef
-  struct hy_dhcp_h {
+  struct hy_bootp_h {
 
   /*
    * USAGE:
-   *   Represents a DHCP header.
+   *   Represents a BOOTP header.
    */
 
-  uint32_t cookie;
-  uint8_t options[];
+  uint8_t op;
+  uint8_t htype;
+  uint8_t hlen;
+  uint8_t hops;
+  uint32_t xid;
+  uint16_t secs;
+  uint16_t flags;
+  ip_addr_t ciaddr;
+  ip_addr_t yiaddr;
+  ip_addr_t siaddr;
+  ip_addr_t giaddr;
+  eth_addr_t chaddr;
+  uint8_t zero[16 - ETH_ADDR_LEN];
+  uint8_t sname[64];
+  uint8_t file[128];
 
-} hy_dhcp_h_t;
-
-/* -------------------------------------------------------------------------- */
-
-unsigned char*
-  hy_set_dhcp_option
-    (
-      unsigned char*,
-      unsigned char,
-      unsigned char,
-      void* optval
-    );
+} hy_bootp_h_t;
 
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_build_dhcp_request_packet
+  hy_build_bootp_request_packet
     (
       hy_pattern_t*,
       hy_pattern_t*,
       int,
       unsigned char**,
       int*,
+      unsigned char**,
+      int*,
+      unsigned int,
       unsigned int
     );
 
 /* -------------------------------------------------------------------------- */
 
-#endif /* HYENAE_DHCP_H */
+#endif /* HYENAE_BOOTP_H */

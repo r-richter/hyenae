@@ -62,6 +62,7 @@ int
   hy_build_dhcp_request_packet
     (
       hy_pattern_t* src_pattern,
+      hy_pattern_t* dst_pattern,
       int ip_v_assumption,
       unsigned char** packet,
       int* packet_len,
@@ -75,80 +76,47 @@ int
    */
 
   int ret = HY_ER_OK;
-  int dhcp_opt_len = 0;
   int dhcp_pkt_len =
-      sizeof(hy_dhcp_h_t) +
-      512 /* Variable DHCP option length */;
+    sizeof(hy_dhcp_h_t) +
+    512 /* Variable DHCP option length */;
+  int dhcp_opt_len = 0;
   unsigned char dhcp_pkt[dhcp_pkt_len];
   unsigned char* opt_ptr = NULL;
   unsigned char opt_val[255];
-  hy_pattern_t src_pat;
-  hy_pattern_t dst_pat;
-  hy_dhcp_h_t* hy_dhcp_h = NULL;
+  hy_dhcp_h_t* dhcp_h = NULL;
 
-  /* Parse original address patterns */
+  /* Parse address patterns */
   if ((ret =
          hy_parse_pattern(
            src_pattern,
-           ip_v_assumption)) != HY_ER_OK) {
-      return ret;
-  }
-  /* Validate original pattern format */
-  if (strlen(src_pattern->hw_addr) == 0) {
-    return HY_ER_WRONG_PT_FMT_SRC;
-  }
-  /* Build new source pattern */
-  memset(&src_pat, 0, sizeof(hy_pattern_t));
-  sprintf(
-    src_pat.src,
-    "%s-0.0.0.0@%i",
-    src_pattern->hw_addr,
-    HY_BOOTP_PORT_CLIENT);
-  /* Build new destination pattern */
-  memset(&dst_pat, 0, sizeof(hy_pattern_t));
-  sprintf(
-    dst_pat.src,
-    "ff:ff:ff:ff:ff:ff-255.255.255.255@%i",
-    HY_BOOTP_PORT_SERVER);
-  /* Parse new address patterns */
-  if ((ret =
-         hy_parse_pattern(
-           &src_pat,
            ip_v_assumption)) != HY_ER_OK ||
       (ret =
          hy_parse_pattern(
-           &dst_pat,
+           dst_pattern,
            ip_v_assumption)) != HY_ER_OK) {
       return ret;
   }
-  /* Validate new pattern format */
-  if (strlen(src_pat.hw_addr) == 0 ||
-      strlen(src_pat.ip_addr) == 0 ||
-      src_pat.port == 0) {
+  /* Validate pattern format */
+  if (strlen(src_pattern->hw_addr) == 0 ||
+      strlen(src_pattern->ip_addr) == 0) {
     return HY_ER_WRONG_PT_FMT_SRC;
   }
-  if (strlen(dst_pat.hw_addr) == 0 ||
-      strlen(dst_pat.ip_addr) == 0 ||
-      dst_pat.port == 0) {
+  if (strlen(dst_pattern->hw_addr) == 0 ||
+      strlen(dst_pattern->ip_addr) == 0) {
     return HY_ER_WRONG_PT_FMT_DST;
   }
-  if (src_pat.ip_v != HY_AD_T_IP_V4) {
+  if (src_pattern->ip_v != dst_pattern->ip_v) {
+    return HY_ER_MULTIPLE_IP_V;
+  }
+  if (src_pattern->ip_v != HY_AD_T_IP_V4) {
     return HY_ER_WRONG_IP_V;
   }
   memset(dhcp_pkt, 0, dhcp_pkt_len);
-  /* Build BOOTP header */
-  hy_dhcp_h = (hy_dhcp_h_t*) dhcp_pkt;
-  hy_dhcp_h->cookie = htonl(HY_DHCP_COOKIE);
-  hy_dhcp_h->bootp_h.op = HY_BOOTP_OP_BOOTREQUEST;
-  hy_dhcp_h->bootp_h.htype = HY_HTYPE_ETHERNET;
-  hy_dhcp_h->bootp_h.hlen = ETH_ADDR_LEN;
-  hy_dhcp_h->bootp_h.xid =
-    htonl(
-      (hy_random(1, 32000) * 1000000000) +
-      hy_random(1, 32000));
-  eth_pton(src_pat.hw_addr, &hy_dhcp_h->bootp_h.chaddr);
+  /* Build DHCP header */
+  dhcp_h = (hy_dhcp_h_t*) dhcp_pkt;
+  dhcp_h->cookie = htonl(HY_DHCP_COOKIE);
   /* Set option pointer */
-  opt_ptr = hy_dhcp_h->options;
+  opt_ptr = dhcp_h->options;
   /* DHCP-Message type */
   memset(opt_val, 0, 255);
   *opt_val = DHCP_MSG_DHCPREQUEST;
@@ -183,8 +151,10 @@ int
       1 + ETH_ADDR_LEN,
       opt_val);
   dhcp_opt_len = dhcp_opt_len + 2 + 1 + ETH_ADDR_LEN;
+
+/*
   if (strlen(src_pattern->ip_addr) != 0) {
-    /* Requested IP-Address */
+    // Requested IP-Address
     memset(opt_val, 0, 255);
     ip_pton(src_pattern->ip_addr, (ip_addr_t*) opt_val);
     opt_ptr =
@@ -195,6 +165,8 @@ int
         opt_val);
     dhcp_opt_len = dhcp_opt_len + 2 + 4;
   }
+*/
+
   /* Set DHCP end option */
   memset(opt_val, 0, 255);
   opt_ptr =
@@ -204,16 +176,17 @@ int
       1,
       opt_val);
   dhcp_opt_len = dhcp_opt_len + 1;
-  /* Wrap UDP-Layer */
-  return hy_build_udp_packet(
-            &src_pat,
-            &dst_pat,
+  /* Wrap BOOTP-Layer */
+  return hy_build_bootp_packet(
+            src_pattern,
+            dst_pattern,
             ip_v_assumption,
             packet,
             packet_len,
             dhcp_pkt,
             sizeof(hy_dhcp_h_t) + dhcp_opt_len,
-            ip_ttl);
+            ip_ttl,
+            HY_BOOTP_OP_BOOTREQUEST);
 } /* hy_build_dhcp_request_packet */
 
 /* -------------------------------------------------------------------------- */

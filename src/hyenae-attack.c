@@ -186,11 +186,9 @@ void
       result->ret = HY_ER_NO_SRC_PT_GIVEN;
       return;
   }
-  if (attack->type != HY_AT_T_DHCP_REQUEST) {
-    if (strlen(attack->dst_pat.src) == 0) {
-        result->ret = HY_ER_NO_DST_PT_GIVEN;
-        return;
-    }
+  if (strlen(attack->dst_pat.src) == 0) {
+      result->ret = HY_ER_NO_DST_PT_GIVEN;
+      return;
   }
   if (attack->type == HY_AT_T_ARP_REPLY) {
     if (strlen(attack->snd_pat.src) == 0) {
@@ -438,6 +436,7 @@ void
       if ((params->res->ret =
              hy_build_dhcp_request_packet(
                &params->att->src_pat,
+               &params->att->dst_pat,
                params->att->ip_v_asm,
                &params->pkt_buf,
                &pkt_len,
