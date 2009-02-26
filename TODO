@@ -16,13 +16,13 @@
 
   High Priority
     * Add DHCP-Release support
+    * Add ICMP "Destination Unreachable" message support
 
   Medium Priority
     * Add NDP support
     * Add DNS support
     * Add PPPoE support
     * Add ICMPv6 support
-    * Add ICMP "Destination Unreachable" message support
 
   Low Priority
     * Add RTP support
