@@ -122,7 +122,7 @@
     to all available machines on the network.
 
     # hyenae -I 3 -a arp-reply -s 00:f0:21:03:c6:00 -d ff:ff:ff:ff:ff:ff \
-    # -S 11:22:33:44:55:66-192.168.0.1 -T ff:ff:ff:ff:ff:ff-0.0.0.0 -c 1
+    # -S 11:22:33:44:55:66-192.168.0.1 -D ff:ff:ff:ff:ff:ff-0.0.0.0 -c 1
 
     5.5 ARP-Request Flood
 
@@ -130,7 +130,7 @@
     random source to all available machines on the network.
 
     # hyenae -I 3 -a arp-request -s % -d ff:ff:ff:ff:ff:ff \
-    # -S %-% -T 00:00:00:00:00:00-192.168.0.1
+    # -S %-% -D 00:00:00:00:00:00-192.168.0.1
 
     5.6 DHCP-Discover flood
 
