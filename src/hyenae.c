@@ -136,7 +136,7 @@ int
             getopt(
               argc,
               argv,
-              "s:d:S:T:a:p:P:i:I:c:C:e:E:u:U:t:f:q:Q:k:w:A:r:R:mnlLV")) != -1) {
+              "s:d:S:T:a:p:P:i:I:c:C:e:E:u:U:t:f:q:Q:k:w:A:r:R:mNlLV")) != -1) {
     switch (opt) {
       case 's':
         if (strlen(optarg) > HY_PT_BUFLEN) {
@@ -340,7 +340,7 @@ int
       case 'm':
         att.ign_mtu = 1;
         break;
-      case 'n':
+      case 'N':
         att.cld_run = 1;
         break;
       case 'l':

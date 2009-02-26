@@ -8,7 +8,7 @@ hyenae  [\fB-s\fR src-pat] [\fB-d\fR dst-pat] [\fB-S\fR snd-pat] [\fB-T\fR trg-p
         [\fB-e\fR min-del] [\fB-E\fR max-del] [\fB-u\fR min-dur] [\fB-U\fR max-dur]
         [\fB-A\fR ip-v-asm] [\fB-t\fR ip-ttl] [\fB-r\fR srv-pat] [\fB-R\fR srv-file]
         [\fB-f\fR tcp-flags] [\fB-q\fR tcp-seq] [\fB-Q\fR tcp-seq-ins]
-        [\fB-k\fR tcp-ack] [\fB-w\fR tcp-win] [\fB-mnlLV\fR]
+        [\fB-k\fR tcp-ack] [\fB-w\fR tcp-win] [\fB-mNlLV\fR]
 
 .SH DESCRIPTION
 Hyenae is a highly flexible and platform independent network packet generator.
@@ -239,7 +239,7 @@ subject to change without prior notice.
       option unless you know what you are
       doing.
 
-\fB-n\fR    No sending (cold run). If set,
+\fB-N\fR    No sending (cold run). If set,
       Hyenae will start a run through its
       attack routines without actually
       writing any data to the network. This

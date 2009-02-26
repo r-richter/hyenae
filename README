@@ -66,7 +66,7 @@
          [-e min-del] [-E max-del] [-u min-dur] [-U max-dur]
          [-A ip-v-asm] [-t ip-ttl] [-r srv-pat] [-R srv-file]
          [-f tcp-flags] [-q tcp-seq] [-Q tcp-seq-ins]
-         [-k tcp-ack] [-w tcp-win] [-mnlLV]
+         [-k tcp-ack] [-w tcp-win] [-mNlLV]
 
     -s Source address pattern
 
@@ -198,7 +198,7 @@
        to the network. You should never provide this option unless you know what
        you are doing.
 
-    -n No sending (cold run). If set, Hyenae will start a run through its attack
+    -N No sending (cold run). If set, Hyenae will start a run through its attack
        routines without actually writing any data to the network. This can be
        very useful to pre-check the generated packets or the remote daemon
        behaviour before executing the actual attack.
