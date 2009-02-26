@@ -15,7 +15,6 @@
 --------------------------------------------------------------------------------
 
   High Priority
-    * Add DHCP-Release support
     * Add ICMP "Destination Unreachable" message support
 
   Medium Priority
