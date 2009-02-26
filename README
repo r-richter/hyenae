@@ -60,7 +60,7 @@
 
   3. Command Line Usage (hyenae)
 
-  hyenae [-s src-pat] [-d dst-pat] [-S snd-req-pat] [-D trg-srv-pat]
+  hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]
          [-a att-type] [-p rnd-payload] [-P payload-file]
          [-i if-n] [-I if-i] [-c min-cnt] [-C max-cnt]
          [-e min-del] [-E max-del] [-u min-dur] [-U max-dur]
@@ -90,10 +90,11 @@
        option, an error occurs. The total length of a packet depends on IP
        protocol and the attack type used. The default MTU limit is 1500 bytes.
 
-    -S ARP-Reply sender address / DHCP "Requested IP-Address" pattern.
+    -S Secondary source address pattern. Defines the sender address on ARP-Reply
+       based attacks or the requested IP-Address on DHCP-Request based attacks.
 
-    -D ARP-Reply target address / DHCP "Server IP-Address (Identification)"
-       pattern.
+    -D Secondary destination address pattern. Defines the target address on
+       ARP-Reply based attacks.
 
     -i Network interface to operate on (specified by name). This argument is
        ignored on remote attacks.
@@ -368,10 +369,13 @@
          -s [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
          -d [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
 
+  hyenae -a dhcp-discover
+         -s [HW-Address]-[IP-Address (IPv4 only)]
+         -d [HW-Address]-[IP-Address (IPv4 only)]
+
   hyenae -a dhcp-request
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [HW-Address]-[IP-Address (IPv4 only)]
-         (Optional) -S [IP-Address (IPv4 only)]
-         (Optional) -D [IP-Address (IPv4 only)]
+         -S [IP-Address (IPv4 only)]
 
 --------------------------------------------------------------------------------
