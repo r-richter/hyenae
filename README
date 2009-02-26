@@ -355,8 +355,8 @@
          -T [MAC-Address]-[IP-Address (IPv4 only)]
 
   hyenae -a icmp-echo
-         -s [HW-Address]-[IP-Address (IPv4 or IPv6)]
-         -d [HW-Address]-[IP-Address (IPv4 or IPv6)]
+         -s [HW-Address]-[IP-Address (IPv4 only)]
+         -d [HW-Address]-[IP-Address (IPv4 only)]
 
   hyenae -a tcp
          -s [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
@@ -368,9 +368,7 @@
          -d [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
 
   hyenae -a dhcp-request
-         -s [HW-Address]
-
-  hyenae -a dhcp-request
-         -s [HW-Address]-[IP-Address (IPv4 only, used for IP-Address request)]
+         -s [HW-Address]-[IP-Address (IPv4 only)]
+         -d [HW-Address]-[IP-Address (IPv4 only)]
 
 --------------------------------------------------------------------------------
