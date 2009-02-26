@@ -38,7 +38,7 @@ int
       int ip_v_assumption,
       unsigned char** packet,
       int* packet_len,
-      int opcode
+      unsigned int opcode
     ) {
 
   /*
