@@ -495,6 +495,10 @@ const char*
     return "Wrong address pattern format (sender)";
   } else if (error == HY_ER_WRONG_PT_FMT_TRG) {
     return "Wrong address pattern format (target)";
+  } else if (error == HY_ER_WRONG_PT_FMT_IP_REQ) {
+    return "Wrong address pattern format (IP-Address request)";
+  } else if (error == HY_ER_WRONG_PT_FMT_DHCP_SRV_IP) {
+    return "Wrong address pattern format (DHCP Server IP-Address)";
   } else if (error == HY_ER_NO_TCP_FLAGS) {
     return "No TCP flags given";
   } else if (error == HY_ER_MAX_RA_PKT_LEN_EXCEED) {
