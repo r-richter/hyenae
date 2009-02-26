@@ -68,7 +68,8 @@ int
       int ip_v_assumption,
       unsigned char** packet,
       int* packet_len,
-      unsigned int ip_ttl
+      unsigned int ip_ttl,
+      unsigned int dhcp_msg
     ) {
 
   /*
@@ -169,7 +170,7 @@ int
   opt_ptr = dhcp_h->options;
   /* DHCP-Message type */
   memset(opt_val, 0, 255);
-  *opt_val = DHCP_MSG_DHCPREQUEST;
+  *opt_val = dhcp_msg;
   opt_ptr =
     hy_set_dhcp_option(
       opt_ptr,

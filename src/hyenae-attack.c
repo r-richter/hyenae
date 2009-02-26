@@ -442,7 +442,8 @@ void
                params->att->ip_v_asm,
                &params->pkt_buf,
                &pkt_len,
-               params->att->ip_ttl)) != HY_ER_OK) {
+               params->att->ip_ttl,
+               DHCP_MSG_DHCPREQUEST)) != HY_ER_OK) {
         break;
       }
     } else {

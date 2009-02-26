@@ -87,6 +87,7 @@ int
       int,
       unsigned char**,
       int*,
+      unsigned int,
       unsigned int
     );
 
