@@ -78,8 +78,8 @@
     -D Secondary destination address pattern. Defines the target address on
        ARP-Reply based attacks.
 
-    -a Attack (protocol) type. A list of all available attacks can be obtained
-       by starting Hyenae with the -L option.
+    -a Attack protocol. A list of all available attacks can be obtained by
+       starting Hyenae with the -L option.
 
     -p Random packet payload. If set, a random data block (payload) of the
        given length will be added to the generated packets (if supported by the
