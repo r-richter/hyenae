@@ -18,6 +18,7 @@
     * Added DHCP-Request attack support
     * Changed Cold-Run argument (from -n to -N)
     * Changed address pattern argument (from -T to -D)
+    * Fixed "No or unknown attack type given" error message
 
   Version 0.27-1 (Feb. 23rd, 2009)
     * Added TODO file
