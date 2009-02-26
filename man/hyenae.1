@@ -2,7 +2,7 @@
 .SH NAME
 hyenae - Advanced Network Packet Generator
 .SH SYNOPSIS
-hyenae  [\fB-s\fR src-pat] [\fB-d\fR dst-pat] [\fB-S\fR snd-pat] [\fB-T\fR trg-pat]
+hyenae  [\fB-s\fR src-pat] [\fB-d\fR dst-pat] [\fB-S\fR snd-req-pat] [\fB-D\fR trg-srv-pat]
         [\fB-a\fR att-type] [\fB-p\fR rnd-payload] [\fB-P\fR payload-file]
         [\fB-i\fR if-n] [\fB-I\fR if-i] [\fB-c\fR min-cnt] [\fB-C\fR max-cnt]
         [\fB-e\fR min-del] [\fB-E\fR max-del] [\fB-u\fR min-dur] [\fB-U\fR max-dur]
@@ -72,9 +72,12 @@ subject to change without prior notice.
       protocol and the attack type used.
       The default MTU limit is 1500 bytes.
 
-\fB-S\fR    ARP-Reply sender address pattern
+\fB-S\fR    ARP-Reply sender address / DHCP
+      "Requested IP-Address" pattern.
 
-\fB-T\fR    ARP-Reply target address pattern
+\fB-D\fR    ARP-Reply target address / DHCP
+      "Server IP-Address (Identification)"
+      pattern.
 
 \fB-i\fR    Network interface to operate on
       (specified by name). This argument is
@@ -311,13 +314,13 @@ assumed version by calling Hyenae with the -A option.
          -s [HW-Address]
          -d [HW-Address]
          -S [HW-Address]-[IP-Address (IPv4 only)]
-         -T [HW-Address]-[IP-Address (IPv4 only)]
+         -D [HW-Address]-[IP-Address (IPv4 only)]
 
   hyenae -a arp-request
          -s [HW-Address]
          -d [HW-Address]
          -S [HW-Address]-[IP-Address (IPv4 only)]
-         -T [HW-Address]-[IP-Address (IPv4 only)]
+         -D [HW-Address]-[IP-Address (IPv4 only)]
 
   hyenae -a icmp-echo
          -s [HW-Address]-[IP-Address (IPv4 only)]
@@ -335,6 +338,8 @@ assumed version by calling Hyenae with the -A option.
   hyenae -a dhcp-request
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [HW-Address]-[IP-Address (IPv4 only)]
+         (Optional) -S [IP-Address (IPv4 only)]
+         (Optional) -D [IP-Address (IPv4 only)]
 
 .SH SEE ALSO
   hyenaed(1)

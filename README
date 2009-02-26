@@ -60,7 +60,7 @@
 
   3. Command Line Usage (hyenae)
 
-  hyenae [-s src-pat] [-d dst-pat] [-S snd-pat] [-T trg-pat]
+  hyenae [-s src-pat] [-d dst-pat] [-S snd-req-pat] [-D trg-srv-pat]
          [-a att-type] [-p rnd-payload] [-P payload-file]
          [-i if-n] [-I if-i] [-c min-cnt] [-C max-cnt]
          [-e min-del] [-E max-del] [-u min-dur] [-U max-dur]
@@ -90,9 +90,10 @@
        option, an error occurs. The total length of a packet depends on IP
        protocol and the attack type used. The default MTU limit is 1500 bytes.
 
-    -S ARP-Reply sender address pattern
+    -S ARP-Reply sender address / DHCP "Requested IP-Address" pattern.
 
-    -T ARP-Reply target address pattern
+    -D ARP-Reply target address / DHCP "Server IP-Address (Identification)"
+       pattern.
 
     -i Network interface to operate on (specified by name). This argument is
        ignored on remote attacks.
@@ -346,13 +347,13 @@
          -s [HW-Address]
          -d [HW-Address]
          -S [HW-Address]-[IP-Address (IPv4 only)]
-         -T [HW-Address]-[IP-Address (IPv4 only)]
+         -D [HW-Address]-[IP-Address (IPv4 only)]
 
   hyenae -a arp-request
          -s [HW-Address]
          -d [HW-Address]
          -S [HW-Address]-[IP-Address (IPv4 only)]
-         -T [MAC-Address]-[IP-Address (IPv4 only)]
+         -D [HW-Address]-[IP-Address (IPv4 only)]
 
   hyenae -a icmp-echo
          -s [HW-Address]-[IP-Address (IPv4 only)]
@@ -370,5 +371,7 @@
   hyenae -a dhcp-request
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [HW-Address]-[IP-Address (IPv4 only)]
+         (Optional) -S [IP-Address (IPv4 only)]
+         (Optional) -D [IP-Address (IPv4 only)]
 
 --------------------------------------------------------------------------------

@@ -132,7 +132,7 @@
     # hyenae -I 3 -a arp-request -s % -d ff:ff:ff:ff:ff:ff \
     # -S %-% -T 00:00:00:00:00:00-192.168.0.1
 
-    5.6 DHCP-Starvation attack
+    5.6 DHCP-Starvation attack (Type 1)
 
     This attack will send an unlimited amount of DHCP-Request packets from a
     random source to request an unlimited amount of IP-Addresses from a
@@ -140,6 +140,15 @@
 
     # hyenae -I 3 -a dhcp-request -s %-0.0.0.0 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255
+
+    5.7 DHCP IP-Address Re-Request
+
+    This attack will send asingle DHCP-Request packets from an existing source
+    to request a particular IP-Address (192.168.0.123) from a DHCP-Server with
+    the IP-Address 192.168.0.1.
+
+    # hyenae -I 3 -a dhcp-request -s %-0.0.0.0 \
+    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S 192.168.0.123 -D 192.168.0.1 -c 1
 
 --------------------------------------------------------------------------------
 
