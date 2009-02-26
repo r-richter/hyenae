@@ -151,22 +151,44 @@ int
       1 + ETH_ADDR_LEN,
       opt_val);
   dhcp_opt_len = dhcp_opt_len + 2 + 1 + ETH_ADDR_LEN;
-
 /*
-  if (strlen(src_pattern->ip_addr) != 0) {
-    // Requested IP-Address
-    memset(opt_val, 0, 255);
-    ip_pton(src_pattern->ip_addr, (ip_addr_t*) opt_val);
-    opt_ptr =
-      hy_set_dhcp_option(
-        opt_ptr,
-        HY_DHCP_OPT_REQUESTEDIP,
-        4,
-        opt_val);
-    dhcp_opt_len = dhcp_opt_len + 2 + 4;
-  }
-*/
+  // Requested IP-Address
 
+  memset(opt_val, 0, 255);
+  ip_pton("172.20.20.36", (ip_addr_t*) opt_val);
+  opt_ptr =
+    hy_set_dhcp_option(
+      opt_ptr,
+      HY_DHCP_OPT_REQUESTEDIP,
+      4,
+      opt_val);
+  dhcp_opt_len = dhcp_opt_len + 2 + 4;
+
+
+  // Host name
+
+  memset(opt_val, 0, 255);
+  strncpy(opt_val, "WBREB192", 255);
+  opt_ptr =
+    hy_set_dhcp_option(
+      opt_ptr,
+      HY_DHCP_OPT_HOSTNAME,
+      strlen(opt_val),
+      opt_val);
+  dhcp_opt_len = dhcp_opt_len + 2 + strlen(opt_val);
+
+  // Server identification
+
+  memset(opt_val, 0, 255);
+  ip_pton("172.20.20.237", (ip_addr_t*) opt_val);
+  opt_ptr =
+    hy_set_dhcp_option(
+      opt_ptr,
+      HY_DHCP_OPT_SERVERID,
+      4,
+      opt_val);
+  dhcp_opt_len = dhcp_opt_len + 2 + 4;
+*/
   /* Set DHCP end option */
   memset(opt_val, 0, 255);
   opt_ptr =
