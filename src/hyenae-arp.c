@@ -47,7 +47,6 @@ int
    *   on the given arguments.
    */
 
-
   int ret = HY_ER_OK;
   int arp_pkt_len =
     sizeof(arp_h_t) +
