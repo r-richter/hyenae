@@ -39,6 +39,16 @@ subject to change without prior notice.
 
 \fB-d\fR    Destination address pattern
 
+\fB-S\fR    Secondary source address
+      pattern. Defines the sender address
+      on ARP-Reply based attacks or the
+      requested IP-Address on DHCP-Request
+      based attacks.
+
+\fB-D\fR    Secondary destination address
+      pattern. Defines the target address
+      on ARP-Reply based attacks.
+
 \fB-a\fR    Attack type. A list of all
       available attacks can be obtained by
       starting Hyenae with the -L option.
@@ -71,16 +81,6 @@ subject to change without prior notice.
       length of a packet depends on IP
       protocol and the attack type used.
       The default MTU limit is 1500 bytes.
-
-\fB-S\fR    Secondary source address
-      pattern. Defines the sender address
-      on ARP-Reply based attacks or the
-      requested IP-Address on DHCP-Request
-      based attacks.
-
-\fB-D\fR    Secondary destination address
-      pattern. Defines the target address
-      on ARP-Reply based attacks.
 
 \fB-i\fR    Network interface to operate on
       (specified by name). This argument is

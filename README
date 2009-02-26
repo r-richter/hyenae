@@ -72,6 +72,12 @@
 
     -d Destination address pattern
 
+    -S Secondary source address pattern. Defines the sender address on ARP-Reply
+       based attacks or the requested IP-Address on DHCP-Request based attacks.
+
+    -D Secondary destination address pattern. Defines the target address on
+       ARP-Reply based attacks.
+
     -a Attack (protocol) type. A list of all available attacks can be obtained
        by starting Hyenae with the -L option.
 
@@ -89,12 +95,6 @@
        headers) exceeds the MTU limit and Hyenae was called without the -m
        option, an error occurs. The total length of a packet depends on IP
        protocol and the attack type used. The default MTU limit is 1500 bytes.
-
-    -S Secondary source address pattern. Defines the sender address on ARP-Reply
-       based attacks or the requested IP-Address on DHCP-Request based attacks.
-
-    -D Secondary destination address pattern. Defines the target address on
-       ARP-Reply based attacks.
 
     -i Network interface to operate on (specified by name). This argument is
        ignored on remote attacks.
