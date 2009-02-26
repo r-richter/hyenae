@@ -136,7 +136,7 @@ int
             getopt(
               argc,
               argv,
-              "s:d:S:T:a:p:P:i:I:c:C:e:E:u:U:t:f:q:Q:k:w:A:r:R:mNlLV")) != -1) {
+              "s:d:S:D:a:p:P:i:I:c:C:e:E:u:U:t:f:q:Q:k:w:A:r:R:mNlLV")) != -1) {
     switch (opt) {
       case 's':
         if (strlen(optarg) > HY_PT_BUFLEN) {
@@ -177,7 +177,7 @@ int
         }
         strncpy(att.snd_pat.src, optarg, HY_PT_BUFLEN);
         break;
-      case 'T':
+      case 'D':
         if (strlen(optarg) > HY_PT_BUFLEN) {
           hy_output(
             stdout,
