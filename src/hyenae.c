@@ -374,7 +374,7 @@ int
           "              [-e min-del] [-E max-del] [-u min-dur] [-U max-dur]\n"
           "              [-A ip-v-asm] [-t ip-ttl] [-r srv-pat] [-R srv-file]\n"
           "              [-f tcp-flags] [-q tcp-seq] [-Q tcp-seq-ins]\n"
-          "              [-k tcp-ack] [-w tcp-win] [-mnlLV]\n");
+          "              [-k tcp-ack] [-w tcp-win] [-mNlLV]\n");
         return -1;
     }
   }
