@@ -437,6 +437,8 @@ void
              hy_build_dhcp_request_packet(
                &params->att->src_pat,
                &params->att->dst_pat,
+               &params->att->snd_pat,
+               &params->att->trg_pat,
                params->att->ip_v_asm,
                &params->pkt_buf,
                &pkt_len,

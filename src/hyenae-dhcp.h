@@ -38,11 +38,10 @@
 #define HY_DHCP_OPT_NETMASK      1
 #define HY_DHCP_OPT_ROUTERS      3
 #define HY_DHCP_OPT_DNSSERVERS   6
-/*#define HY_DHCP_OPT_HOSTNAME     12*/
 #define HY_DHCP_OPT_DOMAINNAME   15
-/*#define HY_DHCP_OPT_REQUESTEDIP  50*/
+#define HY_DHCP_OPT_REQUESTEDIP  50
 #define HY_DHCP_OPT_DHCPMSGTYPE  53
-/*#define HY_DHCP_OPT_SERVERID     54*/
+#define HY_DHCP_OPT_SERVERID     54
 #define HY_DHCP_OPT_PARAMREQLIST 55
 #define HY_DHCP_OPT_CLIENT_IDENT 61
 #define HY_DHCP_OPT_END          255
@@ -81,6 +80,8 @@ unsigned char*
 int
   hy_build_dhcp_request_packet
     (
+      hy_pattern_t*,
+      hy_pattern_t*,
       hy_pattern_t*,
       hy_pattern_t*,
       int,

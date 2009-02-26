@@ -63,6 +63,8 @@ int
     (
       hy_pattern_t* src_pattern,
       hy_pattern_t* dst_pattern,
+      hy_pattern_t* ip_request_pattern,
+      hy_pattern_t* dhcp_src_ip_pattern,
       int ip_v_assumption,
       unsigned char** packet,
       int* packet_len,
@@ -96,6 +98,40 @@ int
            ip_v_assumption)) != HY_ER_OK) {
       return ret;
   }
+  if (strlen(ip_request_pattern->src) > 0) {
+    /* Ensure that when the user passes "%",
+       the pattern is recongnized as an
+       IP-Address */
+    if (strcmp(ip_request_pattern->src, "%") == 0) {
+      strncpy(
+        ip_request_pattern->src,
+        "%-%",
+        HY_PT_BUFLEN);
+    }
+    if ((ret =
+           hy_parse_pattern(
+             ip_request_pattern,
+             ip_v_assumption)) != HY_ER_OK) {
+        return ret;
+    }
+  }
+  if (strlen(dhcp_src_ip_pattern->src) > 0) {
+    /* Ensure that when the user passes "%",
+       the pattern is recongnized as an
+       IP-Address */
+    if (strcmp(dhcp_src_ip_pattern->src, "%") == 0) {
+      strncpy(
+        dhcp_src_ip_pattern->src,
+        "%-%",
+        HY_PT_BUFLEN);
+    }
+    if ((ret =
+           hy_parse_pattern(
+             dhcp_src_ip_pattern,
+             ip_v_assumption)) != HY_ER_OK) {
+        return ret;
+    }
+  }
   /* Validate pattern format */
   if (strlen(src_pattern->hw_addr) == 0 ||
       strlen(src_pattern->ip_addr) == 0) {
@@ -105,7 +141,21 @@ int
       strlen(dst_pattern->ip_addr) == 0) {
     return HY_ER_WRONG_PT_FMT_DST;
   }
-  if (src_pattern->ip_v != dst_pattern->ip_v) {
+  if (strlen(ip_request_pattern->src) > 0) {
+    if (strlen(ip_request_pattern->ip_addr) == 0) {
+      return HY_ER_WRONG_PT_FMT_IP_REQ;
+    }
+  }
+  if (strlen(dhcp_src_ip_pattern->src) > 0) {
+    if (strlen(dhcp_src_ip_pattern->ip_addr) == 0) {
+      return HY_ER_WRONG_PT_FMT_IP_REQ;
+    }
+  }
+  if (src_pattern->ip_v != dst_pattern->ip_v ||
+      (strlen(ip_request_pattern->src) > 0 &&
+       src_pattern->ip_v != ip_request_pattern->ip_v) ||
+      (strlen(dhcp_src_ip_pattern->src) > 0 &&
+        src_pattern->ip_v != dhcp_src_ip_pattern->ip_v)) {
     return HY_ER_MULTIPLE_IP_V;
   }
   if (src_pattern->ip_v != HY_AD_T_IP_V4) {
@@ -151,44 +201,30 @@ int
       1 + ETH_ADDR_LEN,
       opt_val);
   dhcp_opt_len = dhcp_opt_len + 2 + 1 + ETH_ADDR_LEN;
-/*
-  // Requested IP-Address
-
-  memset(opt_val, 0, 255);
-  ip_pton("172.20.20.36", (ip_addr_t*) opt_val);
-  opt_ptr =
-    hy_set_dhcp_option(
-      opt_ptr,
-      HY_DHCP_OPT_REQUESTEDIP,
-      4,
-      opt_val);
-  dhcp_opt_len = dhcp_opt_len + 2 + 4;
-
-
-  // Host name
-
-  memset(opt_val, 0, 255);
-  strncpy(opt_val, "WBREB192", 255);
-  opt_ptr =
-    hy_set_dhcp_option(
-      opt_ptr,
-      HY_DHCP_OPT_HOSTNAME,
-      strlen(opt_val),
-      opt_val);
-  dhcp_opt_len = dhcp_opt_len + 2 + strlen(opt_val);
-
-  // Server identification
-
-  memset(opt_val, 0, 255);
-  ip_pton("172.20.20.237", (ip_addr_t*) opt_val);
-  opt_ptr =
-    hy_set_dhcp_option(
-      opt_ptr,
-      HY_DHCP_OPT_SERVERID,
-      4,
-      opt_val);
-  dhcp_opt_len = dhcp_opt_len + 2 + 4;
-*/
+  /* Requested IP-Address */
+  if (strlen(ip_request_pattern->src) > 0) {
+    memset(opt_val, 0, 255);
+    ip_pton(ip_request_pattern->ip_addr, (ip_addr_t*) opt_val);
+    opt_ptr =
+      hy_set_dhcp_option(
+        opt_ptr,
+        HY_DHCP_OPT_REQUESTEDIP,
+        4,
+        opt_val);
+    dhcp_opt_len = dhcp_opt_len + 2 + 4;
+  }
+  /* Server identification */
+  if (strlen(dhcp_src_ip_pattern->src) > 0) {
+    memset(opt_val, 0, 255);
+    ip_pton(dhcp_src_ip_pattern->ip_addr, (ip_addr_t*) opt_val);
+    opt_ptr =
+      hy_set_dhcp_option(
+        opt_ptr,
+        HY_DHCP_OPT_SERVERID,
+        4,
+        opt_val);
+    dhcp_opt_len = dhcp_opt_len + 2 + 4;
+  }
   /* Set DHCP end option */
   memset(opt_val, 0, 255);
   opt_ptr =
