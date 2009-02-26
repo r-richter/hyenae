@@ -17,6 +17,7 @@
   Version 0.28-1 (?)
     * Added DHCP-Request attack support
     * Changed Cold-Run argument (from -n to -N)
+    * Changed address pattern argument (from -T to -D)
 
   Version 0.27-1 (Feb. 23rd, 2009)
     * Added TODO file
