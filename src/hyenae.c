@@ -175,7 +175,7 @@ int
             hy_get_error_msg(HY_ER_PT_BUFLEN_EXCEED));
           return -1;
         }
-        strncpy(att.snd_pat.src, optarg, HY_PT_BUFLEN);
+        strncpy(att.sec_src_pat.src, optarg, HY_PT_BUFLEN);
         break;
       case 'D':
         if (strlen(optarg) > HY_PT_BUFLEN) {
@@ -187,7 +187,7 @@ int
             hy_get_error_msg(HY_ER_PT_BUFLEN_EXCEED));
           return -1;
         }
-        strncpy(att.trg_pat.src, optarg, HY_PT_BUFLEN);
+        strncpy(att.sec_dst_pat.src, optarg, HY_PT_BUFLEN);
         break;
       case 'p':
         att.pay_len = atoi(optarg);
@@ -368,7 +368,7 @@ int
         return 0;
       default:
         printf(
-          "usage: hyenae [-s src-pat] [-d dst-pat] [-S snd-pat] [-T trg-pat]\n"
+          "usage: hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]\n"
           "              [-a att-type] [-p rnd-payload] [-P payload-file]\n"
           "              [-i if-n] [-I if-i] [-c min-cnt] [-C max-cnt]\n"
           "              [-e min-del] [-E max-del] [-u min-dur] [-U max-dur]\n"

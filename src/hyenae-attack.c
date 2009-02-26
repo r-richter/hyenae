@@ -196,7 +196,7 @@ void
   }
   if (attack->type == HY_AT_T_ARP_REPLY ||
       attack->type == HY_AT_T_DHCP_REQUEST) {
-    if (strlen(attack->snd_pat.src) == 0) {
+    if (strlen(attack->sec_src_pat.src) == 0) {
         if (attack->type == HY_AT_T_DHCP_REQUEST) {
           result->ret = HY_ER_NO_IP_REQ_GIVEN;
         } else {
@@ -205,7 +205,7 @@ void
         return;
     }
     if (attack->type == HY_AT_T_ARP_REPLY) {
-      if (strlen(attack->trg_pat.src) == 0) {
+      if (strlen(attack->sec_dst_pat.src) == 0) {
           result->ret = HY_ER_NO_TRG_PT_GIVEN;
           return;
       }
@@ -366,8 +366,8 @@ void
              hy_build_arp_packet(
                &params->att->src_pat,
                &params->att->dst_pat,
-               &params->att->snd_pat,
-               &params->att->trg_pat,
+               &params->att->sec_src_pat,
+               &params->att->sec_dst_pat,
                params->att->ip_v_asm,
                &params->pkt_buf,
                &pkt_len,
@@ -379,8 +379,8 @@ void
              hy_build_arp_packet(
                &params->att->src_pat,
                &params->att->dst_pat,
-               &params->att->snd_pat,
-               &params->att->trg_pat,
+               &params->att->sec_src_pat,
+               &params->att->sec_dst_pat,
                params->att->ip_v_asm,
                &params->pkt_buf,
                &pkt_len,
@@ -448,7 +448,7 @@ void
              hy_build_dhcp_request_packet(
                &params->att->src_pat,
                &params->att->dst_pat,
-               &params->att->snd_pat,
+               &params->att->sec_src_pat,
                params->att->ip_v_asm,
                &params->pkt_buf,
                &pkt_len,
@@ -461,7 +461,7 @@ void
              hy_build_dhcp_request_packet(
                &params->att->src_pat,
                &params->att->dst_pat,
-               &params->att->snd_pat,
+               &params->att->sec_src_pat,
                params->att->ip_v_asm,
                &params->pkt_buf,
                &pkt_len,

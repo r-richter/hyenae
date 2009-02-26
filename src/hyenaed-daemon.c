@@ -496,28 +496,28 @@ void
       "%s  > Destination-Pattern: <empty>\n",
       buffer);
   }
-  if (strlen(attack->snd_pat.src) > 0) {
+  if (strlen(attack->sec_src_pat.src) > 0) {
     sprintf(
       buffer,
-      "%s  > Sender-Pattern: \"%s\"\n",
+      "%s  > Secondary Source-Pattern: \"%s\"\n",
       buffer,
-      attack->snd_pat.src);
+      attack->sec_src_pat.src);
   } else {
     sprintf(
       buffer,
-      "%s  > Sender-Pattern: <empty>\n",
+      "%s  > Secondary Source-Pattern: <empty>\n",
       buffer);
   }
-  if (strlen(attack->trg_pat.src) > 0) {
+  if (strlen(attack->sec_dst_pat.src) > 0) {
     sprintf(
       buffer,
-      "%s  > Target-Pattern: \"%s\"\n",
+      "%s  > Secondary Destination-Pattern: \"%s\"\n",
       buffer,
-      attack->trg_pat.src);
+      attack->sec_dst_pat.src);
   } else {
     sprintf(
       buffer,
-      "%s  > Target-Pattern: <empty>\n",
+      "%s  > Secondary Destination-Pattern: <empty>\n",
       buffer);
   }
   sprintf(

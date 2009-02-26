@@ -73,8 +73,8 @@ typedef
   int type;
   hy_pattern_t src_pat;
   hy_pattern_t dst_pat;
-  hy_pattern_t snd_pat;
-  hy_pattern_t trg_pat;
+  hy_pattern_t sec_src_pat;
+  hy_pattern_t sec_dst_pat;
   unsigned char* pay;
   unsigned int pay_len;
   unsigned long min_cnt;
