@@ -48,7 +48,9 @@
   * Customizable ICMP-Echo based attacks (IPv4)
   * Customizable TCP based attacks (IPv4 and IPv6)
   * Customizable UDP based attacks (IPv4 and IPv6)
-  * Customizable DHCP-Request based attacks (IPv4 and IPv6)
+  * Customizable DHCP-Discover based attacks (IPv4)
+  * Customizable DHCP-Request based attacks (IPv4)
+  * Customizable DHCP-Release based attacks (IPv4)
   * Random or fixed packet count and or attack duration
   * Random or fixed send delay for breaking flood detections
   * Pattern based packet address configuration
