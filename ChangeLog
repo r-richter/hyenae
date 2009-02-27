@@ -16,6 +16,7 @@
 
   Version 0.28-1 (?)
     * Added DHCP-Request attack support
+    * Added DHCP-Release attack support
     * Added DHCP-Discover attack support
     * Changed Cold-Run argument (from -n to -N)
     * Changed address pattern argument (from -T to -D)
