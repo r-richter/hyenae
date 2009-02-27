@@ -74,6 +74,9 @@
     > icmp-echo
     > tcp
     > udp
+    > dhcp-discover
+    > dhcp-request
+    > dhcp-release
 
   You can provide the attack protocol by its name (-a). The attack protocols
   use different address patterns and in certain cases, may require additional
