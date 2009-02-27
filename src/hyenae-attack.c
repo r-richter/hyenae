@@ -191,37 +191,37 @@ void
     return;
   }
   if (strlen(attack->src_pat.src) == 0) {
-      result->ret = HY_ER_NO_SRC_PT_GIVEN;
-      return;
+    result->ret = HY_ER_NO_SRC_PT_GIVEN;
+    return;
   }
   if (strlen(attack->dst_pat.src) == 0) {
-      result->ret = HY_ER_NO_DST_PT_GIVEN;
-      return;
+    result->ret = HY_ER_NO_DST_PT_GIVEN;
+    return;
   }
   if (attack->type == HY_AT_T_ARP_REPLY ||
+      attack->type == HY_AT_T_ARP_REQUEST) {
+    if (strlen(attack->sec_src_pat.src) == 0) {
+      if (attack->type == HY_AT_T_ARP_REPLY ||
+          attack->type == HY_AT_T_ARP_REQUEST) {
+        result->ret = HY_ER_NO_SND_PT_GIVEN;
+      } else {
+        result->ret = HY_ER_NO_IP_REQ_GIVEN;
+      }
+      return;
+    }
+  }
+  if (attack->type == HY_AT_T_ARP_REPLY ||
+      attack->type == HY_AT_T_ARP_REQUEST ||
       attack->type == HY_AT_T_DHCP_REQUEST ||
       attack->type == HY_AT_T_DHCP_RELEASE) {
-    if (attack->type == HY_AT_T_ARP_REPLY ||
-        attack->type == HY_AT_T_DHCP_REQUEST) {
-      if (strlen(attack->sec_src_pat.src) == 0) {
-          if (attack->type == HY_AT_T_DHCP_REQUEST) {
-            result->ret = HY_ER_NO_IP_REQ_GIVEN;
-          } else {
-            result->ret = HY_ER_NO_SND_PT_GIVEN;
-          }
-          return;
+    if (strlen(attack->sec_dst_pat.src) == 0) {
+      if (attack->type == HY_AT_T_ARP_REPLY ||
+          attack->type == HY_AT_T_ARP_REQUEST) {
+        result->ret = HY_ER_NO_TRG_PT_GIVEN;
+      } else {
+        result->ret = HY_ER_NO_SRV_IP_GIVEN;
       }
-    }
-    if (attack->type == HY_AT_T_ARP_REPLY ||
-        attack->type == HY_AT_T_DHCP_RELEASE) {
-      if (strlen(attack->sec_dst_pat.src) == 0) {
-        if (attack->type == HY_AT_T_DHCP_RELEASE) {
-          result->ret = HY_ER_NO_SRV_IP_GIVEN;
-        } else {
-          result->ret = HY_ER_NO_TRG_PT_GIVEN;
-        }
-        return;
-      }
+      return;
     }
   }
   /* Set packet count */

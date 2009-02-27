@@ -99,11 +99,9 @@ int
            ip_v_assumption)) != HY_ER_OK) {
       return ret;
   }
-  if (dhcp_msg != HY_DHCP_MSG_DISCOVER) {
-    /* Ensure that when the user passes "%",
-       the pattern is recongnized as an
-       IP-Address */
-    if (dhcp_msg == HY_DHCP_MSG_REQUEST) {
+  if (dhcp_msg == HY_DHCP_MSG_DISCOVER ||
+      dhcp_msg == HY_DHCP_MSG_REQUEST) {
+    if (strlen(req_pattern->src) > 0) {
       if (strcmp(req_pattern->src, "%") == 0) {
         strncpy(
           req_pattern->src,
@@ -116,19 +114,21 @@ int
                ip_v_assumption)) != HY_ER_OK) {
           return ret;
       }
-    } else {
-      if (strcmp(srv_pattern->src, "%") == 0) {
-        strncpy(
-          srv_pattern->src,
-          "%-%",
-          HY_PT_BUFLEN);
-      }
-      if ((ret =
-             hy_parse_pattern(
-               srv_pattern,
-               ip_v_assumption)) != HY_ER_OK) {
-          return ret;
-      }
+    }
+  }
+  if (dhcp_msg == HY_DHCP_MSG_REQUEST ||
+      dhcp_msg == HY_DHCP_MSG_RELEASE) {
+    if (strcmp(srv_pattern->src, "%") == 0) {
+      strncpy(
+        srv_pattern->src,
+        "%-%",
+        HY_PT_BUFLEN);
+    }
+    if ((ret =
+           hy_parse_pattern(
+             srv_pattern,
+             ip_v_assumption)) != HY_ER_OK) {
+        return ret;
     }
   }
   /* Validate pattern format */
@@ -140,22 +140,27 @@ int
       strlen(dst_pattern->ip_addr) == 0) {
     return HY_ER_WRONG_PT_FMT_DST;
   }
-  if (dhcp_msg != HY_DHCP_MSG_DISCOVER) {
-    if (dhcp_msg == HY_DHCP_MSG_REQUEST) {
+  if (dhcp_msg == HY_DHCP_MSG_DISCOVER ||
+      dhcp_msg == HY_DHCP_MSG_REQUEST) {
+    if (strlen(req_pattern->src) > 0) {
       if (strlen(req_pattern->ip_addr) == 0) {
         return HY_ER_WRONG_PT_FMT_IP_REQ;
       }
-    } else {
-      if (strlen(srv_pattern->ip_addr) == 0) {
-        return HY_ER_WRONG_PT_FMT_SRV_IP;
-      }
+    }
+  }
+  if (dhcp_msg == HY_DHCP_MSG_REQUEST ||
+      dhcp_msg == HY_DHCP_MSG_RELEASE) {
+    if (strlen(srv_pattern->ip_addr) == 0) {
+      return HY_ER_WRONG_PT_FMT_SRV_IP;
     }
   }
   if (src_pattern->ip_v != dst_pattern->ip_v ||
-      (dhcp_msg != HY_DHCP_MSG_DISCOVER &&
-       (dhcp_msg == HY_DHCP_MSG_REQUEST &&
-        src_pattern->ip_v != req_pattern->ip_v) ||
-       (dhcp_msg == HY_DHCP_MSG_RELEASE &&
+      (((dhcp_msg == HY_DHCP_MSG_DISCOVER ||
+         dhcp_msg == HY_DHCP_MSG_REQUEST) &&
+        strlen(req_pattern->src) > 0 &&
+       src_pattern->ip_v != req_pattern->ip_v) ||
+       ((dhcp_msg == HY_DHCP_MSG_REQUEST ||
+         dhcp_msg == HY_DHCP_MSG_RELEASE) &&
         src_pattern->ip_v != srv_pattern->ip_v))) {
     return HY_ER_MULTIPLE_IP_V;
   }
@@ -178,33 +183,36 @@ int
       1,
       opt_val);
   dhcp_opt_len = dhcp_opt_len + 2 + 1;
-  if (dhcp_msg != HY_DHCP_MSG_DISCOVER) {
-    /* Client identifier */
+  /* Client identifier */
+  memset(opt_val, 0, 255);
+  *opt_val = HY_HTYPE_ETHERNET;
+  eth_pton(src_pattern->hw_addr, (eth_addr_t*) (opt_val + 1));
+  opt_ptr =
+    hy_set_dhcp_option(
+      opt_ptr,
+      HY_DHCP_OPT_CLIENT_IDENT,
+      1 + ETH_ADDR_LEN,
+      opt_val);
+  dhcp_opt_len = dhcp_opt_len + 2 + 1 + ETH_ADDR_LEN;
+  /* Parameter request list */
+  if (dhcp_msg == HY_DHCP_MSG_REQUEST) {
     memset(opt_val, 0, 255);
-    *opt_val = HY_HTYPE_ETHERNET;
-    eth_pton(src_pattern->hw_addr, (eth_addr_t*) (opt_val + 1));
+    *opt_val = HY_DHCP_OPT_NETMASK;
+    *(opt_val + 1) = HY_DHCP_OPT_ROUTERS;
+    *(opt_val + 2) = HY_DHCP_OPT_DNSSERVERS;
+    *(opt_val + 3) = HY_DHCP_OPT_DOMAINNAME;
     opt_ptr =
       hy_set_dhcp_option(
         opt_ptr,
-        HY_DHCP_OPT_CLIENT_IDENT,
-        1 + ETH_ADDR_LEN,
+        HY_DHCP_OPT_PARAMREQLIST,
+        4,
         opt_val);
-    dhcp_opt_len = dhcp_opt_len + 2 + 1 + ETH_ADDR_LEN;
-    if (dhcp_msg == HY_DHCP_MSG_REQUEST) {
-      /* Parameter request list */
-      memset(opt_val, 0, 255);
-      *opt_val = HY_DHCP_OPT_NETMASK;
-      *(opt_val + 1) = HY_DHCP_OPT_ROUTERS;
-      *(opt_val + 2) = HY_DHCP_OPT_DNSSERVERS;
-      *(opt_val + 3) = HY_DHCP_OPT_DOMAINNAME;
-      opt_ptr =
-        hy_set_dhcp_option(
-          opt_ptr,
-          HY_DHCP_OPT_PARAMREQLIST,
-          4,
-          opt_val);
-      dhcp_opt_len = dhcp_opt_len + 2 + 4;
-      /* Requested IP-Address */
+    dhcp_opt_len = dhcp_opt_len + 2 + 4;
+  }
+  /* Requested IP-Address */
+  if (dhcp_msg == HY_DHCP_MSG_DISCOVER ||
+      dhcp_msg == HY_DHCP_MSG_REQUEST) {
+    if (strlen(req_pattern->src) > 0) {
       memset(opt_val, 0, 255);
       ip_pton(req_pattern->ip_addr, (ip_addr_t*) opt_val);
       opt_ptr =
@@ -214,18 +222,20 @@ int
           4,
           opt_val);
       dhcp_opt_len = dhcp_opt_len + 2 + 4;
-    } else {
-      /* Server identifier */
-      memset(opt_val, 0, 255);
-      ip_pton(srv_pattern->ip_addr, (ip_addr_t*) opt_val);
-      opt_ptr =
-        hy_set_dhcp_option(
-          opt_ptr,
-          HY_DHCP_OPT_SERVERID,
-          4,
-          opt_val);
-      dhcp_opt_len = dhcp_opt_len + 2 + 4;
     }
+  }
+  /* Server identifier */
+  if (dhcp_msg == HY_DHCP_MSG_REQUEST ||
+      dhcp_msg == HY_DHCP_MSG_RELEASE) {
+    memset(opt_val, 0, 255);
+    ip_pton(srv_pattern->ip_addr, (ip_addr_t*) opt_val);
+    opt_ptr =
+      hy_set_dhcp_option(
+        opt_ptr,
+        HY_DHCP_OPT_SERVERID,
+        4,
+        opt_val);
+    dhcp_opt_len = dhcp_opt_len + 2 + 4;
   }
   /* Set DHCP end option */
   memset(opt_val, 0, 255);
