@@ -375,11 +375,15 @@
   hyenae -a dhcp-discover
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [HW-Address]-[IP-Address (IPv4 only)]
+  Optional:
+        -S [IP-Address (IPv4 only)]
 
   hyenae -a dhcp-request
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [HW-Address]-[IP-Address (IPv4 only)]
-         -S [IP-Address (IPv4 only)]
+         -D [IP-Address (IPv4 only)]
+  Optional:
+        -S [IP-Address (IPv4 only)]
 
   hyenae -a dhcp-release
          -s [HW-Address]-[IP-Address (IPv4 only)]

