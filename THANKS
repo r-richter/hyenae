@@ -26,7 +26,7 @@
 
   Other Resources
     * Sourceforge.net
-    * Morgan McGuire's (POSIX _kbhit implementation)
+    * POSIX _kbhit implementation by Morgan McGuire
     * NSIS Environmental Variables Update Script (EnvVarUpdate.nsh)
 
 --------------------------------------------------------------------------------
