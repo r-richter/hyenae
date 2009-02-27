@@ -41,13 +41,14 @@ subject to change without prior notice.
 
 \fB-S\fR    Secondary source address
       pattern. Defines the sender address
-      on ARP-Reply based attacks or the
-      requested IP-Address on DHCP-Request
-      based attacks.
+      on ARP-Reply attacks or the requested
+      IP-Address on DHCP-Request attacks.
 
 \fB-D\fR    Secondary destination address
       pattern. Defines the target address
-      on ARP-Reply based attacks.
+      on ARP-Reply attacks or the server
+      identifier (IP-Address) on
+      DHCP-Release attacks.
 
 \fB-a\fR    Attack type. A list of all
       available attacks can be obtained by
@@ -346,6 +347,11 @@ assumed version by calling Hyenae with the -A option.
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [HW-Address]-[IP-Address (IPv4 only)]
          -S [IP-Address (IPv4 only)]
+
+  hyenae -a dhcp-release
+         -s [HW-Address]-[IP-Address (IPv4 only)]
+         -d [HW-Address]-[IP-Address (IPv4 only)]
+         -D [IP-Address (IPv4 only)]
 
 .SH SEE ALSO
   hyenaed(1)

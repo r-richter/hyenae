@@ -73,10 +73,11 @@
     -d Destination address pattern
 
     -S Secondary source address pattern. Defines the sender address on ARP-Reply
-       based attacks or the requested IP-Address on DHCP-Request based attacks.
+       attacks or the requested IP-Address on DHCP-Request attacks.
 
     -D Secondary destination address pattern. Defines the target address on
-       ARP-Reply based attacks.
+       ARP-Reply attacks or the server identifier (IP-Address) on DHCP-Release
+       attacks.
 
     -a Attack protocol. A list of all available attacks can be obtained by
        starting Hyenae with the -L option.
@@ -377,5 +378,10 @@
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [HW-Address]-[IP-Address (IPv4 only)]
          -S [IP-Address (IPv4 only)]
+
+  hyenae -a dhcp-release
+         -s [HW-Address]-[IP-Address (IPv4 only)]
+         -d [HW-Address]-[IP-Address (IPv4 only)]
+         -D [IP-Address (IPv4 only)]
 
 --------------------------------------------------------------------------------
