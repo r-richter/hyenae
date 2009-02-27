@@ -51,6 +51,7 @@
 #define HY_AT_T_UDP           5
 #define HY_AT_T_DHCP_DISCOVER 6
 #define HY_AT_T_DHCP_REQUEST  7
+#define HY_AT_T_DHCP_RELEASE  8
 
 /* Turncation flags */
 #define HY_TC_NONE    0

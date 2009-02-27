@@ -104,18 +104,20 @@
 #define HY_ER_NO_SND_PT_GIVEN     -3005
 #define HY_ER_NO_IP_REQ_GIVEN     -3006
 #define HY_ER_NO_TRG_PT_GIVEN     -3007
-#define HY_ER_PKT_PAY_UNSUPPORTED -3008
-#define HY_ER_AT_T_UNKNOWN        -3009
-#define HY_MTU_LIMIT_EXCEED       -3010
-#define HY_ER_PCAP_WRITE          -3011
-#define HY_ER_MULTIPLE_IP_V       -3012
-#define HY_ER_WRONG_IP_V          -3013
-#define HY_ER_WRONG_PT_FMT_SRC    -3014
-#define HY_ER_WRONG_PT_FMT_DST    -3015
-#define HY_ER_WRONG_PT_FMT_SND    -3016
-#define HY_ER_WRONG_PT_FMT_TRG    -3017
+#define HY_ER_NO_SRV_IP_GIVEN     -3008
+#define HY_ER_PKT_PAY_UNSUPPORTED -3009
+#define HY_ER_AT_T_UNKNOWN        -3010
+#define HY_MTU_LIMIT_EXCEED       -3011
+#define HY_ER_PCAP_WRITE          -3012
+#define HY_ER_MULTIPLE_IP_V       -3013
+#define HY_ER_WRONG_IP_V          -3014
+#define HY_ER_WRONG_PT_FMT_SRC    -3015
+#define HY_ER_WRONG_PT_FMT_DST    -3016
+#define HY_ER_WRONG_PT_FMT_SND    -3017
 #define HY_ER_WRONG_PT_FMT_IP_REQ -3018
-#define HY_ER_NO_TCP_FLAGS        -3019
+#define HY_ER_WRONG_PT_FMT_TRG    -3019
+#define HY_ER_WRONG_PT_FMT_SRV_IP -3020
+#define HY_ER_NO_TCP_FLAGS        -3021
 
 /* Protocol based errors */
 #define HY_ER_MAX_RA_PKT_LEN_EXCEED -4001

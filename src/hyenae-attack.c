@@ -53,6 +53,8 @@ int
     return HY_AT_T_DHCP_DISCOVER;
   } else if (strcmp(name, "dhcp-request") == 0) {
     return HY_AT_T_DHCP_REQUEST;
+  } else if (strcmp(name, "dhcp-release") == 0) {
+    return HY_AT_T_DHCP_RELEASE;
   }
   return HY_AT_T_UNKNOWN;
 } /* hy_get_attack_type_value */
@@ -85,6 +87,8 @@ const char*
       return "dhcp-discover";
     case HY_AT_T_DHCP_REQUEST:
       return "dhcp-request";
+    case HY_AT_T_DHCP_RELEASE:
+      return "dhcp-release";
     default:
       return "Unknown";
   }
@@ -195,19 +199,28 @@ void
       return;
   }
   if (attack->type == HY_AT_T_ARP_REPLY ||
-      attack->type == HY_AT_T_DHCP_REQUEST) {
-    if (strlen(attack->sec_src_pat.src) == 0) {
-        if (attack->type == HY_AT_T_DHCP_REQUEST) {
-          result->ret = HY_ER_NO_IP_REQ_GIVEN;
+      attack->type == HY_AT_T_DHCP_REQUEST ||
+      attack->type == HY_AT_T_DHCP_RELEASE) {
+    if (attack->type == HY_AT_T_ARP_REPLY ||
+        attack->type == HY_AT_T_DHCP_REQUEST) {
+      if (strlen(attack->sec_src_pat.src) == 0) {
+          if (attack->type == HY_AT_T_DHCP_REQUEST) {
+            result->ret = HY_ER_NO_IP_REQ_GIVEN;
+          } else {
+            result->ret = HY_ER_NO_SND_PT_GIVEN;
+          }
+          return;
+      }
+    }
+    if (attack->type == HY_AT_T_ARP_REPLY ||
+        attack->type == HY_AT_T_DHCP_RELEASE) {
+      if (strlen(attack->sec_dst_pat.src) == 0) {
+        if (attack->type == HY_AT_T_DHCP_RELEASE) {
+          result->ret = HY_ER_NO_SRV_IP_GIVEN;
         } else {
-          result->ret = HY_ER_NO_SND_PT_GIVEN;
+          result->ret = HY_ER_NO_TRG_PT_GIVEN;
         }
         return;
-    }
-    if (attack->type == HY_AT_T_ARP_REPLY) {
-      if (strlen(attack->sec_dst_pat.src) == 0) {
-          result->ret = HY_ER_NO_TRG_PT_GIVEN;
-          return;
       }
     }
   }
@@ -449,6 +462,7 @@ void
                &params->att->src_pat,
                &params->att->dst_pat,
                &params->att->sec_src_pat,
+               &params->att->sec_dst_pat,
                params->att->ip_v_asm,
                &params->pkt_buf,
                &pkt_len,
@@ -462,11 +476,26 @@ void
                &params->att->src_pat,
                &params->att->dst_pat,
                &params->att->sec_src_pat,
+               &params->att->sec_dst_pat,
                params->att->ip_v_asm,
                &params->pkt_buf,
                &pkt_len,
                params->att->ip_ttl,
                HY_DHCP_MSG_REQUEST)) != HY_ER_OK) {
+        break;
+      }
+    } else if (params->att->type == HY_AT_T_DHCP_RELEASE) {
+      if ((params->res->ret =
+             hy_build_dhcp_request_packet(
+               &params->att->src_pat,
+               &params->att->dst_pat,
+               &params->att->sec_src_pat,
+               &params->att->sec_dst_pat,
+               params->att->ip_v_asm,
+               &params->pkt_buf,
+               &pkt_len,
+               params->att->ip_ttl,
+               HY_DHCP_MSG_RELEASE)) != HY_ER_OK) {
         break;
       }
     } else {

@@ -477,6 +477,8 @@ const char*
     return "No \"Requested IP-Address\" pattern given";
   } else if (error == HY_ER_NO_TRG_PT_GIVEN) {
     return "No target pattern given";
+  } else if (error == HY_ER_NO_SRV_IP_GIVEN) {
+    return "No server identifier pattern given";
   } else if (error == HY_ER_PKT_PAY_UNSUPPORTED) {
     return "Payload not supported for this attack";
   } else if (error == HY_ER_AT_T_UNKNOWN) {
@@ -495,10 +497,12 @@ const char*
     return "Wrong address pattern format (destination)";
   } else if (error == HY_ER_WRONG_PT_FMT_SND) {
     return "Wrong address pattern format (sender)";
+  } else if (error == HY_ER_WRONG_PT_FMT_IP_REQ) {
+    return "Wrong address pattern format (requested IP-Address)";
   } else if (error == HY_ER_WRONG_PT_FMT_TRG) {
     return "Wrong address pattern format (target)";
-  } else if (error == HY_ER_WRONG_PT_FMT_IP_REQ) {
-    return "Wrong address pattern format (IP-Address request)";
+  } else if (error == HY_ER_WRONG_PT_FMT_SRV_IP) {
+    return "Wrong address pattern format (server identifier)";
   } else if (error == HY_ER_NO_TCP_FLAGS) {
     return "No TCP flags given";
   } else if (error == HY_ER_MAX_RA_PKT_LEN_EXCEED) {

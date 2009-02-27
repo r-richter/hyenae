@@ -122,6 +122,7 @@ int
     htonl(
       (hy_random(1, 32000) * 1000000000) +
       hy_random(1, 32000));
+  ip_pton(src_pattern->ip_addr, &bootp_h->ciaddr);
   eth_pton(src_pattern->hw_addr, &bootp_h->chaddr);
   /* Add data */
   if (data_len > 0) {
