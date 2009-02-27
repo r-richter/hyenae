@@ -145,7 +145,7 @@
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255
 
     # hyenae -I 3 -a dhcp-discover -s %-0.0.0.0 \
-    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S 192.168.0.%%
+    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S 192.168.%.%%
 
     5.7 DHCP-Starvation attack
 
