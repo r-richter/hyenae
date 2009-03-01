@@ -14,7 +14,7 @@
 
 --------------------------------------------------------------------------------
 
-  Version 0.28-1 (Mar. 9th, 2009)
+  Version 0.28-1 (Mar. 2nd, 2009)
     * Added DHCP-Request attack support
     * Added DHCP-Release attack support
     * Added DHCP-Discover attack support
