@@ -135,7 +135,7 @@
     # hyenae -I 3 -a arp-request -s % -d ff:ff:ff:ff:ff:ff \
     # -S %-% -D 00:00:00:00:00:00-192.168.0.1
 
-    5.6 DHCP-Discover flood
+    5.6 DHCP-Discover Flood
 
     This attack will send an unlimited amount of DHCP-Discover packets from a
     random source to all available machines on the network. The second example
@@ -147,7 +147,7 @@
     # hyenae -I 3 -a dhcp-discover -s %-0.0.0.0 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S 192.168.%.%%
 
-    5.7 DHCP-Starvation attack
+    5.7 DHCP-Starvation Attack
 
     This attack will send an unlimited amount of DHCP-Request packets from a
     random source to all available machines on the network. The DHCP-Option
@@ -161,7 +161,7 @@
     # hyenae -I 3 -a dhcp-request -s %-0.0.0.0 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -D 192.168.0.1 -S %
 
-    5.8 DHCP-Release forcing
+    5.8 DHCP-Release Forcing
 
     This attack will send a single DHCP-Release packet from a fictional source
     address to a fictional DHCP-Server. The DHCP-Option "Server Identifier" is
