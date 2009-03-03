@@ -59,7 +59,7 @@ unsigned char*
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_build_dhcp_request_packet
+  hy_build_dhcp_packet
     (
       hy_pattern_t* src_pattern,
       hy_pattern_t* dst_pattern,
@@ -74,7 +74,7 @@ int
 
   /*
    * USAGE:
-   *   Builds a DHCP-Request packet based
+   *   Builds a DHCP packet based
    *   on the given arguments.
    */
 
@@ -88,6 +88,12 @@ int
   unsigned char opt_val[255];
   hy_dhcp_h_t* dhcp_h = NULL;
 
+  /* Check for DHCP-Message support */
+  if (dhcp_msg != HY_DHCP_MSG_DISCOVER &&
+      dhcp_msg != HY_DHCP_MSG_REQUEST &&
+      dhcp_msg != HY_DHCP_MSG_RELEASE) {
+    return HY_ER_DHCP_MSG_UNSUPPORTED;
+  }
   /* Parse address patterns */
   if ((ret =
          hy_parse_pattern(
@@ -257,6 +263,6 @@ int
             sizeof(hy_dhcp_h_t) + dhcp_opt_len,
             ip_ttl,
             HY_BOOTP_OP_BOOTREQUEST);
-} /* hy_build_dhcp_request_packet */
+} /* hy_build_dhcp_packet */
 
 /* -------------------------------------------------------------------------- */

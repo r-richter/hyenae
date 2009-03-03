@@ -80,7 +80,7 @@ unsigned char*
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_build_dhcp_request_packet
+  hy_build_dhcp_packet
     (
       hy_pattern_t*,
       hy_pattern_t*,

@@ -458,7 +458,7 @@ void
       }
     } else if (params->att->type == HY_AT_T_DHCP_DISCOVER) {
       if ((params->res->ret =
-             hy_build_dhcp_request_packet(
+             hy_build_dhcp_packet(
                &params->att->src_pat,
                &params->att->dst_pat,
                &params->att->sec_src_pat,
@@ -472,7 +472,7 @@ void
       }
     } else if (params->att->type == HY_AT_T_DHCP_REQUEST) {
       if ((params->res->ret =
-             hy_build_dhcp_request_packet(
+             hy_build_dhcp_packet(
                &params->att->src_pat,
                &params->att->dst_pat,
                &params->att->sec_src_pat,
@@ -486,7 +486,7 @@ void
       }
     } else if (params->att->type == HY_AT_T_DHCP_RELEASE) {
       if ((params->res->ret =
-             hy_build_dhcp_request_packet(
+             hy_build_dhcp_packet(
                &params->att->src_pat,
                &params->att->dst_pat,
                &params->att->sec_src_pat,

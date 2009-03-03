@@ -505,6 +505,8 @@ const char*
     return "Wrong address pattern format (server identifier)";
   } else if (error == HY_ER_NO_TCP_FLAGS) {
     return "No TCP flags given";
+  } else if (error =0 HY_ER_DHCP_MSG_UNSUPPORTED) {
+    return "DHCP-Message type not supported";
   } else if (error == HY_ER_MAX_RA_PKT_LEN_EXCEED) {
     return "Maximum remote attack packet length exceeded (too long payload)";
   } else if (error == HY_ER_PR_MALFORMED_RAR_H) {
