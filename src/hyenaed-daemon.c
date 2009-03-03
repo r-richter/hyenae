@@ -467,11 +467,16 @@ void
   char tcp_flgs[1024];
 
   memset(buffer, 0, len);
-  sprintf(
-    buffer,
-    "%s  > Attack-Type: %s\n",
-    buffer,
-    hy_get_attack_name(attack->type));
+
+
+
+
+
+
+
+
+
+
   if (strlen(attack->src_pat.src) > 0) {
     sprintf(
       buffer,
@@ -522,9 +527,62 @@ void
   }
   sprintf(
     buffer,
-    "%s  > Payload length: %i\n",
+    "%s  > Attack-Type: %s\n",
     buffer,
-    attack->pay_len);
+    hy_get_attack_name(attack->type));
+  sprintf(
+    buffer,
+    "%s  > IP-Version-Assumption: %i\n",
+    buffer,
+    attack->ip_v_asm);
+  sprintf(
+    buffer,
+    "%s  > IP hop limit (TTL): %i\n",
+    buffer,
+    attack->ip_ttl);
+  if (attack->type == HY_AT_T_TCP) {
+    memset(tcp_flgs, 0, 1024);
+    if (attack->tcp_flgs & TH_FIN) {
+      strcat(tcp_flgs, "FIN ");
+    }
+    if (attack->tcp_flgs & TH_SYN) {
+      strcat(tcp_flgs, "SYN ");
+    }
+    if (attack->tcp_flgs & TH_RST) {
+      strcat(tcp_flgs, "RST ");
+    }
+    if (attack->tcp_flgs & TH_PUSH) {
+      strcat(tcp_flgs, "PSH ");
+    }
+    if (attack->tcp_flgs & TH_ACK) {
+      strcat(tcp_flgs, "ACK ");
+    }
+    sprintf(
+      buffer,
+      "%s  > TCP flags: %s\n",
+      buffer,
+      tcp_flgs);
+    sprintf(
+      buffer,
+      "%s  > TCP ack. number: %u\n",
+      buffer,
+      attack->tcp_ack);
+    sprintf(
+      buffer,
+      "%s  > TCP window size: %i\n",
+      buffer,
+      attack->tcp_wnd);
+    sprintf(
+      buffer,
+      "%s  > TCP seq. number: %u\n",
+      buffer,
+      attack->tcp_seq);
+    sprintf(
+      buffer,
+      "%s  > TCP seq. number incr. steps: %u\n",
+      buffer,
+      attack->tcp_seq_ins);
+  }
   sprintf(
     buffer,
     "%s  > Min-Count: %i\n",
@@ -557,57 +615,9 @@ void
     attack->max_dur);
   sprintf(
     buffer,
-    "%s  > IP hop limit (TTL): %i\n",
+    "%s  > Payload length: %i\n",
     buffer,
-    attack->ip_ttl);
-  if (attack->type == HY_AT_T_TCP) {
-    memset(tcp_flgs, 0, 1024);
-    if (attack->tcp_flgs & TH_FIN) {
-      strcat(tcp_flgs, "FIN ");
-    }
-    if (attack->tcp_flgs & TH_SYN) {
-      strcat(tcp_flgs, "SYN ");
-    }
-    if (attack->tcp_flgs & TH_RST) {
-      strcat(tcp_flgs, "RST ");
-    }
-    if (attack->tcp_flgs & TH_PUSH) {
-      strcat(tcp_flgs, "PSH ");
-    }
-    if (attack->tcp_flgs & TH_ACK) {
-      strcat(tcp_flgs, "ACK ");
-    }
-    sprintf(
-      buffer,
-      "%s  > TCP flags: %s\n",
-      buffer,
-      tcp_flgs);
-    sprintf(
-      buffer,
-      "%s  > TCP seq. number: %u\n",
-      buffer,
-      attack->tcp_seq);
-    sprintf(
-      buffer,
-      "%s  > TCP seq. number incr. steps: %u\n",
-      buffer,
-      attack->tcp_seq_ins);
-    sprintf(
-      buffer,
-      "%s  > TCP ack. number: %u\n",
-      buffer,
-      attack->tcp_ack);
-    sprintf(
-      buffer,
-      "%s  > TCP window size: %i\n",
-      buffer,
-      attack->tcp_wnd);
-  }
-  sprintf(
-    buffer,
-    "%s  > IP-Version-Assumption: %i\n",
-    buffer,
-    attack->ip_v_asm);
+    attack->pay_len);
   if (attack->ign_mtu == 1) {
     sprintf(
       buffer,
