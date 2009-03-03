@@ -136,7 +136,7 @@ int
             getopt(
               argc,
               argv,
-              "s:d:S:D:a:p:P:i:I:c:C:e:E:u:U:t:f:q:Q:k:w:A:r:R:mNlLV")) != -1) {
+              "s:d:S:D:i:I:r:R:a:A:t:f:k:w:q:Q:c:C:e:E:u:U:p:P:mNlLV")) != -1) {
     switch (opt) {
       case 's':
         if (strlen(optarg) > HY_PT_BUFLEN) {
@@ -162,9 +162,6 @@ int
         }
         strncpy(att.dst_pat.src, optarg, HY_PT_BUFLEN);
         break;
-      case 'a':
-        att.type = hy_get_attack_type_value(optarg);
-        break;
       case 'S':
         if (strlen(optarg) > HY_PT_BUFLEN) {
           hy_output(
@@ -189,39 +186,6 @@ int
         }
         strncpy(att.sec_dst_pat.src, optarg, HY_PT_BUFLEN);
         break;
-      case 'p':
-        att.pay_len = atoi(optarg);
-        if (att.pay_len < 1) {
-          hy_output(
-            stdout,
-            HY_OUT_T_ERROR,
-            0,
-            "Payload length can not be zero");
-          return -1;
-        }
-        att.pay = malloc(att.pay_len);
-        hy_randomize_buffer(att.pay, att.pay_len);
-        break;
-      case 'P':
-        hy_output(
-          stdout,
-          HY_OUT_T_TASK,
-          0,
-          "Loading payload file");
-        if ((ret =
-               hy_load_file_to_buffer(
-                 optarg,
-                 &att.pay,
-                 &att.pay_len)) != HY_ER_OK) {
-          hy_output(
-            stdout,
-            HY_OUT_T_ERROR,
-            0,
-            "%s",
-            hy_get_error_msg(ret));
-          return -1;
-        }
-        break;
       case 'i':
         if (if_n != NULL) {
           free(if_n);
@@ -233,69 +197,6 @@ int
         break;
       case 'I':
         if_i = atoi(optarg);
-        break;
-      case 'c':
-        att.min_cnt = atol(optarg);
-        break;
-      case 'C':
-        att.max_cnt = atol(optarg);
-        break;
-      case 'e':
-        att.min_del = atoi(optarg);
-        break;
-      case 'E':
-        att.max_del = atoi(optarg);
-        break;
-      case 'u':
-        att.min_dur = atol(optarg);
-        break;
-      case 'U':
-        att.max_dur= atol(optarg);
-        break;
-      case 't':
-        att.ip_ttl = atoi(optarg);
-        if (att.ip_ttl < 1) {
-          hy_output(
-            stdout,
-            HY_OUT_T_ERROR,
-            0,
-            "IP hop limit (TTL) can not be zero");
-          return -1;
-        } else if (att.ip_ttl > 255) {
-          hy_output(
-            stdout,
-            HY_OUT_T_ERROR,
-            0,
-            "IP hop limit (TTL) can not be greater than 255");
-          return -1;
-        }
-        break;
-      case 'f':
-        if ((ret =
-               hy_parse_tcp_flags(
-                 &att.tcp_flgs,
-                 optarg)) != HY_ER_OK) {
-          hy_output(
-            stdout,
-            HY_OUT_T_ERROR,
-            0,
-            hy_get_error_msg(ret));
-          return -1;
-        }
-      case 'q':
-        att.tcp_seq = atoi(optarg);
-        break;
-      case 'Q':
-        att.tcp_seq_ins = atoi(optarg);
-        break;
-      case 'k':
-        att.tcp_ack = atoi(optarg);
-        break;
-      case 'w':
-        att.tcp_wnd = atoi(optarg);
-        break;
-      case 'A':
-        att.ip_v_asm = atoi(optarg);
         break;
       case 'r':
         if (srv_lst != NULL) {
@@ -337,6 +238,105 @@ int
           return -1;
         }
         break;
+      case 'a':
+        att.type = hy_get_attack_type_value(optarg);
+        break;
+      case 'A':
+        att.ip_v_asm = atoi(optarg);
+        break;
+      case 't':
+        att.ip_ttl = atoi(optarg);
+        if (att.ip_ttl < 1) {
+          hy_output(
+            stdout,
+            HY_OUT_T_ERROR,
+            0,
+            "IP hop limit (TTL) can not be zero");
+          return -1;
+        } else if (att.ip_ttl > 255) {
+          hy_output(
+            stdout,
+            HY_OUT_T_ERROR,
+            0,
+            "IP hop limit (TTL) can not be greater than 255");
+          return -1;
+        }
+        break;
+      case 'f':
+        if ((ret =
+               hy_parse_tcp_flags(
+                 &att.tcp_flgs,
+                 optarg)) != HY_ER_OK) {
+          hy_output(
+            stdout,
+            HY_OUT_T_ERROR,
+            0,
+            hy_get_error_msg(ret));
+          return -1;
+        }
+      case 'k':
+        att.tcp_ack = atoi(optarg);
+        break;
+      case 'w':
+        att.tcp_wnd = atoi(optarg);
+        break;
+      case 'q':
+        att.tcp_seq = atoi(optarg);
+        break;
+      case 'Q':
+        att.tcp_seq_ins = atoi(optarg);
+        break;
+      case 'c':
+        att.min_cnt = atol(optarg);
+        break;
+      case 'C':
+        att.max_cnt = atol(optarg);
+        break;
+      case 'e':
+        att.min_del = atoi(optarg);
+        break;
+      case 'E':
+        att.max_del = atoi(optarg);
+        break;
+      case 'u':
+        att.min_dur = atol(optarg);
+        break;
+      case 'U':
+        att.max_dur= atol(optarg);
+        break;
+      case 'p':
+        att.pay_len = atoi(optarg);
+        if (att.pay_len < 1) {
+          hy_output(
+            stdout,
+            HY_OUT_T_ERROR,
+            0,
+            "Payload length can not be zero");
+          return -1;
+        }
+        att.pay = malloc(att.pay_len);
+        hy_randomize_buffer(att.pay, att.pay_len);
+        break;
+      case 'P':
+        hy_output(
+          stdout,
+          HY_OUT_T_TASK,
+          0,
+          "Loading payload file");
+        if ((ret =
+               hy_load_file_to_buffer(
+                 optarg,
+                 &att.pay,
+                 &att.pay_len)) != HY_ER_OK) {
+          hy_output(
+            stdout,
+            HY_OUT_T_ERROR,
+            0,
+            "%s",
+            hy_get_error_msg(ret));
+          return -1;
+        }
+        break;
       case 'm':
         att.ign_mtu = 1;
         break;
@@ -369,12 +369,12 @@ int
       default:
         printf(
           "usage: hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]\n"
-          "              [-a att-type] [-p rnd-payload] [-P payload-file]\n"
-          "              [-i if-n] [-I if-i] [-c min-cnt] [-C max-cnt]\n"
-          "              [-e min-del] [-E max-del] [-u min-dur] [-U max-dur]\n"
-          "              [-A ip-v-asm] [-t ip-ttl] [-r srv-pat] [-R srv-file]\n"
-          "              [-f tcp-flags] [-q tcp-seq] [-Q tcp-seq-ins]\n"
-          "              [-k tcp-ack] [-w tcp-win] [-mNlLV]\n");
+          "              [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]\n"
+          "              [-A ip-v-asm] [-t ip-ttl] [-f tcp-flags] [-k tcp-ack]\n"
+          "              [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins] [-c min-cnt]\n"
+          "              [-C max-cnt] [-e min-del] [-E max-del] [-u min-dur]\n"
+          "              [-U max-dur] [-p rnd-payload] [-P payload-file] [-mNlLV]\n"
+        );
         return -1;
     }
   }
