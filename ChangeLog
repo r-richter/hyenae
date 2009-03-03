@@ -14,6 +14,9 @@
 
 --------------------------------------------------------------------------------
 
+  Version 0.29-1 (?)
+    * Minor code refactoring
+
   Version 0.28-1 (Mar. 2nd, 2009)
     * Added DHCP-Request attack support
     * Added DHCP-Release attack support
