@@ -501,10 +501,14 @@ const char*
     return "Wrong address pattern format (destination)";
   } else if (error == HY_ER_WRONG_PT_FMT_SND) {
     return "Wrong address pattern format (sender)";
+  } else if (error == HY_ER_WRONG_PT_FMT_TCP_SRC) {
+    return "Wrong address pattern format (TCP source)";
   } else if (error == HY_ER_WRONG_PT_FMT_IP_REQ) {
     return "Wrong address pattern format (requested IP-Address)";
   } else if (error == HY_ER_WRONG_PT_FMT_TRG) {
     return "Wrong address pattern format (target)";
+  } else if (error == HY_ER_WRONG_PT_FMT_TCP_DST) {
+    return "Wrong address pattern format (TCP destination)";
   } else if (error == HY_ER_WRONG_PT_FMT_SRV_IP) {
     return "Wrong address pattern format (server identifier)";
   } else if (error == HY_ER_NO_TCP_FLAGS) {

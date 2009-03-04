@@ -472,6 +472,11 @@ void
                  tcp_seq,
                  params->att->tcp_ack,
                  0)) != HY_ER_OK) {
+            if (params->res->ret == HY_ER_WRONG_PT_FMT_SRC) {
+              params->res->ret = HY_ER_WRONG_PT_FMT_TCP_SRC;
+            } else if (params->res->ret == HY_ER_WRONG_PT_FMT_DST) {
+              params->res->ret = HY_ER_WRONG_PT_FMT_TCP_DST;
+            }
           break;
         }
         tmp_buf_len = pkt_len;
