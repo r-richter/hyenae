@@ -15,6 +15,7 @@
 --------------------------------------------------------------------------------
 
   High Priority
+    * Update installer packages
     * Add "Wrong address pattern format (TCP source / dest.)" error message
     * Make ICMP "Destination Unreachable" code case insensitive
     * Add ICMP-reset attack example to HOWTO
