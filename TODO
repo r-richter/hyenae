@@ -15,17 +15,18 @@
 --------------------------------------------------------------------------------
 
   High Priority
-    * Add ICMP "Destination Unreachable" message support
+    * Add DNS support
+    * Add PPPoE support
+    * Make ICMP "Destination Unreachable" code case insensitive
+    * Add ICMP-reset attack example to HOWTO
 
   Medium Priority
     * Add NDP support
-    * Add DNS support
-    * Add PPPoE support
     * Add ICMPv6 support
+    * Client/Daemon conversation encryption
 
   Low Priority
     * Add RTP support
     * Add LLDP support
-    * Client/Daemon conversation encryption
 
 --------------------------------------------------------------------------------
