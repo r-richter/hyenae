@@ -64,21 +64,25 @@
 
   hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]
          [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]
-         [-A ip-v-asm] [-t ip-ttl] [-f tcp-flags] [-k tcp-ack]
-         [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins] [-c min-cnt]
-         [-C max-cnt] [-e min-del] [-E max-del] [-u min-dur]
-         [-U max-dur] [-p rnd-payload] [-P payload-file] [-mNlLV]
+         [-A ip-v-asm] [-t ip-ttl] [-o icmp-unr-code] [-f tcp-flags]
+         [-k tcp-ack] [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins]
+         [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]
+         [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]
+         [-mNlLV]
 
     -s Source address pattern
 
     -d Destination address pattern
 
     -S Secondary source address pattern. Defines the sender address on ARP-Reply
-       attacks or the requested IP-Address on DHCP-Request attacks.
+       attacks, the requested IP-Address on DHCP-Request attacks and the TCP
+       source address pattern on TCP based ICMP "Destination Unreachable"
+       attacks.
 
     -D Secondary destination address pattern. Defines the target address on
-       ARP-Reply attacks or the server identifier (IP-Address) on DHCP-Release
-       attacks.
+       ARP-Reply attacks, the server identifier (IP-Address) on DHCP-Release
+       attacks  and the TCP destination address pattern on TCP based ICMP
+       "Destination Unreachable" attacks.
 
     -i Network interface to operate on (specified by name). This argument is
        ignored on remote attacks.
@@ -132,9 +136,24 @@
        value between 1 and 255. If not set, a hop limit size of 128 will be
        used.
 
+    -o ICMP "Destination Unreachable" message code. This is required on ICMP
+       "Destination Unreachable" attacks and defines the message code to set
+       for the generated packets. Valid values are:
+
+         network  (Network Unreachable)
+         host     (Host Unreachable)
+         protocol (Protocol Unreachable)
+         port     (Port Unreachable)
+
     -f TCP flags. This option is required on TCP attacks and defines the TCP
        control flags to set for the generated packets. Valid values are any
-       combination of: F (FIN), S (SYN), R (RST), P (PSH), A (ACK)
+       combination of:
+
+         F (FIN)
+         S (SYN)
+         R (RST)
+         P (PSH)
+         A (ACK)
 
     -k TCP acknowledgement number. Defines the TCP acknowledgement number to use
        on TCP based attacks. If not set or set to 0, an acknowledgement number
@@ -361,32 +380,60 @@
   hyenae -a icmp-echo
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [HW-Address]-[IP-Address (IPv4 only)]
+  Optional:
+         -t [IP Time To Live (TTL)]
+
+  hyenae -a icmp-unreach-tcp
+         -s [HW-Address]-[IP-Address (IPv4 only)]
+         -d [HW-Address]-[IP-Address (IPv4 only)]
+         -S [HW-Address]-[IP-Address (IPv4 only)]@[Port]
+         -D [HW-Address]-[IP-Address (IPv4 only)]@[Port]
+         -o [Unreachable Code]
+  Optional:
+         -t [IP Time To Live (TTL)]
+         -k [TCP Achnkowledgement Number]
+         -w [TCP Window Size]
+         -q [TCP Sequence Number Offset]
+         -Q [TCP Sequence Number Incrementation Steps]
 
   hyenae -a tcp
          -s [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
          -d [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
          -f [TCP-Flags]
+  Optional:
+         -t [IP Time To Live (TTL)]
+         -k [TCP Achnkowledgement Number]
+         -w [TCP Window Size]
+         -q [TCP Sequence Number Offset]
+         -Q [TCP Sequence Number Incrementation Steps]
 
   hyenae -a udp
          -s [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
          -d [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
+  Optional:
+         -t [IP Time To Live (TTL)]
 
   hyenae -a dhcp-discover
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [HW-Address]-[IP-Address (IPv4 only)]
   Optional:
-        -S [IP-Address (IPv4 only)]
+         -t [IP Time To Live (TTL)]
+         -S [IP-Address (IPv4 only)]
 
   hyenae -a dhcp-request
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [HW-Address]-[IP-Address (IPv4 only)]
          -D [IP-Address (IPv4 only)]
   Optional:
-        -S [IP-Address (IPv4 only)]
+         -t [IP Time To Live (TTL)]
+         -S [IP-Address (IPv4 only)]
 
   hyenae -a dhcp-release
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [HW-Address]-[IP-Address (IPv4 only)]
          -D [IP-Address (IPv4 only)]
+  Optional:
+         -t [IP Time To Live (TTL)]
+
 
 --------------------------------------------------------------------------------
