@@ -525,11 +525,14 @@ void
     "%s  > IP-Version-Assumption: %i\n",
     buffer,
     attack->ip_v_asm);
-  sprintf(
-    buffer,
-    "%s  > IP hop limit (TTL): %i\n",
-    buffer,
-    attack->ip_ttl);
+  if (attack->type != HY_AT_T_ARP_REQUEST &&
+      attack->type != HY_AT_T_ARP_REPLY) {
+    sprintf(
+      buffer,
+      "%s  > IP hop limit (TTL): %i\n",
+      buffer,
+      attack->ip_ttl);
+  }
   if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
     memset(tmp, 0, 1024);
     switch(attack->icmp_unr_code) {
@@ -572,7 +575,7 @@ void
       "%s  > TCP ack. number: %u\n",
       buffer,
       attack->tcp_ack);
-    if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
+    if (attack->type == HY_AT_T_TCP) {
       memset(tmp, 0, 1024);
       if (attack->tcp_flgs & TH_FIN) {
         strcat(tmp, "FIN ");
