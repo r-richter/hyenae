@@ -474,9 +474,6 @@ void
                  0)) != HY_ER_OK) {
           break;
         }
-        if (tmp_buf != NULL) {
-          free(tmp_buf);
-        }
         tmp_buf_len = pkt_len;
         tmp_buf = malloc(tmp_buf_len);
         memset(tmp_buf, 0, tmp_buf_len);
@@ -493,8 +490,10 @@ void
                  IP_PROTO_TCP,
                  params->att->ip_ttl,
                  params->att->icmp_unr_code)) != HY_ER_OK) {
+          free(tmp_buf);
           break;
         }
+        free(tmp_buf);
       } else {
         if ((params->res->ret =
                hy_build_tcp_packet(
