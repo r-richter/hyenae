@@ -45,6 +45,8 @@ int
     return HY_AT_T_ARP_REPLY;
   } else if (strcmp(name, "icmp-echo") == 0) {
     return HY_AT_T_ICMP_ECHO;
+  } else if (strcmp(name, "icmp-unreach-tcp") == 0) {
+    return HY_AT_T_ICMP_UNREACH_TCP;
   } else if (strcmp(name, "tcp") == 0) {
     return HY_AT_T_TCP;
   } else if (strcmp(name, "udp") == 0) {
@@ -79,6 +81,8 @@ const char*
       return "arp-reply";
     case HY_AT_T_ICMP_ECHO:
       return "icmp-echo";
+    case HY_AT_T_ICMP_UNREACH_TCP:
+      return "icmp-unreach-tcp";
     case HY_AT_T_TCP:
       return "tcp";
     case HY_AT_T_UDP:
@@ -199,29 +203,51 @@ void
     return;
   }
   if (attack->type == HY_AT_T_ARP_REPLY ||
-      attack->type == HY_AT_T_ARP_REQUEST) {
+      attack->type == HY_AT_T_ARP_REQUEST ||
+      attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
     if (strlen(attack->sec_src_pat.src) == 0) {
-      if (attack->type == HY_AT_T_ARP_REPLY ||
-          attack->type == HY_AT_T_ARP_REQUEST) {
-        result->ret = HY_ER_NO_SND_PT_GIVEN;
-      } else {
-        result->ret = HY_ER_NO_IP_REQ_GIVEN;
+      switch (attack->type) {
+        case HY_AT_T_ARP_REPLY:
+          result->ret = HY_ER_NO_SND_PT_GIVEN;
+          return;
+        case HY_AT_T_ARP_REQUEST:
+          result->ret = HY_ER_NO_SND_PT_GIVEN;
+          return;
+        case HY_AT_T_ICMP_UNREACH_TCP:
+          result->ret = HY_ER_NO_TCP_SRC_PT_GIVEN;
+          return;
+        default:
+          result->ret = HY_ER_UNKNOWN;
+          return;
       }
-      return;
     }
   }
   if (attack->type == HY_AT_T_ARP_REPLY ||
       attack->type == HY_AT_T_ARP_REQUEST ||
+      attack->type == HY_AT_T_ICMP_UNREACH_TCP ||
       attack->type == HY_AT_T_DHCP_REQUEST ||
       attack->type == HY_AT_T_DHCP_RELEASE) {
     if (strlen(attack->sec_dst_pat.src) == 0) {
-      if (attack->type == HY_AT_T_ARP_REPLY ||
-          attack->type == HY_AT_T_ARP_REQUEST) {
-        result->ret = HY_ER_NO_TRG_PT_GIVEN;
-      } else {
-        result->ret = HY_ER_NO_SRV_IP_GIVEN;
+      switch (attack->type) {
+        case HY_AT_T_ARP_REPLY:
+          result->ret = HY_ER_NO_TRG_PT_GIVEN;
+          return;
+        case HY_AT_T_ARP_REQUEST:
+          result->ret = HY_ER_NO_TRG_PT_GIVEN;
+          return;
+        case HY_AT_T_ICMP_UNREACH_TCP:
+          result->ret = HY_ER_NO_TCP_DST_PT_GIVEN;
+          return;
+        case HY_AT_T_DHCP_REQUEST:
+          result->ret = HY_ER_NO_SRV_IP_GIVEN;
+          return;
+        case HY_AT_T_DHCP_RELEASE:
+          result->ret = HY_ER_NO_SRV_IP_GIVEN;
+          return;
+        default:
+          result->ret = HY_ER_UNKNOWN;
+          return;
       }
-      return;
     }
   }
   /* Set packet count */
@@ -345,6 +371,8 @@ void
   unsigned long tcp_seq = 0;
   unsigned long dur_start = 0;
   unsigned long dur_stop = 0;
+  unsigned int tmp_buf_len = 0;
+  unsigned char* tmp_buf = NULL;
 
   if (params->att->min_dur > 0 ||
       params->att->max_dur > 0) {
@@ -357,6 +385,7 @@ void
   if (params->att->pay_len > 0 &&
       (params->att->type == HY_AT_T_ARP_REQUEST ||
        params->att->type == HY_AT_T_ARP_REPLY ||
+       params->att->type == HY_AT_T_ICMP_UNREACH_TCP ||
        params->att->type == HY_AT_T_DHCP_REQUEST)) {
     params->res->ret = HY_ER_PKT_PAY_UNSUPPORTED;
     params->run_stat = HY_RUN_STAT_STOPPED;
@@ -413,7 +442,8 @@ void
                params->att->ip_ttl)) != HY_ER_OK) {
         break;
       }
-    } else if (params->att->type == HY_AT_T_TCP) {
+    } else if (params->att->type == HY_AT_T_TCP ||
+                params->att->type == HY_AT_T_ICMP_UNREACH_TCP) {
       if (params->att->tcp_seq == 0) {
         if (params->att->tcp_seq_ins == 0 || tcp_seq == 0) {
           tcp_seq =
@@ -427,21 +457,61 @@ void
           params->res->pkt_cnt > 0) {
         tcp_seq = tcp_seq + params->att->tcp_seq_ins;
       }
-      if ((params->res->ret =
-             hy_build_tcp_packet(
-               &params->att->src_pat,
-               &params->att->dst_pat,
-               params->att->ip_v_asm,
-               &params->pkt_buf,
-               &pkt_len,
-               params->att->pay,
-               params->att->pay_len,
-               params->att->ip_ttl,
-               params->att->tcp_flgs,
-               tcp_seq        ,
-               params->att->tcp_ack,
-               params->att->tcp_wnd)) != HY_ER_OK) {
-        break;
+      if (params->att->type == HY_AT_T_ICMP_UNREACH_TCP) {
+        if ((params->res->ret =
+               hy_build_tcp_packet(
+                 &params->att->sec_src_pat,
+                 &params->att->sec_dst_pat,
+                 params->att->ip_v_asm,
+                 &params->pkt_buf,
+                 &pkt_len,
+                 params->att->pay,
+                 params->att->pay_len,
+                 params->att->ip_ttl,
+                 TH_SYN,
+                 tcp_seq,
+                 params->att->tcp_ack,
+                 0)) != HY_ER_OK) {
+          break;
+        }
+        if (tmp_buf != NULL) {
+          free(tmp_buf);
+        }
+        tmp_buf_len = pkt_len;
+        tmp_buf = malloc(tmp_buf_len);
+        memset(tmp_buf, 0, tmp_buf_len);
+        memcpy(tmp_buf, params->pkt_buf, tmp_buf_len);
+        if ((params->res->ret =
+               hy_build_icmp_unreach_packet(
+                 &params->att->src_pat,
+                 &params->att->dst_pat,
+                 params->att->ip_v_asm,
+                 &params->pkt_buf,
+                 &pkt_len,
+                 tmp_buf + sizeof(eth_h_t),
+                 tmp_buf_len - sizeof(eth_h_t),
+                 IP_PROTO_TCP,
+                 params->att->ip_ttl,
+                 params->att->icmp_unr_code)) != HY_ER_OK) {
+          break;
+        }
+      } else {
+        if ((params->res->ret =
+               hy_build_tcp_packet(
+                 &params->att->src_pat,
+                 &params->att->dst_pat,
+                 params->att->ip_v_asm,
+                 &params->pkt_buf,
+                 &pkt_len,
+                 params->att->pay,
+                 params->att->pay_len,
+                 params->att->ip_ttl,
+                 params->att->tcp_flgs,
+                 tcp_seq,
+                 params->att->tcp_ack,
+                 params->att->tcp_wnd)) != HY_ER_OK) {
+          break;
+        }
       }
     } else if (params->att->type == HY_AT_T_UDP) {
       if ((params->res->ret =

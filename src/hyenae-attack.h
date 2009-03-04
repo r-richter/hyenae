@@ -43,15 +43,16 @@
 #define HY_MTU_LIMIT 1500
 
 /* Attack types */
-#define HY_AT_T_UNKNOWN      -1
-#define HY_AT_T_ARP_REQUEST   1
-#define HY_AT_T_ARP_REPLY     2
-#define HY_AT_T_ICMP_ECHO     3
-#define HY_AT_T_TCP           4
-#define HY_AT_T_UDP           5
-#define HY_AT_T_DHCP_DISCOVER 6
-#define HY_AT_T_DHCP_REQUEST  7
-#define HY_AT_T_DHCP_RELEASE  8
+#define HY_AT_T_UNKNOWN         -1
+#define HY_AT_T_ARP_REQUEST      1
+#define HY_AT_T_ARP_REPLY        2
+#define HY_AT_T_ICMP_ECHO        3
+#define HY_AT_T_ICMP_UNREACH_TCP 4
+#define HY_AT_T_TCP              5
+#define HY_AT_T_UDP              6
+#define HY_AT_T_DHCP_DISCOVER    7
+#define HY_AT_T_DHCP_REQUEST     8
+#define HY_AT_T_DHCP_RELEASE     9
 
 /* Turncation flags */
 #define HY_TC_NONE    0
@@ -85,6 +86,7 @@ typedef
   unsigned long min_dur;
   unsigned long max_dur;
   unsigned int ip_ttl;
+  unsigned int icmp_unr_code;
   unsigned int tcp_flgs;
   unsigned long tcp_seq;
   unsigned long tcp_seq_ins;

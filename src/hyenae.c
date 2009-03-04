@@ -53,6 +53,46 @@ void
 /* -------------------------------------------------------------------------- */
 
 int
+  hy_parse_icmp_unreach_code
+    (
+      unsigned int* icmp_unreach_code,
+      const char* icmp_unreach_code_string
+    ) {
+
+  /*
+   * USAGE:
+   *   Parses the given ICMP "Destination
+   *   Unreachable" code string and applies
+   *   it to the given integer buffer.
+   */
+
+  int ret = HY_ER_OK;
+
+  if (strcmp(
+        icmp_unreach_code_string,
+        "network") == 0) {
+    *icmp_unreach_code = ICMP_UNREACH_NET;
+  } else if (strcmp(
+                icmp_unreach_code_string,
+                "host") == 0) {
+    *icmp_unreach_code = ICMP_UNREACH_HOST;
+  } else if (strcmp(
+                icmp_unreach_code_string,
+                "protocol") == 0) {
+    *icmp_unreach_code = ICMP_UNREACH_PROTO;
+  } else if (strcmp(
+                icmp_unreach_code_string,
+                "port") == 0) {
+    *icmp_unreach_code = ICMP_UNREACH_PORT;
+  } else {
+    ret = HY_ER_ICMP_UNR_CODE_UNKNOWN;
+  }
+  return ret;
+} /* hy_parse_icmp_unreach_code */
+
+/* -------------------------------------------------------------------------- */
+
+int
   hy_parse_tcp_flags
     (
       unsigned int* tcp_flags,
@@ -119,8 +159,8 @@ int
     0,
     "Initializing");
   memset(&att, 0, sizeof(hy_attack_t));
-  att.ip_ttl = 128;
   att.ip_v_asm = HY_AD_T_IP_V4;
+  att.ip_ttl = 128;
   att.pay = NULL;
   if ((ret = hy_initialize()) != HY_ER_OK) {
     hy_output(
@@ -136,7 +176,7 @@ int
             getopt(
               argc,
               argv,
-              "s:d:S:D:i:I:r:R:a:A:t:f:k:w:q:Q:c:C:e:E:u:U:p:P:mNlLV")) != -1) {
+              "s:d:S:D:i:I:r:R:a:A:t:o:f:k:w:q:Q:c:C:e:E:u:U:p:P:mNlLV")) != -1) {
     switch (opt) {
       case 's':
         if (strlen(optarg) > HY_PT_BUFLEN) {
@@ -262,6 +302,19 @@ int
           return -1;
         }
         break;
+      case 'o':
+        if ((ret =
+               hy_parse_icmp_unreach_code(
+                 &att.icmp_unr_code,
+                 optarg)) != HY_ER_OK) {
+          hy_output(
+            stdout,
+            HY_OUT_T_ERROR,
+            0,
+            hy_get_error_msg(ret));
+          return -1;
+        }
+        break;
       case 'f':
         if ((ret =
                hy_parse_tcp_flags(
@@ -370,10 +423,11 @@ int
         printf(
           "usage: hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]\n"
           "              [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]\n"
-          "              [-A ip-v-asm] [-t ip-ttl] [-f tcp-flags] [-k tcp-ack]\n"
-          "              [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins] [-c min-cnt]\n"
-          "              [-C max-cnt] [-e min-del] [-E max-del] [-u min-dur]\n"
-          "              [-U max-dur] [-p rnd-payload] [-P payload-file] [-mNlLV]\n"
+          "              [-A ip-v-asm] [-t ip-ttl] [-o icmp-unr-code] [-f tcp-flags]\n"
+          "              [-k tcp-ack] [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins]\n"
+          "              [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]\n"
+          "              [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]\n"
+          "              [-mNlLV]\n"
         );
         return -1;
     }

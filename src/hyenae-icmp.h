@@ -48,4 +48,21 @@ int
 
 /* -------------------------------------------------------------------------- */
 
+int
+  hy_build_icmp_unreach_packet
+    (
+      hy_pattern_t*,
+      hy_pattern_t*,
+      int,
+      unsigned char**,
+      int*,
+      unsigned char*,
+      int,
+      unsigned int,
+      unsigned int,
+      unsigned int
+    );
+
+/* -------------------------------------------------------------------------- */
+
 #endif /* HYENAE_ICMP_H */

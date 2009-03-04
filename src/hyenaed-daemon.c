@@ -464,19 +464,9 @@ void
    *   attack parameters to the given buffer.
    */
 
-  char tcp_flgs[1024];
+  char tmp[1024];
 
   memset(buffer, 0, len);
-
-
-
-
-
-
-
-
-
-
   if (strlen(attack->src_pat.src) > 0) {
     sprintf(
       buffer,
@@ -540,38 +530,33 @@ void
     "%s  > IP hop limit (TTL): %i\n",
     buffer,
     attack->ip_ttl);
-  if (attack->type == HY_AT_T_TCP) {
-    memset(tcp_flgs, 0, 1024);
-    if (attack->tcp_flgs & TH_FIN) {
-      strcat(tcp_flgs, "FIN ");
+  if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
+    memset(tmp, 0, 1024);
+    switch(attack->icmp_unr_code) {
+      case ICMP_UNREACH_NET:
+        strncpy(tmp, "Network", 1024);
+        break;
+      case ICMP_UNREACH_HOST:
+        strncpy(tmp, "Host", 1024);
+        break;
+      case ICMP_UNREACH_PROTO:
+        strncpy(tmp, "Protocol", 1024);
+        break;
+      case ICMP_UNREACH_PORT:
+        strncpy(tmp, "Port", 1024);
+        break;
+      default:
+        strncpy(tmp, "Unknown", 1024);
+        break;
     }
-    if (attack->tcp_flgs & TH_SYN) {
-      strcat(tcp_flgs, "SYN ");
-    }
-    if (attack->tcp_flgs & TH_RST) {
-      strcat(tcp_flgs, "RST ");
-    }
-    if (attack->tcp_flgs & TH_PUSH) {
-      strcat(tcp_flgs, "PSH ");
-    }
-    if (attack->tcp_flgs & TH_ACK) {
-      strcat(tcp_flgs, "ACK ");
-    }
-    sprintf(
-      buffer,
-      "%s  > TCP flags: %s\n",
-      buffer,
-      tcp_flgs);
-    sprintf(
-      buffer,
-      "%s  > TCP ack. number: %u\n",
-      buffer,
-      attack->tcp_ack);
-    sprintf(
-      buffer,
-      "%s  > TCP window size: %i\n",
-      buffer,
-      attack->tcp_wnd);
+  sprintf(
+    buffer,
+    "%s  > ICMP \"Destination Unreachable\" Code: %s\n",
+    buffer,
+    tmp);
+  }
+  if (attack->type == HY_AT_T_TCP ||
+      attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
     sprintf(
       buffer,
       "%s  > TCP seq. number: %u\n",
@@ -582,6 +567,39 @@ void
       "%s  > TCP seq. number incr. steps: %u\n",
       buffer,
       attack->tcp_seq_ins);
+    sprintf(
+      buffer,
+      "%s  > TCP ack. number: %u\n",
+      buffer,
+      attack->tcp_ack);
+    if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
+      memset(tmp, 0, 1024);
+      if (attack->tcp_flgs & TH_FIN) {
+        strcat(tmp, "FIN ");
+      }
+      if (attack->tcp_flgs & TH_SYN) {
+        strcat(tmp, "SYN ");
+      }
+      if (attack->tcp_flgs & TH_RST) {
+        strcat(tmp, "RST ");
+      }
+      if (attack->tcp_flgs & TH_PUSH) {
+        strcat(tmp, "PSH ");
+      }
+      if (attack->tcp_flgs & TH_ACK) {
+        strcat(tmp, "ACK ");
+      }
+      sprintf(
+        buffer,
+        "%s  > TCP flags: %s\n",
+        buffer,
+        tmp);
+      sprintf(
+        buffer,
+        "%s  > TCP window size: %i\n",
+        buffer,
+        attack->tcp_wnd);
+    }
   }
   sprintf(
     buffer,

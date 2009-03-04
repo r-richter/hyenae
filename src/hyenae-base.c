@@ -473,10 +473,14 @@ const char*
     return "No destination pattern given";
   } else if (error == HY_ER_NO_SND_PT_GIVEN) {
     return "No sender pattern given";
+  } else if (error == HY_ER_NO_TCP_SRC_PT_GIVEN) {
+    return "No TCP source pattern given";
   } else if (error == HY_ER_NO_IP_REQ_GIVEN) {
     return "No \"Requested IP-Address\" pattern given";
   } else if (error == HY_ER_NO_TRG_PT_GIVEN) {
     return "No target pattern given";
+  } else if (error == HY_ER_NO_TCP_DST_PT_GIVEN) {
+    return "No TCP destination pattern given";
   } else if (error == HY_ER_NO_SRV_IP_GIVEN) {
     return "No server identifier pattern given";
   } else if (error == HY_ER_PKT_PAY_UNSUPPORTED) {
@@ -505,7 +509,7 @@ const char*
     return "Wrong address pattern format (server identifier)";
   } else if (error == HY_ER_NO_TCP_FLAGS) {
     return "No TCP flags given";
-  } else if (error =0 HY_ER_DHCP_MSG_UNSUPPORTED) {
+  } else if (error == HY_ER_DHCP_MSG_UNSUPPORTED) {
     return "DHCP-Message type not supported";
   } else if (error == HY_ER_MAX_RA_PKT_LEN_EXCEED) {
     return "Maximum remote attack packet length exceeded (too long payload)";
@@ -543,6 +547,8 @@ const char*
     return "Requested packet count exceeds daemon limit";
   } else if (error == HY_ER_CLI_DUR_LMT_EXCEED) {
     return "Requested atack duration exceeds daemon limit";
+  } else if (error == HY_ER_ICMP_UNR_CODE_UNKNOWN) {
+    return "Unknown ICMP \"Destination Unreachable\" code";
   } else if (error == HY_ER_TCP_FLG_UNKNOWN) {
     return "TCP flag pattern contains an unknown flag";
   } else {
