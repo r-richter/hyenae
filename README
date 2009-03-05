@@ -136,7 +136,7 @@
        value between 1 and 255. If not set, a hop limit size of 128 will be
        used.
 
-    -o ICMP "Destination Unreachable" message code. This is required on ICMP
+    -o ICMP "Destination Unreachable" message code. This is optional on ICMP
        "Destination Unreachable" attacks and defines the message code to set
        for the generated packets. Valid values are:
 
@@ -144,6 +144,8 @@
          host     (Host Unreachable)
          protocol (Protocol Unreachable)
          port     (Port Unreachable)
+
+       If not set, the message code "Network Unreachable" will be used.
 
     -f TCP flags. This option is required on TCP attacks and defines the TCP
        control flags to set for the generated packets. Valid values are any

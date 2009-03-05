@@ -131,7 +131,7 @@ subject to change without prior notice.
       a hop limit size of 128 will be used.
 
 \fB-o\fR    ICMP "Destination Unreachable"
-      message code. This is required on ICMP
+      message code. This is optional on ICMP
       "Destination Unreachable" attacks and
       defines the message code to set for
       the generated packets. Valid values
@@ -141,6 +141,9 @@ subject to change without prior notice.
         \fBhost\fR     (Host Unreachable)
         \fBprotocol\fR (Protocol Unreachable)
         \fBport\fR     (Port Unreachable)
+
+      If not set, the message code "Network
+      Unreachable" will be used.
 
 \fB-f\fR    TCP flags. This option is
       required on TCP attacks and defines
