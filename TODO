@@ -15,15 +15,17 @@
 --------------------------------------------------------------------------------
 
   High Priority
-    * Add DNS support
-    * Add PPPoE support
+    * Add IP-ID offset and step argument
+    * Add port incrementation possibility
 
   Medium Priority
-    * Add NDP support
+    * Add DNS support
     * Add ICMPv6 support
     * Client/Daemon conversation encryption
 
   Low Priority
+    * Add PPPoE support
+    * Add NDP support
     * Add RTP support
     * Add LLDP support
 
