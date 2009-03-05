@@ -192,6 +192,216 @@ int
 
 /* -------------------------------------------------------------------------- */
 
+char*
+  hy_str_to_lower
+    (
+      char* string,
+      int len
+    ) {
+
+  /*
+   * USAGE:
+   *   Converts a string to lower
+   *   case characters.
+   */
+
+  int i = 0;
+
+  while (i < len) {
+    switch(*(string + i)) {
+      case 'A':
+        *(string + i) = 'a';
+        break;
+      case 'B':
+        *(string + i) = 'b';
+        break;
+      case 'C':
+        *(string + i) = 'c';
+        break;
+      case 'D':
+        *(string + i) = 'd';
+        break;
+      case 'E':
+        *(string + i) = 'e';
+        break;
+      case 'F':
+        *(string + i) = 'f';
+        break;
+      case 'G':
+        *(string + i) = 'g';
+        break;
+      case 'H':
+        *(string + i) = 'h';
+        break;
+      case 'I':
+        *(string + i) = 'i';
+        break;
+      case 'J':
+        *(string + i) = 'j';
+        break;
+      case 'K':
+        *(string + i) = 'k';
+        break;
+      case 'L':
+        *(string + i) = 'l';
+        break;
+      case 'M':
+        *(string + i) = 'm';
+        break;
+      case 'N':
+        *(string + i) = 'n';
+        break;
+      case 'O':
+        *(string + i) = 'o';
+        break;
+      case 'P':
+        *(string + i) = 'p';
+        break;
+      case 'Q':
+        *(string + i) = 'q';
+        break;
+      case 'R':
+        *(string + i) = 'r';
+        break;
+      case 'S':
+        *(string + i) = 's';
+        break;
+      case 'T':
+        *(string + i) = 't';
+        break;
+      case 'U':
+        *(string + i) = 'u';
+        break;
+      case 'V':
+        *(string + i) = 'v';
+        break;
+      case 'W':
+        *(string + i) = 'w';
+        break;
+      case 'X':
+        *(string + i) = 'x';
+        break;
+      case 'Y':
+        *(string + i) = 'y';
+        break;
+      case 'Z':
+        *(string + i) = 'z';
+        break;
+      default:
+        break;
+    }
+    i = i + 1;
+  }
+  return string;
+} /* hy_str_to_lower */
+
+/* -------------------------------------------------------------------------- */
+
+char*
+  hy_str_to_upper
+    (
+      char* string,
+      int len
+    ) {
+
+  /*
+   * USAGE:
+   *   Converts a string to upper
+   *   case characters.
+   */
+
+  int i = 0;
+
+  while (i < len) {
+    switch(*(string + i)) {
+      case 'a':
+        *(string + i) = 'A';
+        break;
+      case 'b':
+        *(string + i) = 'B';
+        break;
+      case 'c':
+        *(string + i) = 'C';
+        break;
+      case 'd':
+        *(string + i) = 'D';
+        break;
+      case 'e':
+        *(string + i) = 'E';
+        break;
+      case 'f':
+        *(string + i) = 'F';
+        break;
+      case 'g':
+        *(string + i) = 'G';
+        break;
+      case 'h':
+        *(string + i) = 'H';
+        break;
+      case 'i':
+        *(string + i) = 'I';
+        break;
+      case 'j':
+        *(string + i) = 'J';
+        break;
+      case 'k':
+        *(string + i) = 'K';
+        break;
+      case 'l':
+        *(string + i) = 'L';
+        break;
+      case 'm':
+        *(string + i) = 'M';
+        break;
+      case 'n':
+        *(string + i) = 'N';
+        break;
+      case 'o':
+        *(string + i) = 'O';
+        break;
+      case 'p':
+        *(string + i) = 'P';
+        break;
+      case 'q':
+        *(string + i) = 'Q';
+        break;
+      case 'r':
+        *(string + i) = 'R';
+        break;
+      case 's':
+        *(string + i) = 'S';
+        break;
+      case 't':
+        *(string + i) = 'T';
+        break;
+      case 'u':
+        *(string + i) = 'U';
+        break;
+      case 'v':
+        *(string + i) = 'V';
+        break;
+      case 'w':
+        *(string + i) = 'W';
+        break;
+      case 'x':
+        *(string + i) = 'X';
+        break;
+      case 'y':
+        *(string + i) = 'Y';
+        break;
+      case 'z':
+        *(string + i) = 'Z';
+        break;
+      default:
+        break;
+    }
+    i = i + 1;
+  }
+  return string;
+} /* hy_str_to_upper */
+
+/* -------------------------------------------------------------------------- */
+
 int
   hy_random
     (
