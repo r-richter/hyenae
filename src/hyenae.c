@@ -55,8 +55,8 @@ void
 int
   hy_parse_icmp_unreach_code
     (
-      unsigned int* icmp_unreach_code,
-      const char* icmp_unreach_code_string
+      unsigned int* code,
+      const char* code_string
     ) {
 
   /*
@@ -67,23 +67,32 @@ int
    */
 
   int ret = HY_ER_OK;
+  int len = strlen(code_string);
 
   if (strcmp(
-        icmp_unreach_code_string,
+        hy_str_to_lower(
+          code_string,
+          len),
         "network") == 0) {
-    *icmp_unreach_code = ICMP_UNREACH_NET;
+    *code = ICMP_UNREACH_NET;
   } else if (strcmp(
-                icmp_unreach_code_string,
+                hy_str_to_lower(
+                  (char*) code_string,
+                  len),
                 "host") == 0) {
-    *icmp_unreach_code = ICMP_UNREACH_HOST;
+    *code = ICMP_UNREACH_HOST;
   } else if (strcmp(
-                icmp_unreach_code_string,
+                hy_str_to_lower(
+                  (char*) code_string,
+                  len),
                 "protocol") == 0) {
-    *icmp_unreach_code = ICMP_UNREACH_PROTO;
+    *code = ICMP_UNREACH_PROTO;
   } else if (strcmp(
-                icmp_unreach_code_string,
+                hy_str_to_lower(
+                  (char*) code_string,
+                  len),
                 "port") == 0) {
-    *icmp_unreach_code = ICMP_UNREACH_PORT;
+    *code = ICMP_UNREACH_PORT;
   } else {
     ret = HY_ER_ICMP_UNR_CODE_UNKNOWN;
   }
