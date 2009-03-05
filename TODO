@@ -15,7 +15,6 @@
 --------------------------------------------------------------------------------
 
   High Priority
-    * Add ICMP-reset attack example to HOWTO
     * Add DNS support
     * Add PPPoE support
 
