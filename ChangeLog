@@ -16,7 +16,7 @@
 
   Version 0.29-1 (?)
     * Minor code refactoring
-    * Rearranged / Extended documentation
+    * Rearranged / extended / corrected documentation
     * Added TCP based ICMP "Destination Unreachable" support
 
   Version 0.28-1 (Mar. 2nd, 2009)
