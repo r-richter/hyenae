@@ -74,10 +74,10 @@ subject to change without prior notice.
       following pattern format:
 
         // For plain connections
-        [HW-Address]@[IP-Address]
+        [IP-Address]@[Port]
 
         // For password protected daemons
-        [HW-Address]@[IP-Address]+[Password]
+        [IP-Address]@[Port]+[Password]
 
       Hyenae will automatically recognize
       the provided IP address version.
@@ -99,8 +99,8 @@ subject to change without prior notice.
        should have the following format:
 
         # Comment
-        Server=[HW-Address]@[IP-Address]
-        Server=[HW-Address]@[IP-Address]+[Password]
+        Server=[IP-Address]@[Port]
+        Server=[IP-Address]@[Port]+[Password]
         ...
 
       Hyenae will automatically recognize

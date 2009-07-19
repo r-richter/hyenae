@@ -97,10 +97,10 @@
        server address pattern has the following pattern format:
 
          // For plain connections
-         [HW-Address]@[IP-Address]
+         [IP-Address]@[Port]
 
          // For password protected daemons
-         [HW-Address]@[IP-Address]+[Password]
+         [IP-Address]@[Port]+[Password]
 
        Hyenae will automatically recognize the provided IP address version.
        Wildcards are not valid within server address patterns. The password
@@ -114,8 +114,8 @@
        the given path. A server list file should have the following format:
 
          # Comment
-         Server=[HW-Address]@[IP-Address]
-         Server=[HW-Address]@[IP-Address]+[Password]
+         Server=[IP-Address]@[Port]
+         Server=[IP-Address]@[Port]+[Password]
          ...
 
        Hyenae will automatically recognize the version of the IP address
