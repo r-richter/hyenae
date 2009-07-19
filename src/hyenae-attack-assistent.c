@@ -149,7 +149,7 @@ int
     } else {
       /* Enter server address pattern */
       printf("\nEnter server address pattern\n");
-      printf("ex. [IP-Address]@[Port] or [IP-Address]@[Port]+[Password]:\n> ");
+      printf("[IP-Address]@[Port] or [IP-Address]@[Port]+[Password]:\n> ");
       scanf("%s", srv_pat);
       if (*server_lst != NULL) {
         free(*server_lst);
@@ -191,11 +191,15 @@ int
       /* ICMP-Echo Flood */
       attack->type = HY_AT_T_ICMP_ECHO;
       printf("\nEnter source address pattern\n");
-      printf("ex. [HW-Address]-[IP-Address]:\n> ");
+      printf("[HW-Address]-[IP-Address]:\n> ");
       scanf("%s", attack->src_pat.src);
       printf("\nEnter destination address pattern\n");
-      printf("ex. [HW-Address]-[IP-Address]:\n> ");
+      printf("[HW-Address]-[IP-Address]:\n> ");
       scanf("%s", attack->dst_pat.src);
+      if (hy_enter_yes_no("Activate random send delay") == 1) {
+        attack->min_del = 0;
+        attack->max_del = 1000;
+      }
       break;
     case 4:
       /* ICMP Based TCP-Reset */
@@ -208,11 +212,15 @@ int
       attack->type = HY_AT_T_TCP;
       attack->tcp_flgs = TH_SYN;   
       printf("\nEnter source address pattern\n");
-      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      printf("[HW-Address]-[IP-Address]@[Port]:\n> ");
       scanf("%s", attack->src_pat.src);
       printf("\nEnter destination address pattern\n");
-      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      printf("[HW-Address]-[IP-Address]@[Port]:\n> ");
       scanf("%s", attack->dst_pat.src);
+      if (hy_enter_yes_no("Activate random send delay") == 1) {
+        attack->min_del = 0;
+        attack->max_del = 1000;
+      }
       break;
     case 6:
       /* Blind TCP-Reset */
@@ -221,21 +229,29 @@ int
       attack->tcp_seq = 0;
       attack->tcp_seq_ins = 1;
       printf("\nEnter source address pattern\n");
-      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      printf("[HW-Address]-[IP-Address]@[Port]:\n> ");
       scanf("%s", attack->src_pat.src);
       printf("\nEnter destination address pattern\n");
-      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      printf("[HW-Address]-[IP-Address]@[Port]:\n> ");
       scanf("%s", attack->dst_pat.src);
+      if (hy_enter_yes_no("Activate random send delay") == 1) {
+        attack->min_del = 0;
+        attack->max_del = 1000;
+      }
       break;
     case 7:
       /* UDP-Flood */
       attack->type = HY_AT_T_UDP;
       printf("\nEnter source address pattern\n");
-      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      printf("[HW-Address]-[IP-Address]@[Port]:\n> ");
       scanf("%s", attack->src_pat.src);
       printf("\nEnter destination address pattern\n");
-      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      printf("[HW-Address]-[IP-Address]@[Port]:\n> ");
       scanf("%s", attack->dst_pat.src);
+      if (hy_enter_yes_no("Activate random send delay") == 1) {
+        attack->min_del = 0;
+        attack->max_del = 1000;
+      }
       break;
     case 8:
       /* DHCP-Discover Flood */
