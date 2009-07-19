@@ -24,38 +24,29 @@
  *
  */
 
-#ifndef HYENAE_COMMON_H
-  #define HYENAE_COMMON_H
+#ifndef HYENAE_ATTACK_ASSISTENT_H
+  #define HYENAE_ATTACK_ASSISTENT_H
 
-#include "hyenae-base.h"
-#include "hyenae-config.h"
-#include "hyenae-patterns.h"
-#include "hyenae-attack.h"
-#include "hyenae-arp.h"
-#include "hyenae-icmp.h"
-#include "hyenae-tcp.h"
-#include "hyenae-udp.h"
-#include "hyenae-protocol.h"
-
-/* General informations */
-#define HY_COPYRIGHT "2008 Robin Richter"
-#define HY_CONTACT   "richterr@users.sourceforge.net"
-#define HY_HOMEPAGE  "http://sourceforge.net/projects/hyenae/"
+#include "hyenae.h"
 
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_print_if_list
+  hy_enter_numeric_option
     (
-      int*,
+      int,
       int
     );
 
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_print_attack_list();
+  hy_start_attack_assistent
+    (
+      int*,
+      hy_attack_t*
+    );
 
 /* -------------------------------------------------------------------------- */
 
-#endif /* HYENAE_COMMON_H */
+#endif /* HYENAE_ATTACK_ASSISTENT_H */

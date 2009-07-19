@@ -29,6 +29,7 @@
 
 #include "hyenae-common.h"
 #include "hyenae-remote.h"
+#include "hyenae-attack-assistent.h"
 
 #include <getopt.h>
 

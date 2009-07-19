@@ -66,6 +66,7 @@ int
 
   int opt = 0;
   int ret = HY_ER_OK;
+  int if_cnt = 0;
   char err_buf[PCAP_ERRBUF_SIZE];
   hy_daemon_t dmn;
 
@@ -221,7 +222,7 @@ int
           HY_DMN_LOG_FILE_BUFLEN);
         break;
       case 'l':
-        if ((ret = hy_print_if_list()) != HY_ER_OK) {
+        if ((ret = hy_print_if_list(&if_cnt, 0)) != HY_ER_OK) {
           hy_output(
             stdout,
             HY_OUT_T_ERROR,
@@ -230,6 +231,12 @@ int
             hy_get_error_msg(ret));
           return -1;
         }
+        hy_output(
+          stdout,
+          HY_OUT_T_FINISHED,
+          0,
+          "%i network interfaces found",
+          if_cnt);
         return 0;
       case 'V':
         printf(

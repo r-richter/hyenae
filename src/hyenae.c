@@ -156,6 +156,7 @@ int
   int opt = 0;
   int ret = HY_ER_OK;
   int if_i = -1;
+  int if_cnt = 0;
   char* if_n = NULL;
   char* fin_line = NULL;
   hy_attack_t att;
@@ -185,7 +186,7 @@ int
             getopt(
               argc,
               argv,
-              "s:d:S:D:i:I:r:R:a:A:t:o:f:k:w:q:Q:c:C:e:E:u:U:p:P:mNlLV")) != -1) {
+              "s:d:S:D:i:I:r:R:a:A:t:o:f:k:w:q:Q:c:C:e:E:u:U:p:P:mNlLXV")) != -1) {
     switch (opt) {
       case 's':
         if (strlen(optarg) > HY_PT_BUFLEN) {
@@ -406,7 +407,7 @@ int
         att.cld_run = 1;
         break;
       case 'l':
-        if ((ret = hy_print_if_list()) != HY_ER_OK) {
+        if ((ret = hy_print_if_list(&if_cnt, 0)) != HY_ER_OK) {
           hy_output(
             stdout,
             HY_OUT_T_ERROR,
@@ -415,10 +416,32 @@ int
             hy_get_error_msg(ret));
           return -1;
         }
+        hy_output(
+          stdout,
+          HY_OUT_T_FINISHED,
+          0,
+          "%i network interfaces found",
+          if_cnt);
         return 0;
       case 'L':
-        hy_print_attack_list();
+        hy_output(
+          stdout,
+          HY_OUT_T_FINISHED,
+          0,
+          "%i attacks protocols founds",
+          hy_print_attack_list());
         return 0;
+      case 'X':
+        if ((ret = hy_start_attack_assistent(&if_i, &att)) != HY_ER_OK) {
+          hy_output(
+            stdout,
+            HY_OUT_T_ERROR,
+            0,
+            "%s",
+            hy_get_error_msg(ret));
+          return -1;
+        }
+        break;
       case 'V':
         printf(
           "\n%s v%s\nCopyright (C) %s\n\nContact  : %s\nHomepage : %s\n\n",
@@ -436,7 +459,7 @@ int
           "              [-k tcp-ack] [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins]\n"
           "              [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]\n"
           "              [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]\n"
-          "              [-mNlLV]\n"
+          "              [-mNlLXV]\n"
         );
         return -1;
     }
