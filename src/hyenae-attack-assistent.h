@@ -27,7 +27,18 @@
 #ifndef HYENAE_ATTACK_ASSISTENT_H
   #define HYENAE_ATTACK_ASSISTENT_H
 
+/* Max. input buffer length */
+#define HY_INPUT_BUFLEN 1024
+
 #include "hyenae.h"
+
+/* -------------------------------------------------------------------------- */
+
+int
+  hy_enter_yes_no
+    (
+      const char*
+    );
 
 /* -------------------------------------------------------------------------- */
 
@@ -44,7 +55,8 @@ int
   hy_start_attack_assistent
     (
       int*,
-      hy_attack_t*
+      hy_attack_t*,
+      hy_server_list_t**
     );
 
 /* -------------------------------------------------------------------------- */

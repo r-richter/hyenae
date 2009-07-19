@@ -432,7 +432,11 @@ int
           hy_print_attack_list());
         return 0;
       case 'X':
-        if ((ret = hy_start_attack_assistent(&if_i, &att)) != HY_ER_OK) {
+        if ((ret =
+               hy_start_attack_assistent(
+                 &if_i,
+                 &att,
+                 &srv_lst)) != HY_ER_OK) {
           hy_output(
             stdout,
             HY_OUT_T_ERROR,

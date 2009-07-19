@@ -29,6 +29,37 @@
 /* -------------------------------------------------------------------------- */
 
 int
+  hy_enter_yes_no
+    (
+      const char* question
+    ) {
+
+  /*
+   * USAGE:
+   *   Requests the user to enter either
+   *   yes or no.
+   */
+
+  char str[HY_INPUT_BUFLEN];
+
+  printf("\n%s [y/n]? ", question);
+  while(1) {
+    if (scanf("%s", str) > 0) {
+      if (strcmp(str, "y") == 0) {
+        return 1;
+      } else {
+        if (strcmp(str, "n") == 0) {
+          break;
+        }
+      }
+    }
+  }
+  return 0;
+} /* hy_enter_yes_no */
+
+/* -------------------------------------------------------------------------- */
+
+int
   hy_enter_numeric_option
     (
       int min_opt,
@@ -42,10 +73,10 @@ int
    */
 
   int opt = 0;
-  char str[1];
+  char str[HY_INPUT_BUFLEN];
 
   printf(
-    "\nEnter option number [%d-%d]:\n",
+    "\nEnter option number [%d-%d]: ",
     min_opt,
     max_opt);
   while(1) {
@@ -65,7 +96,8 @@ int
   hy_start_attack_assistent
     (
       int* if_index,
-      hy_attack_t* attack
+      hy_attack_t* attack,
+      hy_server_list_t** server_lst
     ) {
 
   /*
@@ -78,13 +110,16 @@ int
   int ret = HY_ER_OK;
   int if_cnt = 0;
   int att_mode = 0;
+  char srv_pat[HY_INPUT_BUFLEN];
+  char srv_file[HY_INPUT_BUFLEN];
 
   hy_output(
     stdout,
     HY_OUT_T_TASK,
     0,
     "Starting attack assistent");
-  printf("\nHyenae Attack Assistent\n");
+  memset(attack, 0, sizeof(hy_attack_t));
+  printf("\nHyenae Attack Assistent (BETA)\n");
   printf("====================================================\n");
   /* Determine attack mode (local/remote) */
   printf("\nWhere do you want to start the attack from?\n");
@@ -98,14 +133,39 @@ int
     }
     *if_index = hy_enter_numeric_option(1, if_cnt);
   } else {
-    /* Enter remote daemon address */
-    printf("\nEnter remote daemon address:\n");
-
-    // TODO...
-
+    /* Enter server file path */
+    if (hy_enter_yes_no("Do you want to load an existing server file") == 1) {
+      printf("\nEnter server file path\n");
+      printf("ex. \"/home/user/server.lst\" or \"c:\\server.lst\":\n> ");
+      scanf("%s", srv_file);
+      if (*server_lst != NULL) {
+        free(*server_lst);
+      }
+      if ((ret =
+             hy_load_server_list(
+               srv_file, server_lst)) != HY_ER_OK) {
+        return ret;
+      }
+    } else {
+      /* Enter server address pattern */
+      printf("\nEnter server address pattern\n");
+      printf("ex. [IP-Address]@[Port] or [IP-Address]@[Port]+[Password]:\n> ");
+      scanf("%s", srv_pat);
+      if (*server_lst != NULL) {
+        free(*server_lst);
+      }
+      *server_lst = malloc(sizeof(hy_server_list_t));
+      (*server_lst)->next = NULL;
+      if ((ret =
+             hy_set_server_list_item(
+               srv_pat,
+               *server_lst)) != HY_ER_OK) {
+        return ret;
+      }
+    }
   }
-  /* Determine attack type */
-  printf("\nSelect attack type:\n");
+  /* Select attack scenario */
+  printf("\nSelect attack scenario:\n");
   printf("> 1.  ARP-Request Flood (DoS)\n");
   printf("> 2.  ARP-Cache Poisoning (MITM)\n");
   printf("> 3.  ICMP-Echo Flood (DoS)\n");
@@ -114,13 +174,63 @@ int
   printf("> 6.  Blind TCP-Reset (DoS)\n");
   printf("> 7.  UDP-Flood (DoS)\n");
   printf("> 8.  DHCP-Discover Flood (DoS)\n");
-  printf("> 10. DHCP-Starvation (DoS)\n");
-  printf("> 11. DHCP-Release Forcing (DoS)\n");
-  switch (hy_enter_numeric_option(1, 11) == 1) {
+  printf("> 9.  DHCP-Starvation (DoS)\n");
+  printf("> 10. DHCP-Release Forcing (DoS)\n");
+  switch (hy_enter_numeric_option(1, 10)) {
     case 1:
-
+      /* ARP-Request Flood */
+      attack->type = HY_AT_T_ARP_REQUEST;
       // TODO...
-
+      break;
+    case 2:
+      /* ARP-Cache Poisoning */
+      attack->type = HY_AT_T_ARP_REPLY;
+      // TODO...
+      break;
+    case 3:
+      /* ICMP-Echo Flood */
+      attack->type = HY_AT_T_ICMP_ECHO;
+      // TODO...
+      break;
+    case 4:
+      /* ICMP Based TCP-Reset */
+      attack->type = HY_AT_T_ICMP_UNREACH_TCP;
+      attack->min_cnt = 1;
+      // TODO...
+      break;
+    case 5:
+      /* TCP-SYN Flood */
+      attack->type = HY_AT_T_TCP;
+      attack->tcp_flgs = TH_SYN;   
+      // TODO...
+      break;
+    case 6:
+      /* Blind TCP-Reset */
+      attack->type = HY_AT_T_TCP;
+      attack->tcp_flgs = TH_RST;
+      attack->tcp_seq = 0;
+      attack->tcp_seq_ins = 1;
+      // TODO...
+      break;
+    case 7:
+      /* UDP-Flood */
+      attack->type = HY_AT_T_UDP;
+      // TODO...
+      break;
+    case 8:
+      /* DHCP-Discover Flood */
+      attack->type = HY_AT_T_DHCP_DISCOVER;
+      // TODO...
+      break;
+    case 9:
+      /* DHCP-Starvation */
+      attack->type = HY_AT_T_DHCP_REQUEST;
+      // TODO...
+      break;
+    case 10:
+      /* DHCP-Release Forcing */
+      attack->type = HY_AT_T_DHCP_RELEASE;
+      // TODO...
       break;
   }
   printf("\n");
