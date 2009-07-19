@@ -118,7 +118,7 @@
     # hyenae -I 3 -a icmp-echo -s %-% -d 00:f0:21:03:c6:00-192.168.0.1 \
     # -c 1 -c 10000
 
-    5.4 ICMP TCP-Reset Attack
+    5.4 ICMP Based TCP-Reset Attack
 
     This example will send a single ICMP "Destination Unreachable" packet with
     the message code "Port unreachable", from a fictional source to a fictional
@@ -142,7 +142,7 @@
     # hyenae -I 3 -a tcp -f s -s %-%@%%%% -d 00:f0:21:03:c6:00-192.168.0.1@21 \
     # -e 1 -E 1000
 
-    5.5 Blind TCP Brute-RST Attack
+    5.5 Blind TCP-Reset Attack
 
     This example will send an unlimited amount of TCP packets with set RST
     flag, from a fictional random source to a fictional target, with an
@@ -195,7 +195,21 @@
 
 --------------------------------------------------------------------------------
 
-  6. Setting Up the Hyenae Daemon
+  6. Starting the attack assistent
+
+  Since Hyenaes range of arguments makes it a very powerfull tool to experienced
+  network specialists and administrators, it can be way to complex for
+  unexperienced users. In order to provide an easy way to set up attack
+  scenarios without having deeper knowledge of the attack procedural itself,
+  Hyenae features a text based attack assistent that will guide unexperienced
+  users through the setup of common attack scenarios. You can activate the attack
+  assistent by starting Hyenae with the -X argument.
+
+  # hyenae -X
+
+--------------------------------------------------------------------------------
+
+  7. Setting Up the Hyenae Daemon
 
   Hyenae comes with a daemon for setting up remote attacks. The daemon can be
   started with just a few arguments. The only required arguments are the network
@@ -217,7 +231,7 @@
 
 --------------------------------------------------------------------------------
 
-  7. Starting a Remote Attack
+  8. Starting a Remote Attack
 
   Starting a remote attack is similar to starting a local one. However, instead
   of defining a network interface to operate on, you will need to specify the

@@ -68,7 +68,7 @@
          [-k tcp-ack] [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins]
          [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]
          [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]
-         [-mNlLV]
+         [-mNlLXV]
 
     -s Source address pattern
 
@@ -231,6 +231,8 @@
     -l Prints a list of all available network interfaces and exits.
 
     -L Prints a list of all available attacks and exits.
+
+    -X Starts a text based attack assistent.
 
     -V Prints the current version of Hyenae and exits.
 
