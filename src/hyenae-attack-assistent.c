@@ -190,7 +190,12 @@ int
     case 3:
       /* ICMP-Echo Flood */
       attack->type = HY_AT_T_ICMP_ECHO;
-      // TODO...
+      printf("\nEnter source address pattern\n");
+      printf("ex. [HW-Address]-[IP-Address]:\n> ");
+      scanf("%s", attack->src_pat.src);
+      printf("\nEnter destination address pattern\n");
+      printf("ex. [HW-Address]-[IP-Address]:\n> ");
+      scanf("%s", attack->dst_pat.src);
       break;
     case 4:
       /* ICMP Based TCP-Reset */
@@ -202,7 +207,12 @@ int
       /* TCP-SYN Flood */
       attack->type = HY_AT_T_TCP;
       attack->tcp_flgs = TH_SYN;   
-      // TODO...
+      printf("\nEnter source address pattern\n");
+      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      scanf("%s", attack->src_pat.src);
+      printf("\nEnter destination address pattern\n");
+      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      scanf("%s", attack->dst_pat.src);
       break;
     case 6:
       /* Blind TCP-Reset */
@@ -210,12 +220,22 @@ int
       attack->tcp_flgs = TH_RST;
       attack->tcp_seq = 0;
       attack->tcp_seq_ins = 1;
-      // TODO...
+      printf("\nEnter source address pattern\n");
+      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      scanf("%s", attack->src_pat.src);
+      printf("\nEnter destination address pattern\n");
+      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      scanf("%s", attack->dst_pat.src);
       break;
     case 7:
       /* UDP-Flood */
       attack->type = HY_AT_T_UDP;
-      // TODO...
+      printf("\nEnter source address pattern\n");
+      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      scanf("%s", attack->src_pat.src);
+      printf("\nEnter destination address pattern\n");
+      printf("ex. [HW-Address]-[IP-Address]@[Port]:\n> ");
+      scanf("%s", attack->dst_pat.src);
       break;
     case 8:
       /* DHCP-Discover Flood */
