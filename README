@@ -68,7 +68,7 @@
          [-k tcp-ack] [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins]
          [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]
          [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]
-         [-mNlLXV]
+         [-mNlLV]
 
     -s Source address pattern
 
@@ -97,10 +97,10 @@
        server address pattern has the following pattern format:
 
          // For plain connections
-         [IP-Address]@[Port]
+         [HW-Address]@[IP-Address]
 
          // For password protected daemons
-         [IP-Address]@[Port]+[Password]
+         [HW-Address]@[IP-Address]+[Password]
 
        Hyenae will automatically recognize the provided IP address version.
        Wildcards are not valid within server address patterns. The password
@@ -114,8 +114,8 @@
        the given path. A server list file should have the following format:
 
          # Comment
-         Server=[IP-Address]@[Port]
-         Server=[IP-Address]@[Port]+[Password]
+         Server=[HW-Address]@[IP-Address]
+         Server=[HW-Address]@[IP-Address]+[Password]
          ...
 
        Hyenae will automatically recognize the version of the IP address
@@ -231,8 +231,6 @@
     -l Prints a list of all available network interfaces and exits.
 
     -L Prints a list of all available attacks and exits.
-
-    -X Starts a text based attack assistent.
 
     -V Prints the current version of Hyenae and exits.
 

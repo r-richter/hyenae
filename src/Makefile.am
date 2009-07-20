@@ -35,7 +35,6 @@ hyenae_LDADD = ${LIBS}
 
 hyenae_SOURCES = \
   hyenae.h hyenae.c \
-  hyenae-attack-assistent.h hyenae-attack-assistent.c \
   hyenae-remote.h hyenae-remote.c \
   hyenae-common.h hyenae-common.c \
   hyenae-protocol.h hyenae-protocol.c \

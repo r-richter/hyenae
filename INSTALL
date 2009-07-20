@@ -33,10 +33,6 @@
     libdnet + Headers               http://libdnet.sourceforge.net/
     Apple Developer-Tools           http://developer.apple.com/tools/
 
-  NOTE:
-    On Debian based Linux distributions you have to install libdumbnet instead
-    of libdnet!
-
 --------------------------------------------------------------------------------
 
   2. Compilation & Installation

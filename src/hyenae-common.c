@@ -29,11 +29,7 @@
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_print_if_list
-    (
-      int* if_count,
-      int is_assistent_call
-    ) {
+  hy_print_if_list() {
 
   /*
    * USAGE:
@@ -41,41 +37,35 @@ int
    *   interfaces on this machine.
    */
 
+  int i = 0;
   int ret = HY_ER_OK;
   char err_buf[PCAP_ERRBUF_SIZE];
   pcap_if_t* if_n = NULL;
   pcap_if_t* if_lst = NULL;
 
-  if (is_assistent_call != 1) {
-    hy_output(
-      stdout,
-      HY_OUT_T_TASK,
-      0,
-      "Obtaining network interfaces");
-  }
-  *if_count = 0;
+  hy_output(
+    stdout,
+    HY_OUT_T_TASK,
+    0,
+    "Obtaining network interfaces");
   if (pcap_findalldevs(&if_lst, err_buf) == -1) {
     return HY_ER_PCAP_FINDALLDEVS;
   }
   for(if_n = if_lst; if_n; if_n = if_n->next) {
-    *if_count = *if_count + 1;
-    if (is_assistent_call != 1) {
-      printf("  ");
-    }
-    printf("> %i. %s\n", *if_count, if_n->name);
+    i = i + 1;
+    printf("  > %i. %s\n", i, if_n->name);
   }
   return ret;
 } /* hy_print_if_list */
 
 /* -------------------------------------------------------------------------- */
 
-int
+void
   hy_print_attack_list() {
 
   /*
    * USAGE:
-   *   Prints a list of all available attacks and
-   *   returns the number of attack protocols found.
+   *   Prints a list of all available attacks.
    */
 
   int i = 1;
@@ -90,7 +80,6 @@ int
     printf("  > %s\n", att_n);
     i = i + 1;
   }
-  return i;
 } /* hy_print_attack_list */
 
 /* -------------------------------------------------------------------------- */
