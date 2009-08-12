@@ -17,14 +17,15 @@
   High Priority
     * Add debian run script
     * Add DNS support
-    * Add ICMPv6 support
+    * Refactor socket handling (move to hyenae-base.c)
 
   Medium Priority
-    * Client/Daemon conversation encryption
+    * Client/Daemon conversation encryption (SSL)
 
   Low Priority
-    * Add PPPoE support
     * Add NDP support
+    * Add ICMPv6 support
+    * Add PPPoE support
     * Add RTP support
     * Add LLDP support
 
