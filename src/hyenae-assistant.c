@@ -507,7 +507,7 @@ int
           return ret;
         }
         if (strchr(attack->dst_pat.src, HY_PT_WCC) != NULL) {
-          printf("\n  (!) Pattern must not contain waildcards\n");
+          printf("\n  (!) Pattern must not contain wildcards\n");
         } else {
           break;
         }
@@ -1010,7 +1010,7 @@ int
         return ret;
       }
       if (strchr(hw_addr_gateway, HY_PT_WCC) != NULL) {
-        printf("\n  (!) Pattern must not contain waildcards\n");
+        printf("\n  (!) Pattern must not contain wildcards\n");
       } else {
         break;
       }
