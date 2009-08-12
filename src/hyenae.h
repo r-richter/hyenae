@@ -29,6 +29,7 @@
 
 #include "hyenae-common.h"
 #include "hyenae-remote.h"
+#include "hyenae-assistant.h"
 
 #include <getopt.h>
 
@@ -49,7 +50,7 @@ int
   hy_parse_icmp_unreach_code
     (
       unsigned int*,
-      const char*
+      char*
     );
 
 /* -------------------------------------------------------------------------- */

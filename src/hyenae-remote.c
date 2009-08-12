@@ -346,7 +346,7 @@ void
             sizeof(timeval_t)) == 0) {
           if (connect(
                 sock->s,
-                (sockaddr_t*) &sa_in,
+                (sockaddr_t*) &sa_in6,
                 sizeof(sockaddr_in_t)) < 0) {
             close(sock->s);
             sock->s = 0;

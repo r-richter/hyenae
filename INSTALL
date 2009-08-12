@@ -22,16 +22,24 @@
   Windows:
     Cygwin                          http://www.cygwin.com/
     MingGW                          http://www.mingw.org/
+      Make
+      GNU Compiler Collection (GCC)
     WinPCAP + Headers               http://www.winpcap.org/
     libdnet + Headers               http://libdnet.sourceforge.net/
 
   Linux/BSD:
+    GNU Make                        http://www.gnu.org/software/make/
+    GNU Compiler Collection (GCC)   http://gcc.gnu.org/
     libpcap                         http://sourceforge.net/projects/libpcap/
     libdnet/libdumbnet + Headers    http://libdnet.sourceforge.net/
 
   Mac OS X:
-    libdnet + Headers               http://libdnet.sourceforge.net/
     Apple Developer-Tools           http://developer.apple.com/tools/
+    libdnet + Headers               http://libdnet.sourceforge.net/
+
+  NOTE:
+    On Debian based Linux distributions you have to install libdumbnet instead
+    of libdnet!
 
 --------------------------------------------------------------------------------
 

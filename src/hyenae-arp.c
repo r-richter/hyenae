@@ -43,7 +43,7 @@ int
 
   /*
    * USAGE:
-   *   Builds an ARP-Reply packet based
+   *   Builds an ARP packet based
    *   on the given arguments.
    */
 
@@ -51,6 +51,8 @@ int
   int arp_pkt_len =
     sizeof(arp_h_t) +
     sizeof(arp_eth_ip_t);
+  int src_hw_len = 0;
+  int snd_hw_len = 0;
   unsigned char arp_pkt[arp_pkt_len];
   arp_h_t* arp_h = NULL;
   arp_eth_ip_t* arp_eth_ip = NULL;
@@ -96,6 +98,33 @@ int
   if (snd_pattern->ip_v != HY_AD_T_IP_V4) {
     return HY_ER_WRONG_IP_V;
   }
+  /* If source and sender HW-Address strip
+     is completely random, make shure they're
+     equally randomized */
+  if (strchr(src_pattern->src, HY_PT_EOA_HW) != NULL) {
+    src_hw_len =
+      strchr(src_pattern->src, HY_PT_EOA_HW) -
+      src_pattern->src;
+  } else {
+    src_hw_len = strlen(src_pattern->src);
+  }
+  if (strchr(snd_pattern->src, HY_PT_EOA_HW) != NULL) {
+    snd_hw_len =
+      strchr(snd_pattern->src, HY_PT_EOA_HW) -
+      snd_pattern->src;
+  } else {
+    snd_hw_len = strlen(snd_pattern->src);
+  }
+  if (src_hw_len == snd_hw_len &&
+      strncmp(
+        src_pattern->src,
+        snd_pattern->src,
+        src_hw_len) == 0) {
+    strncpy(
+      src_pattern->src,
+      snd_pattern->hw_addr,
+      HY_AD_BUFLEN);
+  }
   memset(arp_pkt, 0, arp_pkt_len);
   /* Build ARP header */
   arp_h = (arp_h_t*) arp_pkt;
@@ -132,6 +161,6 @@ int
            arp_pkt,
            arp_pkt_len,
            ETH_TYPE_ARP);
-} /* hy_build_arp_reply_packet */
+} /* hy_build_arp_packet */
 
 /* -------------------------------------------------------------------------- */

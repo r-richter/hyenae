@@ -14,6 +14,20 @@
 
 --------------------------------------------------------------------------------
 
+  Version 0.31-1 (Aug. 14th, 2009)
+    * Bug fixes
+    * Improved attack assistant
+    * Extended / fixed documentation
+    * Added TCP-Land attack to attack assistant
+    * Added ICMP-Smurf attack to attack assistant
+    * Changed daemon max. clients argument (from -C to -m)
+
+  Version 0.30-1 (Jul. 25th, 2009)
+    * Added attack assistant
+    * Minor code refactoring
+    * Updated / fixed documentation
+    * Made randomization on ARP attacks equal for source and sender HW-Address
+
   Version 0.29-1 (Mar. 16th, 2009)
     * Minor code refactoring
     * Rearranged / extended / corrected documentation

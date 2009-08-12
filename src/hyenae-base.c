@@ -761,6 +761,10 @@ const char*
     return "Requested packet count exceeds daemon limit";
   } else if (error == HY_ER_CLI_DUR_LMT_EXCEED) {
     return "Requested atack duration exceeds daemon limit";
+  } else if (error == HY_ER_INP_BUFLEN_EXCEED) {
+    return "Maximum input length exceeded";
+  } else if (error == HY_ER_WRONG_PT_FMT) {
+    return "Wrong pattern format";
   } else if (error == HY_ER_ICMP_UNR_CODE_UNKNOWN) {
     return "Unknown ICMP \"Destination Unreachable\" code";
   } else if (error == HY_ER_TCP_FLG_UNKNOWN) {

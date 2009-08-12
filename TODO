@@ -15,11 +15,11 @@
 --------------------------------------------------------------------------------
 
   High Priority
-    * Add port incrementation possibility
-
-  Medium Priority
+    * Add debian run script
     * Add DNS support
     * Add ICMPv6 support
+
+  Medium Priority
     * Client/Daemon conversation encryption
 
   Low Priority

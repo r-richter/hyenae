@@ -4,7 +4,7 @@ hyenaed - Advanced Network Packet Generator Daemon
 .SH SYNOPSIS
 hyenaed [\fB-i\fR if-n] [\fB-I\fR if-i] [\fB-a\fR bind-ip] [\fB-p\fR port] [\fB-b\fR bcklog]
         [\fB-t\fR tru-ip-lst] [\fB-T\fR none-tru-ip-lst] [\fB-A\fR ip-v]
-        [\fB-c\fR cli-pkt-lmt] [\fB-u\fR cli-dur-lmt] [\fB-C\fR max-cl]
+        [\fB-c\fR cli-pkt-lmt] [\fB-u\fR cli-dur-lmt] [\fB-m\fR max-cl]
         [\fB-k\fR pwd] [\fB-flV\fR]
 
 .SH DESCRIPTION
@@ -20,7 +20,8 @@ and configurable. To realize this aim, Hyenae uses address patterns, which
 will minimize the number of arguments you have to provide because all
 necessary parameters, such as the way you want to randomize your addresses or
 the IP address version to use, can be derived from the pattern format you
-provided. See section 5, "Address Patterns", for more detailed information.
+provided. See Hyenae Users Manual, "Address Patterns", for more detailed
+information.
 
 This utility suite was developed only for network security testing purposes
 such as evaluation of firewall rules, flood detection and intrusion detection.
@@ -111,7 +112,7 @@ subject to change without prior notice.
       set to 0, you must specify a packet
       limit.
 
-\fB-C\fR    Maximum number of clients
+\fB-m\fR    Maximum number of clients
       allowed to connect. The default value
       is 10.
 

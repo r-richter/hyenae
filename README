@@ -19,9 +19,9 @@
   Hyenae is a highly flexible and platform independent network packet generator.
   It allows you to reproduce low level ethernet attack scenarios (such as MITM,
   DoS and DDoS) to reveal potential security vulnerabilities of your network.
-  Besides smart wildcard-based address randomization and a highly customizable
-  packet generation control, Hyenae comes with a clusterable remote daemon for
-  setting up distributed attack networks.
+  Besides smart wildcard-based address randomization, a highly customizable
+  packet generation control and an interactive attack assistant, Hyenae comes
+  with a clusterable remote daemon for setting up distributed attack networks.
 
   Hyenae was developed with ease-of-use in mind while still remaining flexible
   and configurable. To realize this aim, Hyenae uses address patterns, which
@@ -42,8 +42,19 @@
 --------------------------------------------------------------------------------
 
   2. Current Features
-
   * Platform independence
+  * Assisted ARP-Request flood setup
+  * Assisted ARP-Cache poisoning setup
+  * Assisted ICMP-Echo flood setup
+  * Assisted ICMP-Smurf attack setup
+  * Assisted ICMP based TCP-Connection reset setup
+  * Assisted TCP-SYN flood setup
+  * Assisted TCP-Land attack setup
+  * Assisted Blind TCP-Connection reset setup
+  * Assisted UDP flood setup
+  * Assisted DHCP-Discover flood setup
+  * Assisted DHCP starvation setup
+  * Assisted DHCP-Release forcing setup
   * Customizable ARP-Reply based attacks
   * Customizable ICMP-Echo based attacks (IPv4)
   * Customizable TCP based attacks (IPv4 and IPv6)
@@ -61,6 +72,8 @@
 --------------------------------------------------------------------------------
 
   3. Command Line Usage (hyenae)
+
+  hyenae (Starts attack assistant...)
 
   hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]
          [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]
@@ -97,10 +110,10 @@
        server address pattern has the following pattern format:
 
          // For plain connections
-         [HW-Address]@[IP-Address]
+         [IP-Address]@[Port]
 
          // For password protected daemons
-         [HW-Address]@[IP-Address]+[Password]
+         [IP-Addresss]@[Port]+[Password]
 
        Hyenae will automatically recognize the provided IP address version.
        Wildcards are not valid within server address patterns. The password
@@ -114,8 +127,8 @@
        the given path. A server list file should have the following format:
 
          # Comment
-         Server=[HW-Address]@[IP-Address]
-         Server=[HW-Address]@[IP-Address]+[Password]
+         Server=[IP-Address]@[Port]
+         Server=[IP-Address]@[Port]+[Password]
          ...
 
        Hyenae will automatically recognize the version of the IP address
@@ -240,7 +253,7 @@
 
   hyenaed [-i if-n] [-I if-i] [-a bind-ip] [-p port] [-b bcklog]
           [-t tru-ip-lst] [-T none-tru-ip-lst] [-A ip-v]
-          [-c cli-pkt-lmt] [-u cli-dur-lmt] [-C max-cl]
+          [-c cli-pkt-lmt] [-u cli-dur-lmt] [-m max-cl]
           [-k pwd] [-flV]
 
     -i Network interface to attack on (specified by name). This will not set
@@ -296,7 +309,7 @@
        milliseconds a single client can request to attack for. If not set or set
        to 0, you must specify a packet limit.
 
-    -C Maximum number of clients allowed to connect. The default value is 10.
+    -m Maximum number of clients allowed to connect. The default value is 10.
 
     -k Password protection. If set, only clients which are using this password
        will be able to control this daemon. Note: Since Hyenae currently does
@@ -362,6 +375,26 @@
   generate a complete random IP address. By default, Hyenae will interpret or
   "assume" random IP address strips as IPv4 addresses. You can change the
   assumed version by calling Hyenae with the -A option.
+
+  In some cases you will need to randomize a pattern equaly to another one. If
+  you are generating ARP packets for example, the source hardware address needs
+  equal the senders hardware address otherwise the packet will be droped by the
+  target host. In such a case, Hyenae will use an equal randomization on both of
+  the patterns (aas long as they match each other).
+
+  // HW-Address randomization on ARP packets
+
+  // HW-Address strip Will be equaly randomized
+  Source Pattern: %
+  Sender Pattern: %-192.168.0.1
+
+  // HW-Address strip Will be equaly randomized
+  Source Pattern: %%:22:33:44:55:66
+  Sender Pattern: %%:22:33:44:55:66-192.168.0.1
+
+  // HW-Adress strip won't be equaly randomized
+  Source Pattern: 11:%%:33:44:55:66
+  Sender Pattern: %%:22:33:44:55:66-192.168.0.1
 
 --------------------------------------------------------------------------------
 

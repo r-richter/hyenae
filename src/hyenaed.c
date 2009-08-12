@@ -66,6 +66,7 @@ int
 
   int opt = 0;
   int ret = HY_ER_OK;
+  int if_cnt = 0;
   char err_buf[PCAP_ERRBUF_SIZE];
   hy_daemon_t dmn;
 
@@ -96,7 +97,7 @@ int
       hy_get_error_msg(ret));
     return -1;
   }
-  while ((opt = getopt(argc, argv, "i:I:a:p:b:A:c:u:C:t:T:k:f:lV")) != -1) {
+  while ((opt = getopt(argc, argv, "i:I:a:p:b:A:c:u:m:t:T:k:f:lV")) != -1) {
     switch (opt) {
       case 'i':
         dmn.if_n = malloc(strlen(optarg) + 1);
@@ -147,7 +148,7 @@ int
       case 'u':
         dmn.cli_dur_lmt = atol(optarg);
         break;
-      case 'C':
+      case 'm':
         dmn.max_cli = atoi(optarg);
         break;
       case 'k':
@@ -221,7 +222,10 @@ int
           HY_DMN_LOG_FILE_BUFLEN);
         break;
       case 'l':
-        if ((ret = hy_print_if_list()) != HY_ER_OK) {
+        if ((ret =
+               hy_print_if_list(
+                 &if_cnt,
+                 0)) != HY_ER_OK) {
           hy_output(
             stdout,
             HY_OUT_T_ERROR,
@@ -244,7 +248,7 @@ int
         printf(
           "usage: hyenaed [-i if-n] [-I if-i] [-a bind-ip] [-p port] [-b bcklog]\n"
           "               [-t tru-ip-lst] [-T none-tru-ip-lst] [-A ip-v]\n"
-          "               [-c cli-pkt-lmt] [-u cli-dur-lmt] [-C max-cl]\n"
+          "               [-c cli-pkt-lmt] [-u cli-dur-lmt] [-m max-cl]\n"
           "               [-k pwd] [-flV]\n");
         return -1;
     }

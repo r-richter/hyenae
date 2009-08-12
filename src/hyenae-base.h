@@ -148,9 +148,13 @@
 #define HY_ER_CLI_PKT_LMT_EXCEED         -6012
 #define HY_ER_CLI_DUR_LMT_EXCEED         -6013
 
+/* Assistent based errors */
+#define HY_ER_INP_BUFLEN_EXCEED          -7001
+#define HY_ER_WRONG_PT_FMT               -7002
+
 /* Other errors */
-#define HY_ER_ICMP_UNR_CODE_UNKNOWN -7001
-#define HY_ER_TCP_FLG_UNKNOWN       -7002
+#define HY_ER_ICMP_UNR_CODE_UNKNOWN -8001
+#define HY_ER_TCP_FLG_UNKNOWN       -8002
 
 /* Thread run states */
 #define HY_RUN_STAT_RUNNING        0
