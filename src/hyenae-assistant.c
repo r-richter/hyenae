@@ -231,19 +231,26 @@ int
   int ret = HY_ER_OK;
 
   attack->type = HY_AT_T_ARP_REQUEST;
-  /*  Enter target pattern */
   strcpy(
     attack->sec_dst_pat.src,
     "00:00:00:00:00:00-");
-  ret =
-    hy_assistant_input_address_pattern(
-      "target",
-      "[IP-Address]",
-      attack->ip_v_asm,
-      attack->sec_dst_pat.src,
-      18);
-  if (ret != HY_ER_OK) {
-    return ret;
+  while (1) {
+    /*  Enter target pattern */
+    ret =
+      hy_assistant_input_address_pattern(
+        "target",
+        "[IP-Address]",
+        attack->ip_v_asm,
+        attack->sec_dst_pat.src,
+        18);
+    if (ret != HY_ER_OK) {
+      return ret;
+    }
+    if (strchr(attack->sec_dst_pat.src, HY_PT_WCC) != NULL) {
+      printf("\n  (!) Pattern must not contain wildcards\n");
+    } else {
+      break;
+    }
   }
   /* Fill address patterns */
   strncpy(
@@ -279,16 +286,24 @@ int
 
   attack->type = HY_AT_T_ARP_REPLY;
   /*  Enter target pattern */
-  ret =
-    hy_assistant_input_address_pattern(
-      "target",
-      "[HW-Address]"
-      "\n      (HW-Address to replace)",
-      attack->ip_v_asm,
-      attack->src_pat.src,
-      0);
-  if (ret != HY_ER_OK) {
-    return ret;
+
+  while (1) {
+    ret =
+      hy_assistant_input_address_pattern(
+        "target",
+        "[HW-Address]"
+        "\n      (HW-Address to replace)",
+        attack->ip_v_asm,
+        attack->src_pat.src,
+        0);
+    if (ret != HY_ER_OK) {
+      return ret;
+    }
+    if (strchr(attack->src_pat.src, HY_PT_WCC) != NULL) {
+      printf("\n  (!) Pattern must not contain wildcards\n");
+    } else {
+      break;
+    }
   }
   /* Enter spoofed ARP-Entry pattern */
   ret =
