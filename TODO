@@ -19,13 +19,14 @@
     * Add DNS support
 
   Medium Priority
-    * Client/Daemon conversation encryption (SSL)
+    * Add ICMPv6 support
+    * Add NDP support
 
   Low Priority
-    * Add NDP support
-    * Add ICMPv6 support
+
     * Add PPPoE support
     * Add RTP support
     * Add LLDP support
+    * Client/Daemon conversation encryption (SSL)
 
 --------------------------------------------------------------------------------
