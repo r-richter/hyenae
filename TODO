@@ -17,7 +17,6 @@
   High Priority
     * Add debian run script
     * Add DNS support
-    * Refactor socket handling (move to hyenae-base.c)
 
   Medium Priority
     * Client/Daemon conversation encryption (SSL)
