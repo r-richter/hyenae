@@ -76,10 +76,12 @@
     > icmp-unreach-tcp
     > tcp
     > udp
+    > dns-query
+    > dns-response
     > dhcp-discover
     > dhcp-request
     > dhcp-release
-  * Finished: 9 attack protocols available
+  * Finished: 11 attack protocols available
 
   You can provide the attack protocol by its name (-a). The attack protocols
   use different address patterns and in certain cases, may require additional
