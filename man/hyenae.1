@@ -8,9 +8,8 @@ hyenae [\fB-s\fR src-pat] [\fB-d\fR dst-pat] [\fB-S\fR sec-src-pat] [\fB-D\fR se
        [\fB-i\fR if-n] [\fB-I\fR if-i] [\fB-r\fR srv-pat] [\fB-R\fR srv-file] [\fB-a\fR att-type]
        [\fB-A\fR ip-v-asm] [\fB-t\fR ip-ttl] [\fB-o\fR icmp-unr-code] [\fB-f\fR tcp-flags]
        [\fB-k\fR tcp-ack] [\fB-w\fR tcp-win] [\fB-q\fR tcp-seq] [\fB-Q\fR tcp-seq-ins]
-       [\fB-y\fR dns_qry] [\fB-Y dns_ans\fR] [\fB-c\fR min-cnt] [\fB-C\fR max-cnt]
-       [\fB-e\fR min-del] [\fB-E\fR max-del] [\fB-u\fR min-dur] [\fB-U\fR max-dur]
-       [\fB-p\fR rnd-payload] [\fB-P\fR payload-file]
+       [\fB-c\fR min-cnt] [\fB-C\fR max-cnt] [\fB-e\fR min-del] [\fB-E\fR max-del]
+       [\fB-u\fR min-dur] [\fB-U\fR max-dur] [\fB-p\fR rnd-payload] [\fB-P\fR payload-file]
        [\fB-mNlLV\fR]
 
 .SH DESCRIPTION
@@ -196,37 +195,6 @@ subject to change without prior notice.
       sequence number of every generated
       packet on TCP based attacks will be
       incremented by the given value.
-
-\fB-y\fR    DNS query pattern. A DNS query
-      pattern is required on DNS based
-      attacks to defines the list of
-      hostnames to query. The list should
-      have the following format:
-
-      # Single DNS query
-      [Hostname]
-
-      # Multiple DNS queries
-      [Hostname A],[Hostname By],...
-
-\fB-Y\fR   DNS answer pattern. A DNS
-      answer pattern is requiered on
-      DNS-Response attacks to define the
-      list of DNS answers. The list
-      should have the following format:
-
-      # Single DNS answer
-      [Hostname]@[IP-Address]
-
-      # Multiple DNS answers
-      [Hostname A]@[IP-Address],[Hostname B]@[IP-Address],...
-
-      The IP-Address strip of each answer
-      can also contain wildcards and will
-      be handled the same way as regular
-      IP-Address strips. See Hyenae Users
-      Manual, "Address Patterns", for more
-      detailed information.
 
 \fB-c\fR    Minimum number of packets to
       generate. If not set or set to 0, an
@@ -446,21 +414,6 @@ Sender Pattern: %%:22:33:44:55:66-192.168.0.1
   hyenae -a udp
          -s [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
          -d [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
-  Optional:
-         -t [IP Time To Live (TTL)]
-
-  hyenae -a dns-query
-         -s [HW-Address]-[IP-Address (IPv4 or IPv6)]
-         -d [HW-Address]-[IP-Address (IPv4 or IPv6)]
-         -y [DNS query pattern]
-  Optional:
-         -t [IP Time To Live (TTL)]
-
-  hyenae -a dns-response
-         -s [HW-Address]-[IP-Address (IPv4 or IPv6)]
-         -d [HW-Address]-[IP-Address (IPv4 or IPv6)]
-         -y [DNS query pattern]
-         -Y [DNS answer pattern]
   Optional:
          -t [IP Time To Live (TTL)]
 
