@@ -57,8 +57,7 @@ typedef
    */
 
   uint16_t id;
-  uint8_t flags1;
-  uint8_t flags2;
+  uint16_t flags;
   uint16_t qdcount;
   uint16_t ancount;
   uint16_t nscount;

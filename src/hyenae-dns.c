@@ -187,7 +187,7 @@ int
     "%s-%s@%i",
     src_pattern->hw_addr,
     src_pattern->ip_addr,
-    HY_DNS_PORT);
+    hy_random(1023, 60000));
   sprintf(
     dst_pat.src,
     "%s-%s@%i",
@@ -214,6 +214,7 @@ int
   memset(dns_pkt, 0, HY_DNS_PACKET_BUFLEN);
   /* Build DNS header */
   dns_h = (hy_dns_h_t*) dns_pkt;
+  dns_h->flags = 1;
   dns_h->id = htons(hy_random(1, 65000));
   if ((ret =
          hy_dns_parse_add_queries(
