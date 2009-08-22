@@ -279,6 +279,8 @@ int
   int ans_cnt = 0;
   unsigned char dns_pkt[HY_DNS_PACKET_BUFLEN];
   hy_dns_h_t* dns_h = NULL;
+  hy_pattern_t src_pat;
+  hy_pattern_t dst_pat;
 
   /* Parse address patterns */
   if ((ret =
@@ -293,30 +295,32 @@ int
   }
   /* Overwrite ports with DNS
      default ports */
-  memset(src_pattern->src, 0, HY_PT_BUFLEN);
-  memset(dst_pattern->src, 0, HY_PT_BUFLEN);
+  memset(&src_pat, 0, sizeof(hy_pattern_t));
+  memset(&dst_pat, 0, sizeof(hy_pattern_t));
+  memcpy(&src_pat, src_pattern, sizeof(hy_pattern_t));
+  memcpy(&dst_pat, dst_pattern, sizeof(hy_pattern_t));
   sprintf(
-    src_pattern->src,
+    src_pat.src,
     "%s-%s@%i",
     src_pattern->hw_addr,
     src_pattern->ip_addr,
     HY_DNS_PORT);
   sprintf(
-    dst_pattern->src,
+    dst_pat.src,
     "%s-%s@%i",
     dst_pattern->hw_addr,
     dst_pattern->ip_addr,
     HY_DNS_PORT);
   /* Validate pattern format */
-  if (strlen(src_pattern->hw_addr) == 0 ||
-      strlen(src_pattern->ip_addr) == 0) {
+  if (strlen(src_pat.hw_addr) == 0 ||
+      strlen(src_pat.ip_addr) == 0) {
     return HY_ER_WRONG_PT_FMT_SRC;
   }
-  if (strlen(dst_pattern->hw_addr) == 0 ||
-      strlen(dst_pattern->ip_addr) == 0) {
+  if (strlen(dst_pat.hw_addr) == 0 ||
+      strlen(dst_pat.ip_addr) == 0) {
     return HY_ER_WRONG_PT_FMT_DST;
   }
-  if (src_pattern->ip_v != dst_pattern->ip_v) {
+  if (src_pat.ip_v != dst_pattern->ip_v) {
     return HY_ER_MULTIPLE_IP_V;
   }
   /* Validate parameters */
@@ -361,8 +365,8 @@ int
   dns_h->arcount = htons(0);
   /* Wrap IP-Layer */
   ret = hy_build_udp_packet(
-          src_pattern,
-          dst_pattern,
+          &src_pat,
+          &dst_pat,
           ip_v_assumption,
           packet,
           packet_len,

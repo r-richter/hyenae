@@ -54,6 +54,8 @@ int
     data_len;
   unsigned char bootp_pkt[bootp_pkt_len];
   hy_bootp_h_t* bootp_h = NULL;
+  hy_pattern_t src_pat;
+  hy_pattern_t dst_pat;
 
    /* Parse address patterns */
   if ((ret =
@@ -68,48 +70,50 @@ int
   }
   /* Overwrite ports with BOOTP
      default ports */
-  memset(src_pattern->src, 0, HY_PT_BUFLEN);
-  memset(dst_pattern->src, 0, HY_PT_BUFLEN);
+  memset(&src_pat, 0, sizeof(hy_pattern_t));
+  memset(&dst_pat, 0, sizeof(hy_pattern_t));
+  memcpy(&src_pat, src_pattern, sizeof(hy_pattern_t));
+  memcpy(&dst_pat, dst_pattern, sizeof(hy_pattern_t));
   if (opcode == HY_BOOTP_OP_BOOTREQUEST) {
     sprintf(
-      src_pattern->src,
+      src_pat.src,
       "%s-%s@%i",
-      src_pattern->hw_addr,
-      src_pattern->ip_addr,
+      src_pat.hw_addr,
+      src_pat.ip_addr,
       HY_BOOTP_PORT_CLIENT);
     sprintf(
-      dst_pattern->src,
+      dst_pat.src,
       "%s-%s@%i",
-      dst_pattern->hw_addr,
-      dst_pattern->ip_addr,
+      dst_pat.hw_addr,
+      dst_pat.ip_addr,
       HY_BOOTP_PORT_SERVER);
   } else {
     sprintf(
-      src_pattern->src,
+      src_pat.src,
       "%s-%s@%i",
-      src_pattern->hw_addr,
-      src_pattern->ip_addr,
+      src_pat.hw_addr,
+      src_pat.ip_addr,
       HY_BOOTP_PORT_SERVER);
     sprintf(
-      dst_pattern->src,
+      dst_pat.src,
       "%s-%s@%i",
-      dst_pattern->hw_addr,
-      dst_pattern->ip_addr,
+      dst_pat.hw_addr,
+      dst_pat.ip_addr,
       HY_BOOTP_PORT_CLIENT);
   }
   /* Validate pattern format */
-  if (strlen(src_pattern->hw_addr) == 0 ||
-      strlen(src_pattern->ip_addr) == 0) {
+  if (strlen(src_pat.hw_addr) == 0 ||
+      strlen(src_pat.ip_addr) == 0) {
     return HY_ER_WRONG_PT_FMT_SRC;
   }
-  if (strlen(dst_pattern->hw_addr) == 0 ||
-      strlen(dst_pattern->ip_addr) == 0) {
+  if (strlen(dst_pat.hw_addr) == 0 ||
+      strlen(dst_pat.ip_addr) == 0) {
     return HY_ER_WRONG_PT_FMT_DST;
   }
-  if (src_pattern->ip_v != dst_pattern->ip_v) {
+  if (src_pat.ip_v != dst_pat.ip_v) {
     return HY_ER_MULTIPLE_IP_V;
   }
-  if (src_pattern->ip_v != HY_AD_T_IP_V4) {
+  if (src_pat.ip_v != HY_AD_T_IP_V4) {
     return HY_ER_WRONG_IP_V;
   }
   memset(bootp_pkt, 0, bootp_pkt_len);
@@ -122,8 +126,8 @@ int
     htonl(
       (hy_random(1, 32000) * 1000000000) +
       hy_random(1, 32000));
-  ip_pton(src_pattern->ip_addr, &bootp_h->ciaddr);
-  eth_pton(src_pattern->hw_addr, &bootp_h->chaddr);
+  ip_pton(src_pat.ip_addr, &bootp_h->ciaddr);
+  eth_pton(src_pat.hw_addr, &bootp_h->chaddr);
   /* Add data */
   if (data_len > 0) {
     memcpy(
@@ -133,8 +137,8 @@ int
   }
   /* Wrap IP-Layer */
   return hy_build_udp_packet(
-            src_pattern,
-            dst_pattern,
+            &src_pat,
+            &dst_pat,
             ip_v_assumption,
             packet,
             packet_len,
