@@ -35,7 +35,7 @@
 #define HY_MAX_PWD_LEN 128
 
 /* Max remote attack packet length */
-#define HY_MAX_RA_PKT_LEN sizeof(hy_attack_t)
+#define HY_MAX_RA_PKT_LEN sizeof(hy_attack_t) + HY_MTU_LIMIT
 
 /* Remote attack handshake messages */
 #define HY_RAH_MSG_HELLO       0
