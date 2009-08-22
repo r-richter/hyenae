@@ -723,8 +723,22 @@ const char*
     return "Wrong address pattern format (server identifier)";
   } else if (error == HY_ER_NO_TCP_FLAGS) {
     return "No TCP flags given";
-  } else if (error == HY_ER_DHCP_MSG_UNSUPPORTED) {
-    return "DHCP-Message type not supported";
+  } else if (error == HY_ER_DNS_NO_QUERIES) {
+    return "No DNS query given";
+  } else if (error == HY_ER_DNS_NO_ANSWERS) {
+    return "No DNS answer given";
+  } else if (error == HY_ER_DNS_QRY_BUFLEN_EXCEED) {
+    return "Maximum DNS query length exceeded (too long pattern)";
+  } else if (error == HY_ER_DNS_ANS_BUFLEN_EXCEED) {
+    return "Maximum DNS answer length exceeded (too long pattern)";
+  } else if (error == HY_ER_DNS_QRY_N_BUFLEN_EXCEED) {
+    return "DNS query contains a hostname that is too long";
+  } else if (error == HY_ER_DNS_ANS_N_BUFLEN_EXCEED) {
+    return "DNS answer contains a hostname that is too long";
+  } else if (error == HY_ER_DNS_ANS_PT_BUFLEN_EXCEED) {
+    return "DNS answer contains a pattern that is too long";
+  } else if (error == HY_ER_DNS_ANS_FMT_ERROR) {
+    return "DNS answer contains an invalid pattern";
   } else if (error == HY_ER_MAX_RA_PKT_LEN_EXCEED) {
     return "Maximum remote attack packet length exceeded (too long payload)";
   } else if (error == HY_ER_PR_MALFORMED_RAR_H) {

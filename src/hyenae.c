@@ -206,7 +206,7 @@ int
               getopt(
                 argc,
                 argv,
-                "s:d:S:D:i:I:r:R:a:A:t:o:f:k:w:q:Q:c:C:e:E:u:U:p:P:mNlLXV")) != -1) {
+                "s:d:S:D:i:I:r:R:a:A:t:o:f:k:w:q:Q:y:Y:c:C:e:E:u:U:p:P:mNlLXV")) != -1) {
       switch (opt) {
         case 's':
           if (strlen(optarg) > HY_PT_BUFLEN) {
@@ -369,6 +369,12 @@ int
         case 'Q':
           att.tcp_seq_ins = atoi(optarg);
           break;
+        case 'y':
+          strncpy(att.dns_qry, optarg, HY_DNS_QRY_BUFLEN);
+          break;
+        case 'Y':
+          strncpy(att.dns_ans, optarg, HY_DNS_ANS_BUFLEN);
+          break;
         case 'c':
           att.min_cnt = atol(optarg);
           break;
@@ -460,8 +466,9 @@ int
             "              [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]\n"
             "              [-A ip-v-asm] [-t ip-ttl] [-o icmp-unr-code] [-f tcp-flags]\n"
             "              [-k tcp-ack] [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins]\n"
-            "              [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]\n"
-            "              [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]\n"
+            "              [-y dns_qry] [-Y dns_ans] [-c min-cnt] [-C max-cnt]\n"
+            "              [-e min-del] [-E max-del] [-u min-dur] [-U max-dur]\n"
+            "              [-p rnd-payload] [-P payload-file]\n"
             "              [-mNlLV]\n"
           );
           return -1;

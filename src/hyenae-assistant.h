@@ -142,6 +142,28 @@ int
 /* -------------------------------------------------------------------------- */
 
 int
+  hy_assistant_handle_dns_query_flood
+    (
+      hy_attack_t*,
+      int,
+      const char*,
+      int
+    );
+
+/* -------------------------------------------------------------------------- */
+
+int
+  hy_assistant_handle_spoofed_dns_redirection
+    (
+      hy_attack_t*,
+      int,
+      const char*,
+      int
+    );
+
+/* -------------------------------------------------------------------------- */
+
+int
   hy_assistant_handle_dhcp_discover_flood
     (
       hy_attack_t*

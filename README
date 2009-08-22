@@ -59,6 +59,7 @@
   * Customizable ICMP-Echo based attacks (IPv4)
   * Customizable TCP based attacks (IPv4 and IPv6)
   * Customizable UDP based attacks (IPv4 and IPv6)
+  * Customizable DNS based attacks (IPv4 and IPv6)
   * Customizable DHCP-Discover based attacks (IPv4)
   * Customizable DHCP-Request based attacks (IPv4)
   * Customizable DHCP-Release based attacks (IPv4)
@@ -79,8 +80,9 @@
          [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]
          [-A ip-v-asm] [-t ip-ttl] [-o icmp-unr-code] [-f tcp-flags]
          [-k tcp-ack] [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins]
-         [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]
-         [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]
+         [-y dns_qry] [-Y dns_ans] [-c min-cnt] [-C max-cnt]
+         [-e min-del] [-E max-del] [-u min-dur] [-U max-dur]
+         [-p rnd-payload] [-P payload-file]
          [-mNlLV]
 
     -s Source address pattern
@@ -186,6 +188,30 @@
     -Q TCP sequence number incrementation steps. If set, the sequence
        number of every generated packet on TCP based attacks will be incremented
        by the given value.
+
+    -y DNS query pattern. A DNS query pattern is required on DNS based attacks
+       to defines the list of domain names to query. The list should have the
+       following format:
+
+       # Single DNS query
+       [www.domain1.com]
+
+       # Multiple DNS queries
+       [www.domain1.com],[www.domain2.com],...
+
+    -Y DNS answer pattern. A DNS answer pattern is requiered on DNS-Response
+       attacks to define the list of DNS answers. The list should have the
+       following format:
+
+       # Single DNS answer
+       [www.domain1.com]@[IP-Address]
+
+       # Multiple DNS answers
+       [www.domain1.com]@[IP-Address],[www.domain2.com]@[IP-Address],...
+
+       The IP-Address strip of each answer can also contain wildcards and will
+       be handled the same way as regular IP-Address strips. See section 5,
+       "Address Patterns", for more detailed information.
 
     -c Minimum number of packets to generate. If not set or set to 0, an
        unlimited amount of packets will be generated, unless an attack duration
@@ -445,6 +471,21 @@
   hyenae -a udp
          -s [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
          -d [HW-Address]-[IP-Address (IPv4 or IPv6)]@[Port]
+  Optional:
+         -t [IP Time To Live (TTL)]
+
+  hyenae -a dns-query
+         -s [HW-Address]-[IP-Address (IPv4 or IPv6)]
+         -d [HW-Address]-[IP-Address (IPv4 or IPv6)]
+         -y [DNS query pattern]
+  Optional:
+         -t [IP Time To Live (TTL)]
+
+  hyenae -a dns-response
+         -s [HW-Address]-[IP-Address (IPv4 or IPv6)]
+         -d [HW-Address]-[IP-Address (IPv4 or IPv6)]
+         -y [DNS query pattern]
+         -Y [DNS answer pattern]
   Optional:
          -t [IP Time To Live (TTL)]
 

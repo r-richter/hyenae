@@ -15,8 +15,8 @@
 --------------------------------------------------------------------------------
 
   High Priority
+    * Fix build warnings
     * Add debian run script
-    * Add DNS support
 
   Medium Priority
     * Add ICMPv6 support

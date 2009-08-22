@@ -45,6 +45,7 @@ hyenae_SOURCES = \
   hyenae-icmp.h hyenae-icmp.c \
   hyenae-tcp.h hyenae-tcp.c \
   hyenae-udp.h hyenae-udp.c \
+  hyenae-dns.h hyenae-dns.c \
   hyenae-bootp.h hyenae-bootp.c \
   hyenae-dhcp.h hyenae-dhcp.c \
   hyenae-attack.h hyenae-attack.c \
@@ -69,6 +70,7 @@ hyenaed_SOURCES = \
   hyenae-icmp.h hyenae-icmp.c \
   hyenae-tcp.h hyenae-tcp.c \
   hyenae-udp.h hyenae-udp.c \
+  hyenae-dns.h hyenae-dns.c \
   hyenae-bootp.h hyenae-bootp.c \
   hyenae-dhcp.h hyenae-dhcp.c \
   hyenae-attack.h hyenae-attack.c \

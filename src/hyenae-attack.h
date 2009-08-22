@@ -36,6 +36,7 @@
 #include "hyenae-icmp.h"
 #include "hyenae-tcp.h"
 #include "hyenae-udp.h"
+#include "hyenae-dns.h"
 #include "hyenae-bootp.h"
 #include "hyenae-dhcp.h"
 
@@ -50,9 +51,11 @@
 #define HY_AT_T_ICMP_UNREACH_TCP 4
 #define HY_AT_T_TCP              5
 #define HY_AT_T_UDP              6
-#define HY_AT_T_DHCP_DISCOVER    7
-#define HY_AT_T_DHCP_REQUEST     8
-#define HY_AT_T_DHCP_RELEASE     9
+#define HY_AT_T_DNS_QUERY        7
+#define HY_AT_T_DNS_RESPONSE     8
+#define HY_AT_T_DHCP_DISCOVER    9
+#define HY_AT_T_DHCP_REQUEST     10
+#define HY_AT_T_DHCP_RELEASE     11
 
 /* Turncation flags */
 #define HY_TC_NONE    0
@@ -61,6 +64,12 @@
 
 /* Max. result string buffer length */
 #define HY_RES_LINE_BUFLEN 1024
+
+/* Max. DNS query pattern length */
+#define HY_DNS_QRY_BUFLEN (4 * HY_PT_BUFLEN)
+
+/* Max. DNS answer pattern length */
+#define HY_DNS_ANS_BUFLEN (4 * HY_PT_BUFLEN)
 
 /* -------------------------------------------------------------------------- */
 
@@ -87,6 +96,8 @@ typedef
   unsigned long max_dur;
   unsigned int ip_ttl;
   unsigned int icmp_unr_code;
+  unsigned char dns_qry[HY_DNS_QRY_BUFLEN];
+  unsigned char dns_ans[HY_DNS_ANS_BUFLEN];
   unsigned int tcp_flgs;
   unsigned long tcp_seq;
   unsigned long tcp_seq_ins;

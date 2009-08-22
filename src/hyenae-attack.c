@@ -51,6 +51,10 @@ int
     return HY_AT_T_TCP;
   } else if (strcmp(name, "udp") == 0) {
     return HY_AT_T_UDP;
+  } else if (strcmp(name, "dns-query") == 0) {
+    return HY_AT_T_DNS_QUERY;
+  } else if (strcmp(name, "dns-response") == 0) {
+    return HY_AT_T_DNS_RESPONSE;
   } else if (strcmp(name, "dhcp-discover") == 0) {
     return HY_AT_T_DHCP_DISCOVER;
   } else if (strcmp(name, "dhcp-request") == 0) {
@@ -87,6 +91,10 @@ const char*
       return "tcp";
     case HY_AT_T_UDP:
       return "udp";
+    case HY_AT_T_DNS_QUERY:
+      return "dns-query";
+    case HY_AT_T_DNS_RESPONSE:
+      return "dns-response";
     case HY_AT_T_DHCP_DISCOVER:
       return "dhcp-discover";
     case HY_AT_T_DHCP_REQUEST:
@@ -528,6 +536,32 @@ void
                params->att->pay,
                params->att->pay_len,
                params->att->ip_ttl)) != HY_ER_OK) {
+        break;
+      }
+    } else if (params->att->type == HY_AT_T_DNS_QUERY) {
+      if ((params->res->ret =
+             hy_build_dns_packet(
+               &params->att->src_pat,
+               &params->att->dst_pat,
+               params->att->ip_v_asm,
+               &params->pkt_buf,
+               &pkt_len,
+               params->att->ip_ttl,
+               params->att->dns_qry,
+               NULL)) != HY_ER_OK) {
+        break;
+      }
+    } else if (params->att->type == HY_AT_T_DNS_RESPONSE) {
+      if ((params->res->ret =
+             hy_build_dns_packet(
+               &params->att->src_pat,
+               &params->att->dst_pat,
+               params->att->ip_v_asm,
+               &params->pkt_buf,
+               &pkt_len,
+               params->att->ip_ttl,
+               params->att->dns_qry,
+               params->att->dns_ans)) != HY_ER_OK) {
         break;
       }
     } else if (params->att->type == HY_AT_T_DHCP_DISCOVER) {

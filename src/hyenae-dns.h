@@ -24,103 +24,106 @@
  *
  */
 
-#ifndef HYENAE_PATTERHY_H
-  #define HYENAE_PATTERHY_H
+#ifndef HYENAE_DNS_H
+  #define HYENAE_DNS_H
 
 #include "hyenae-base.h"
+#include "hyenae-patterns.h"
+#include "hyenae-attack.h"
 
-/* Address types */
-#define HY_AD_T_HW      1
-#define HY_AD_T_IP_V4   4
-#define HY_AD_T_IP_V6   6
-#define HY_AD_T_UNKNOWN 0
+/* Domain name sep. character */
+#define DNS_N_SC '.'
 
-/* End-Of-Address characters */
-#define HY_PT_EOA_HW '-'
-#define HY_PT_EOA_IP '@'
+/* DNS question/answer list sep. character */
+#define HY_DNS_QA_SC ','
 
-/* Wildcard character */
-#define HY_PT_WCC '%'
+/* DNS answer name/address sep. character */
+#define HY_DNS_A_NA_SC '@'
 
-/* Default address patterns */
-#define HY_PT_D_HW "%%:%%:%%:%%:%%:%%"
-#define HY_PT_D_IP_V4 "%%%.%%%.%.%"
-#define HY_PT_D_IP_V6 "%%%%:%%%%:%%%%:%%%%:%%%%:%%%%:%%%%:%%%%"
+/* DNS name buffer length */
+#define HY_DNS_N_BUFLEN 255
 
-/* Pattern buffer length */
-#define HY_PT_BUFLEN 255
+/* DNS answer pattern buffer length */
+#define HY_DNS_ANS_PT_BUFLEN (HY_DNS_N_BUFLEN + HY_PT_BUFLEN)
 
-/* Uniform address buffer length */
-#define HY_AD_BUFLEN 255
+/* DNS packet buffer length */
+#define HY_DNS_PACKET_BUFLEN 10240
+
+/* DNS port definitions */
+#define HY_DNS_PORT 53
+
+/* DNS protocol flags */
+#define HY_DNS_FLAG1_RESPONSE 0x80
 
 /* -------------------------------------------------------------------------- */
 
 typedef
-  struct hy_pattern {
+  struct hy_dns_h {
 
   /*
    * USAGE:
-   *   Stores pattern informations
-   *   and parse results.
+   *   Represents a DNS header.
    */
 
-  char src[HY_PT_BUFLEN];
-  char hw_addr[HY_AD_BUFLEN];
-  char ip_addr[HY_AD_BUFLEN];
-  int ip_v;
-  int port;
+  uint16_t id;
+  uint8_t flags1;
+  uint8_t flags2;
+  uint16_t qdcount;
+  uint16_t ancount;
+  uint16_t nscount;
+  uint16_t arcount;
 
-} hy_pattern_t;
-
-/* -------------------------------------------------------------------------- */
-
-int
-  hy_get_address_type
-    (
-      const char*,
-      int
-    );
+} hy_dns_h_t;
 
 /* -------------------------------------------------------------------------- */
 
-void
-  hy_replace_wildcards
+  void
+    hy_encode_domain_name
     (
-      char*,
-      int,
-      int
+      unsigned char*,
+      unsigned char**,
+      int*
     );
 
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_parse_copy_address
+  hy_dns_parse_add_queries
     (
+      unsigned char*,
+      int*,
       const char*,
-      int,
-      hy_pattern_t*,
+      int*,
       int
     );
 
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_parse_copy_port
+  hy_dns_parse_add_answers
     (
+      unsigned char*,
+      int*,
       const char*,
-      int,
-      hy_pattern_t*
+      int*,
+      int
     );
 
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_parse_pattern
+  hy_build_dns_packet
     (
       hy_pattern_t*,
-      int
+      hy_pattern_t*,
+      int,
+      unsigned char**,
+      int*,
+      unsigned int,
+      const char*,
+      const char*
     );
 
 /* -------------------------------------------------------------------------- */
 
-#endif /* HYENAE_PATTERHY_H */
+#endif /* HYENAE_DNS_H */

