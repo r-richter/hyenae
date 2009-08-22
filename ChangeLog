@@ -19,6 +19,7 @@
     * Added DNS-Response attack support
     * Added DNS-Query flood to attack assistant
     * Added Spoofed DNS-Redirection attack to attack assistant
+    * Fixed DHCP source/destination pattern randomization
 
   Version 0.31-1 (Aug. 14th, 2009)
     * Bug fixes
