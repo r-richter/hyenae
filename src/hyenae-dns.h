@@ -37,9 +37,6 @@
 /* DNS question/answer list sep. character */
 #define HY_DNS_QA_SC ','
 
-/* DNS answer name/address sep. character */
-#define HY_DNS_A_NA_SC '@'
-
 /* DNS name buffer length */
 #define HY_DNS_N_BUFLEN 255
 
@@ -48,9 +45,6 @@
 
 /* DNS port definitions */
 #define HY_DNS_PORT 53
-
-/* DNS protocol flags */
-#define HY_DNS_FLAG1_RESPONSE 0x80
 
 /* -------------------------------------------------------------------------- */
 
