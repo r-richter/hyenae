@@ -200,7 +200,7 @@ int
     "%s-%s@%i",
     src_pattern->hw_addr,
     src_pattern->ip_addr,
-    hy_random(1023, 60000));
+    hy_random(1023, 6000));
   sprintf(
     dst_pat.src,
     "%s-%s@%i",
