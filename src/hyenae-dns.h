@@ -67,7 +67,7 @@ typedef
 
 /* -------------------------------------------------------------------------- */
 
-  void
+  int
     hy_encode_domain_name
     (
       unsigned char*,

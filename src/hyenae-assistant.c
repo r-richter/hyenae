@@ -757,8 +757,8 @@ int
              "\n  Enter query pattern"
              "\n"
              "\n    Pattern format:"
-             "\n      [www.domain1.com],[www.domain2.com],...\n"
-             "\n  "
+             "\n      [www.domain1.com],[www.domain2.com],..."
+             "\n"
              "\n  For additional informations about query patterns "
              "\n  and wilcard based randomization see README or man pages.",
              attack->dns_qry,

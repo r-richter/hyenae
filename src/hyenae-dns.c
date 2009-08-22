@@ -28,7 +28,7 @@
 
 /* -------------------------------------------------------------------------- */
 
-  void
+  int
     hy_encode_domain_name
     (
       unsigned char* name,
@@ -44,6 +44,7 @@
   int i = 0;
   int enc_n_i = 0;
   int s_len = 0;
+  int s_cnt = 0;
 
   *len = strlen(name) + 2;
   *enc_name = malloc(*len);
@@ -51,6 +52,9 @@
   while (1) {
     if (i + 1 == *len ||
         *(name + i) == DNS_N_SC) {
+      if (*(name + i) == DNS_N_SC) {
+        s_cnt = s_cnt + 1;
+      }
       *(*enc_name + enc_n_i) = s_len;
       enc_n_i = enc_n_i + 1;
       strncpy(*enc_name + enc_n_i, name + i - s_len, s_len);
@@ -65,6 +69,10 @@
       break;
     }
   }
+  if (s_cnt != 2) {
+    return HY_ER_DNS_QRY_WRONG_FMT_N;
+  }
+  return HY_ER_OK;
 } /* hy_encode_dns_name */
 
 /* -------------------------------------------------------------------------- */
@@ -85,6 +93,7 @@ int
    *   and adds them to the given DNS-Packet.
    */
 
+  int ret = HY_ER_OK;
   int i = 0;
   int tmp_len = 0;
   int qry_len = 0;
@@ -104,7 +113,11 @@ int
     if (i == qry_len ||
         *(queries + i) == HY_DNS_QA_SC) {
       /* Add DNS-Query to packet */
-      hy_encode_domain_name(tmp, &enc_n, &enc_n_len);
+      if ((ret =
+             hy_encode_domain_name(
+               tmp, &enc_n, &enc_n_len)) != HY_ER_OK) {
+        return ret;
+      }
       memcpy(packet + *packet_len, enc_n, enc_n_len);
       free(enc_n);
       *packet_len = *packet_len + enc_n_len + 1;
@@ -133,7 +146,7 @@ int
       break;
     }
   }
-  return HY_ER_OK;
+  return ret;
 } /* hy_dns_parse_add_queries */
 
 /* -------------------------------------------------------------------------- */

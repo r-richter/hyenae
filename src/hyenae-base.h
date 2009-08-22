@@ -123,9 +123,10 @@
 #define HY_ER_WRONG_PT_FMT_SRV_IP      -3024
 #define HY_ER_NO_TCP_FLAGS             -3025
 #define HY_ER_DNS_NO_QUERIES           -3026
-#define HY_ER_DNS_QRY_BUFLEN_EXCEED    -3027
+#define HY_ER_DNS_QRY_WRONG_FMT_N      -3027
 #define HY_ER_DNS_QRY_N_BUFLEN_EXCEED  -3028
-#define HY_ER_DHCP_MSG_UNSUPPORTED     -3029
+#define HY_ER_DNS_QRY_BUFLEN_EXCEED    -3029
+#define HY_ER_DHCP_MSG_UNSUPPORTED     -3030
 
 /* Protocol based errors */
 #define HY_ER_MAX_RA_PKT_LEN_EXCEED -4001
