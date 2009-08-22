@@ -52,6 +52,8 @@
   * Assisted TCP-Land attack setup
   * Assisted Blind TCP-Connection reset setup
   * Assisted UDP flood setup
+  * Assisted DNS-Query flood setup
+  * Assisted spoofed DNS-Redirection setup
   * Assisted DHCP-Discover flood setup
   * Assisted DHCP starvation setup
   * Assisted DHCP-Release forcing setup

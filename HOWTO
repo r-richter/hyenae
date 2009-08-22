@@ -181,7 +181,7 @@
 
     # hyenae -I 3 -a udp -s %-%@%%%% -d 00:f0:21:03:c6:00-192.168.0.1@130 -p 100
 
-    5.10 DNS-Flood
+    5.10 DNS-Query flood
 
     This example will send an unlimited amount of DNS query packets from a
     random source to an existing DNS server.
