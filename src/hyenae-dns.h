@@ -41,7 +41,7 @@
 #define HY_DNS_N_BUFLEN 255
 
 /* DNS packet buffer length */
-#define HY_DNS_PACKET_BUFLEN 10240
+#define HY_DNS_PACKET_BUFLEN (HY_MTU_LIMIT - sizeof(eth_h_t) - sizeof(udp_h_t))
 
 /* DNS port definitions */
 #define HY_DNS_PORT 53

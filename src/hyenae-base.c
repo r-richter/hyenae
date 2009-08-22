@@ -728,7 +728,7 @@ const char*
   } else if (error == HY_ER_DNS_QRY_BUFLEN_EXCEED) {
     return "Maximum DNS query length exceeded (too long pattern)";
   } else if (error == HY_ER_DNS_QRY_N_BUFLEN_EXCEED) {
-    return "DNS query contains a hostname that is too long";
+    return "DNS query contains a domain name that is too long";
   } else if (error == HY_ER_MAX_RA_PKT_LEN_EXCEED) {
     return "Maximum remote attack packet length exceeded (too long payload)";
   } else if (error == HY_ER_PR_MALFORMED_RAR_H) {

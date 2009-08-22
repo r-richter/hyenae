@@ -65,7 +65,7 @@
 #define HY_RES_LINE_BUFLEN 1024
 
 /* Max. DNS query pattern length */
-#define HY_DNS_QRY_BUFLEN (4 * HY_PT_BUFLEN)
+#define HY_DNS_QRY_BUFLEN (1024)
 
 /* -------------------------------------------------------------------------- */
 
