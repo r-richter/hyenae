@@ -784,134 +784,6 @@ int
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_assistant_handle_spoofed_dns_redirection
-    (
-      hy_attack_t* attack,
-      int is_route_nat_free,
-      const char* hw_addr_gateway,
-      int is_land_attack
-    ) {
-
-  /*
-   * USAGE:
-   *   Assistent handler for
-   *   spoofed DNS-Redirections.
-   */
-
-  int ret = HY_ER_OK;
-  int hw_stp_len = 0;
-
-  attack->type = HY_AT_T_DNS_RESPONSE;
-  /* Enter DNS server pattern */
-  ret =
-    hy_assistant_input_address_pattern(
-      "DNS server",
-      "[HW-Address]-[IP-Address]",
-      attack->ip_v_asm,
-      attack->src_pat.src,
-      0);
-  if (ret != HY_ER_OK) {
-    return ret;
-  }
-  /* Enter target pattern */
-  if (is_route_nat_free == 1) {
-    ret =
-      hy_assistant_input_address_pattern(
-        "target",
-        "[HW-Address]-[IP-Address]",
-        attack->ip_v_asm,
-        attack->dst_pat.src,
-        0);
-  } else {
-    hw_stp_len =
-      sprintf(
-        attack->dst_pat.src,
-        "%s-",
-        hw_addr_gateway);
-    ret =
-      hy_assistant_input_address_pattern(
-        "target",
-        "[IP-Address]",
-        attack->ip_v_asm,
-        attack->dst_pat.src,
-        hw_stp_len);
-  }
-  if (ret != HY_ER_OK) {
-    return ret;
-  }
-  /* Enter target domain */
-  while (1) {
-    if ((ret =
-           hy_assistant_input_text(
-             "\n  Enter target domain"
-             "\n"
-             "\n    Pattern format:"
-             "\n      [www.domain1.com]\n",
-             attack->dns_qry,
-             HY_INPUT_BUFLEN)) != HY_ER_OK) {
-      printf("\n");
-      return ret;
-    }
-    if (strchr(attack->dns_qry, HY_DNS_QA_SC) != NULL) {
-      printf(
-        "\n  (!) Multiple domains not supported by attack assistant\n");
-    } else {
-      break;
-    }
-  }
-  sprintf(attack->dns_ans, "%s@", attack->dns_qry);
-  /* Enter redirection pattern */
-  while (1) {
-    ret =
-      hy_assistant_input_address_pattern(
-        "redirection",
-        "[IP-Address]",
-        attack->ip_v_asm,
-        attack->dns_ans + strlen(attack->dns_qry) + 1,
-        0);
-    if (ret != HY_ER_OK) {
-      return ret;
-    }
-    if (strchr(hw_addr_gateway, HY_PT_WCC) != NULL) {
-      printf("\n  (!) Pattern must not contain wildcards\n");
-    } else {
-      break;
-    }
-  }
-
-
-
-
-
-  return ret;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-} /* hy_assistant_handle_spoofed_dns_redirection */
-
-/* -------------------------------------------------------------------------- */
-
-int
   hy_assistant_handle_dhcp_discover_flood
     (
       hy_attack_t* attack
@@ -1282,11 +1154,10 @@ int
         printf("\n  > 8.  Blind TCP-Connection reset       DoS");
         printf("\n  > 9.  UDP flood                        DoS");
         printf("\n  > 10. DNS-Query flood                  DoS");
-        printf("\n  > 11. Spoofed DNS-Redirection          MITM");
-        printf("\n  > 12. DHCP-Discover flood              DoS");
-        printf("\n  > 13. DHCP starvation                  DoS");
-        printf("\n  > 14. DHCP-Release forcing             DoS");
-        max_opt_val = 14;
+        printf("\n  > 11. DHCP-Discover flood              DoS");
+        printf("\n  > 12. DHCP starvation                  DoS");
+        printf("\n  > 13. DHCP-Release forcing             DoS");
+        max_opt_val = 13;
       } else {
         /* NAT-Free, None EAP-Free IPv4 attacks */
         printf("\n  > 1.  ARP-Cache poisoning              MITM");
@@ -1298,9 +1169,8 @@ int
         printf("\n  > 7.  Blind TCP-Connection reset       DoS");
         printf("\n  > 8.  UDP flood                        DoS");
         printf("\n  > 9.  DNS-Query flood                  DoS");
-        printf("\n  > 10. Spoofed DNS-Redirection          MITM");
-        printf("\n  > 11. DHCP-Release forcing             DoS");
-        max_opt_val = 11;
+        printf("\n  > 10. DHCP-Release forcing             DoS");
+        max_opt_val = 10;
       }
     } else {
       /* NAT-Free IPv6 attacks */
@@ -1308,8 +1178,7 @@ int
       printf("\n  > 2. Blind TCP-Connection reset          DoS");
       printf("\n  > 3. UDP flood                           DoS");
       printf("\n  > 4. DNS-Query flood                     DoS");
-      printf("\n  > 5. Spoofed DNS-Redirection             MITM");
-      max_opt_val = 5;
+      max_opt_val = 4;
     }
   } else {
     if (attack->ip_v_asm == HY_AD_T_IP_V4) {
@@ -1390,18 +1259,13 @@ int
             break;
           case 11:
             ret =
-              hy_assistant_handle_spoofed_dns_redirection(
-                attack, nat_free, hw_addr_gateway, 1);
+              hy_assistant_handle_dhcp_discover_flood(attack);
             break;
           case 12:
             ret =
-              hy_assistant_handle_dhcp_discover_flood(attack);
-            break;
-          case 13:
-            ret =
               hy_assistant_handle_dhcp_starvation(attack);
             break;
-          case 14:
+          case 13:
             ret =
               hy_assistant_handle_dhcp_release_forcing(attack);
             break;
@@ -1453,11 +1317,6 @@ int
             break;
           case 10:
             ret =
-              hy_assistant_handle_spoofed_dns_redirection(
-                attack, nat_free, hw_addr_gateway, 1);
-            break;
-          case 11:
-            ret =
               hy_assistant_handle_dhcp_release_forcing(attack);
             break;
         }
@@ -1482,11 +1341,6 @@ int
         case 4:
           ret =
             hy_assistant_handle_dns_query_flood(
-              attack, nat_free, hw_addr_gateway, 0);
-          break;
-        case 5:
-          ret =
-            hy_assistant_handle_spoofed_dns_redirection(
               attack, nat_free, hw_addr_gateway, 0);
           break;
       }
@@ -1631,9 +1485,6 @@ int
   }
   if (strlen(attack->dns_qry) > 0) {
     printf("\n           -y %s", attack->dns_qry);
-  }
-  if (strlen(attack->dns_ans) > 0) {
-    printf("\n           -y %s", attack->dns_ans);
   }
   if (attack->max_del > 0) {
     printf("\n           -E %i", attack->max_del);

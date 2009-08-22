@@ -43,9 +43,6 @@
 /* DNS name buffer length */
 #define HY_DNS_N_BUFLEN 255
 
-/* DNS answer pattern buffer length */
-#define HY_DNS_ANS_PT_BUFLEN (HY_DNS_N_BUFLEN + HY_PT_BUFLEN)
-
 /* DNS packet buffer length */
 #define HY_DNS_PACKET_BUFLEN 10240
 
@@ -100,18 +97,6 @@ int
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_dns_parse_add_answers
-    (
-      unsigned char*,
-      int*,
-      const char*,
-      int*,
-      int
-    );
-
-/* -------------------------------------------------------------------------- */
-
-int
   hy_build_dns_packet
     (
       hy_pattern_t*,
@@ -120,7 +105,6 @@ int
       unsigned char**,
       int*,
       unsigned int,
-      const char*,
       const char*
     );
 

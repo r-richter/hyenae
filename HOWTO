@@ -77,7 +77,6 @@
     > tcp
     > udp
     > dns-query
-    > dns-response
     > dhcp-discover
     > dhcp-request
     > dhcp-release
@@ -188,15 +187,6 @@
 
     # hyenae -I 3 -a dns-query -s %-% -d 00:f0:21:03:c6:00-192.168.0.1 \
     # -y www.google.com
-
-    5.11 Spoofed DNS-Redirection
-
-    This example will send an unlimited amount of DNS response packets from
-    an existing source to an existing DNS server.
-
-    # hyenae -I 3 -a dns-query -s 00:f0:21:03:c6:00-192.168.0.2 \
-    # -d 00:f0:21:03:c6:00-192.168.0.1 -y www.google.com \
-    # -Y www.google.de@192.168.0.3
 
     5.11 DHCP-Discover Flood
 

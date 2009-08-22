@@ -52,10 +52,9 @@
 #define HY_AT_T_TCP              5
 #define HY_AT_T_UDP              6
 #define HY_AT_T_DNS_QUERY        7
-#define HY_AT_T_DNS_RESPONSE     8
-#define HY_AT_T_DHCP_DISCOVER    9
-#define HY_AT_T_DHCP_REQUEST     10
-#define HY_AT_T_DHCP_RELEASE     11
+#define HY_AT_T_DHCP_DISCOVER    8
+#define HY_AT_T_DHCP_REQUEST     9
+#define HY_AT_T_DHCP_RELEASE     10
 
 /* Turncation flags */
 #define HY_TC_NONE    0
@@ -67,9 +66,6 @@
 
 /* Max. DNS query pattern length */
 #define HY_DNS_QRY_BUFLEN (4 * HY_PT_BUFLEN)
-
-/* Max. DNS answer pattern length */
-#define HY_DNS_ANS_BUFLEN (4 * HY_PT_BUFLEN)
 
 /* -------------------------------------------------------------------------- */
 
@@ -97,7 +93,6 @@ typedef
   unsigned int ip_ttl;
   unsigned int icmp_unr_code;
   unsigned char dns_qry[HY_DNS_QRY_BUFLEN];
-  unsigned char dns_ans[HY_DNS_ANS_BUFLEN];
   unsigned int tcp_flgs;
   unsigned long tcp_seq;
   unsigned long tcp_seq_ins;

@@ -558,20 +558,12 @@ void
     buffer,
     tmp);
   }
-  if (attack->type == HY_AT_T_DNS_QUERY ||
-      attack->type == HY_AT_T_DNS_RESPONSE) {
+  if (attack->type == HY_AT_T_DNS_QUERY) {
     sprintf(
       buffer,
       "%s  > DNS queries: %s\n",
       buffer,
       attack->dns_qry);
-    if (attack->type == HY_AT_T_DNS_RESPONSE) {
-      sprintf(
-        buffer,
-        "%s  > DNS answers: %s\n",
-        buffer,
-        attack->dns_ans);
-      }
   }
   if (attack->type == HY_AT_T_TCP ||
       attack->type == HY_AT_T_ICMP_UNREACH_TCP) {

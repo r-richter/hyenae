@@ -139,121 +139,6 @@ int
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_dns_parse_add_answers
-    (
-      unsigned char* packet,
-      int* packet_len,
-      const char* answers,
-      int* answer_count,
-      int ip_v_asm
-    ) {
-
-  /*
-   * USAGE:
-   *   Parses a string of DNS-Answers
-   *   and adds them to the given DNS-Packet.
-   */
-
-  int ret = HY_ER_OK;
-  int i = 0;
-  int tmp_len = 0;
-  int dns_n_len = 0;
-  int ans_len = 0;
-  int enc_n_len = 0;
-  uint16_t* type = NULL;
-  uint16_t* class = NULL;
-  uint32_t* ttl = NULL;
-  uint16_t* data_len = NULL;
-  char tmp[HY_DNS_ANS_PT_BUFLEN];
-  char dns_n[HY_DNS_N_BUFLEN];
-  unsigned char* enc_n = NULL;
-  ip_addr_t* ip_addr = NULL;
-  ip6_addr_t* ip6_addr = NULL;
-  hy_pattern_t ver_pat;
-
-  ans_len = strlen(answers);
-  if (ans_len > HY_DNS_ANS_BUFLEN) {
-    return HY_ER_DNS_ANS_BUFLEN_EXCEED;
-  }
-  memset(tmp, 0, HY_DNS_ANS_PT_BUFLEN);
-  tmp_len = 0;
-  while (1) {
-    if (i == ans_len ||
-        *(answers + i) == HY_DNS_QA_SC) {
-      while (dns_n_len < tmp_len) {
-        if (*(tmp + dns_n_len) == HY_DNS_A_NA_SC) {
-          break;
-        }
-        if (dns_n_len > HY_DNS_N_BUFLEN) {
-          return HY_ER_DNS_ANS_N_BUFLEN_EXCEED;
-        }
-        dns_n_len = dns_n_len + 1;
-      }
-      /* Verify answer pattern */
-      if (dns_n_len < 1 ||
-          dns_n_len == tmp_len) {
-        return HY_ER_DNS_ANS_FMT_ERROR;
-      }
-      *(ver_pat.src) = HY_PT_WCC;
-      *(ver_pat.src + 1) = HY_PT_EOA_HW;
-      strncpy(
-        ver_pat.src + 2, (tmp + dns_n_len + 1), HY_PT_BUFLEN);
-      if ((ret =
-             hy_parse_pattern(
-              &ver_pat, ip_v_asm)) != HY_ER_OK) {
-        return ret;
-      }
-      /* Add DNS-Answer to packet */
-      memset(dns_n, 0, HY_DNS_N_BUFLEN);
-      strncpy(dns_n, tmp, dns_n_len);
-      hy_encode_domain_name(dns_n, &enc_n, &enc_n_len);
-      memcpy(packet + *packet_len, enc_n, enc_n_len);
-      free(enc_n);
-      *packet_len = *packet_len + enc_n_len + 1;
-      type = (uint16_t*) (packet + *packet_len);
-      class = (uint16_t*) (packet + *packet_len + 2);
-      ttl = (uint32_t*) (packet + *packet_len + 4);
-      data_len = (uint16_t*) (packet + *packet_len + 9);
-      ip_addr = (ip_addr_t*) (packet + *packet_len + 10);
-      ip6_addr = (ip6_addr_t*) (packet + *packet_len + 10);
-      if (ip_v_asm == HY_AD_T_IP_V4) {
-        *type = htons(1);
-      } else {
-        *type = htons(28);
-      }
-      *class = htons(1);
-      *ttl = htons(hy_random(1, 24));
-      *data_len = 4;
-      *packet_len = *packet_len + 10;
-      if (ip_v_asm == HY_AD_T_IP_V4) {
-        ip_pton(ver_pat.ip_addr, ip_addr);
-        *packet_len = *packet_len + sizeof(ip_addr_t);
-      } else {
-        ip6_pton(ver_pat.ip_addr, ip6_addr);
-        *packet_len = *packet_len + sizeof(ip6_addr_t);
-      }
-      *answer_count = *answer_count + 1;
-      memset(tmp, 0, HY_DNS_ANS_PT_BUFLEN);
-      tmp_len = 0;
-    } else {
-      *(tmp + tmp_len) = *(answers + i);
-      if ((tmp_len + 1) > (HY_DNS_ANS_PT_BUFLEN - 2)) {
-        return HY_ER_DNS_ANS_PT_BUFLEN_EXCEED;
-      }
-      tmp_len = tmp_len + 1;
-    }
-    if (i < ans_len) {
-      i = i + 1;
-    } else {
-      break;
-    }
-  }
-  return ret;
-} /* hy_dns_parse_add_answers */
-
-/* -------------------------------------------------------------------------- */
-
-int
   hy_build_dns_packet
     (
       hy_pattern_t* src_pattern,
@@ -262,8 +147,7 @@ int
       unsigned char** packet,
       int* packet_len,
       unsigned int ip_ttl,
-      const char* dns_queries,
-      const char* dns_answers
+      const char* dns_queries
     ) {
 
   /*
@@ -276,7 +160,6 @@ int
   int dns_pkt_len =
     sizeof(hy_dns_h_t);
   int qry_cnt = 0;
-  int ans_cnt = 0;
   unsigned char dns_pkt[HY_DNS_PACKET_BUFLEN];
   hy_dns_h_t* dns_h = NULL;
   hy_pattern_t src_pat;
@@ -328,17 +211,10 @@ int
       strlen(dns_queries) == 0) {
     return HY_ER_DNS_NO_QUERIES;
   }
-  if (dns_answers != NULL &&
-      strlen(dns_answers) == 0) {
-    return HY_ER_DNS_NO_ANSWERS;
-  }
   memset(dns_pkt, 0, HY_DNS_PACKET_BUFLEN);
   /* Build DNS header */
   dns_h = (hy_dns_h_t*) dns_pkt;
   dns_h->id = htons(hy_random(1, 65000));
-  if (dns_answers != NULL) {
-    dns_h->flags1 = HY_DNS_FLAG1_RESPONSE;
-  }
   if ((ret =
          hy_dns_parse_add_queries(
            dns_pkt,
@@ -349,20 +225,7 @@ int
     return ret;
   }
   dns_h->qdcount = htons(qry_cnt);
-  if (dns_answers != NULL) {
-    if ((ret =
-           hy_dns_parse_add_answers(
-             dns_pkt,
-             &dns_pkt_len,
-             dns_answers,
-             &ans_cnt,
-             ip_v_assumption)) != HY_ER_OK) {
-      return ret;
-    }
-    dns_h->ancount = htons(ans_cnt);
-  }
   dns_h->nscount = htons(0);
-  dns_h->arcount = htons(0);
   /* Wrap IP-Layer */
   ret = hy_build_udp_packet(
           &src_pat,
