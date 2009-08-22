@@ -189,9 +189,9 @@
        number of every generated packet on TCP based attacks will be incremented
        by the given value.
 
-    -y DNS query pattern. A DNS query pattern is required on DNS based attacks
-       to defines the list of domain names to query. The list should have the
-       following format:
+    -y DNS query pattern. A DNS query pattern is required on DNS-Query based
+       attacks to define the list of domain names to query. The list should have
+       the following format:
 
        # Single DNS query
        [www.domain1.com]
