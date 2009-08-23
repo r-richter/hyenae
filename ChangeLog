@@ -14,7 +14,7 @@
 
 --------------------------------------------------------------------------------
 
-  Version 0.32-1 (Aug. 22nd, 2009)
+  Version 0.32-1 (Aug. 24th, 2009)
     * Added DNS-Query attack support
     * Added DNS-Query flood to attack assistant
     * Fixed DHCP source/destination pattern randomization
