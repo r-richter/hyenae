@@ -1174,11 +1174,12 @@ int
       }
     } else {
       /* NAT-Free IPv6 attacks */
-      printf("\n  > 1. TCP-SYN flood                       DoS");
-      printf("\n  > 2. Blind TCP-Connection reset          DoS");
-      printf("\n  > 3. UDP flood                           DoS");
-      printf("\n  > 4. DNS-Query flood                     DoS");
-      max_opt_val = 4;
+      printf("\n  > 1. ICMP-Echo flood                     DoS");
+      printf("\n  > 2. TCP-SYN flood                       DoS");
+      printf("\n  > 3. Blind TCP-Connection reset          DoS");
+      printf("\n  > 4. UDP flood                           DoS");
+      printf("\n  > 5. DNS-Query flood                     DoS");
+      max_opt_val = 6;
     }
   } else {
     if (attack->ip_v_asm == HY_AD_T_IP_V4) {
@@ -1190,10 +1191,11 @@ int
       max_opt_val = 4;
     } else {
       /* None NAT-Free IPv6 attacks */
-      printf("\n  > 1. TCP-SYN flood                       DoS");
-      printf("\n  > 2. UDP flood                           DoS");
-      printf("\n  > 3. DNS-Query flood                     DoS");
-      max_opt_val = 3;
+      printf("\n  > 1. ICMP-Echo flood                     DoS");
+      printf("\n  > 2. TCP-SYN flood                       DoS");
+      printf("\n  > 3. UDP flood                           DoS");
+      printf("\n  > 4. DNS-Query flood                     DoS");
+      max_opt_val = 4;
     }
   }
   if ((ret =
@@ -1326,19 +1328,24 @@ int
       switch (opt) {
         case 1:
           ret =
-            hy_assistant_handle_tcp_syn_flood(
+            hy_assistant_handle_icmp_echo_flood(
               attack, nat_free, hw_addr_gateway, 0);
           break;
         case 2:
           ret =
-            hy_assistant_handle_blind_tcp_reset(attack);
+            hy_assistant_handle_tcp_syn_flood(
+              attack, nat_free, hw_addr_gateway, 0);
           break;
         case 3:
+          ret =
+            hy_assistant_handle_blind_tcp_reset(attack);
+          break;
+        case 4:
           ret =
             hy_assistant_handle_udp_flood(
               attack, nat_free, hw_addr_gateway);
           break;
-        case 4:
+        case 5:
           ret =
             hy_assistant_handle_dns_query_flood(
               attack, nat_free, hw_addr_gateway, 0);
@@ -1375,15 +1382,20 @@ int
       switch (opt) {
         case 1:
           ret =
-            hy_assistant_handle_tcp_syn_flood(
+            hy_assistant_handle_icmp_echo_flood(
               attack, nat_free, hw_addr_gateway, 0);
           break;
         case 2:
           ret =
+            hy_assistant_handle_tcp_syn_flood(
+              attack, nat_free, hw_addr_gateway, 0);
+          break;
+        case 3:
+          ret =
             hy_assistant_handle_udp_flood(
               attack, nat_free, hw_addr_gateway);
           break;
-        case 3:
+        case 4:
           ret =
             hy_assistant_handle_dns_query_flood(
               attack, nat_free, hw_addr_gateway, 0);

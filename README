@@ -57,7 +57,8 @@
   * Assisted DHCP starvation setup
   * Assisted DHCP-Release forcing setup
   * Customizable ARP-Reply based attacks
-  * Customizable ICMP-Echo based attacks (IPv4)
+  * Customizable ICMP-Echo based attacks (IPv4 and IPv6)
+  * CUstomizable ICMP "Destination Unreachable" based attacks (IPv4)
   * Customizable TCP based attacks (IPv4 and IPv6)
   * Customizable UDP based attacks (IPv4 and IPv6)
   * Customizable DNS-Query based attacks (IPv4 and IPv6)
@@ -425,8 +426,8 @@
          -D [HW-Address]-[IP-Address (IPv4 only)]
 
   hyenae -a icmp-echo
-         -s [HW-Address]-[IP-Address (IPv4 only)]
-         -d [HW-Address]-[IP-Address (IPv4 only)]
+         -s [HW-Address]-[IP-Address (IPv4 or IPv6)]
+         -d [HW-Address]-[IP-Address (IPv4 or IPv6)]
   Optional:
          -t [IP Time To Live (TTL)]
 

@@ -31,6 +31,9 @@
 #include "hyenae-patterns.h"
 #include "hyenae-attack.h"
 
+/* ICMPv6 Type values */
+#define HY_ICMP_V6_TYPE_ECHO 128
+
 /* -------------------------------------------------------------------------- */
 
 int

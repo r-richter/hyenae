@@ -14,6 +14,10 @@
 
 --------------------------------------------------------------------------------
 
+  Version 0.33-1 (?)
+    * Added ICMPv6-Echo support
+    * Added ICMPv6-Echo flood to attack assistant
+
   Version 0.32-1 (Aug. 24th, 2009)
     * Added DNS-Query attack support
     * Added DNS-Query flood to attack assistant

@@ -79,13 +79,14 @@ int
   if (src_pattern->ip_v != dst_pattern->ip_v) {
     return HY_ER_MULTIPLE_IP_V;
   }
-  if (src_pattern->ip_v != HY_AD_T_IP_V4) {
-    return HY_ER_WRONG_IP_V;
-  }
   memset(icmp_echo_pkt, 0, icmp_echo_pkt_len);
   /* Build ICMP header */
   icmp_h = (icmp_h_t*) icmp_echo_pkt;
-  icmp_h->icmp_type = ICMP_ECHO;
+  if (src_pattern->ip_v == HY_AD_T_IP_V4) {
+    icmp_h->icmp_type = ICMP_ECHO;
+  } else {
+    icmp_h->icmp_type = HY_ICMP_V6_TYPE_ECHO;
+  }
   /* Build ICMP-Echo block */
   icmp_echo = (icmp_echo_t*) (icmp_echo_pkt + sizeof(icmp_h_t));
   icmp_echo->icmp_id = htons(hy_random(1, 200));
@@ -100,16 +101,29 @@ int
       data_len);
   }
   /* Wrap IP layer */
-  return hy_build_ip_packet(
-            src_pattern,
-            dst_pattern,
-            ip_v_assumption,
-            packet,
-            packet_len,
-            icmp_echo_pkt,
-            icmp_echo_pkt_len,
-            IP_PROTO_ICMP,
-            ip_ttl);
+  if (src_pattern->ip_v == HY_AD_T_IP_V4) {
+    return hy_build_ip_packet(
+              src_pattern,
+              dst_pattern,
+              ip_v_assumption,
+              packet,
+              packet_len,
+              icmp_echo_pkt,
+              icmp_echo_pkt_len,
+              IP_PROTO_ICMP,
+              ip_ttl);
+  } else {
+    return hy_build_ip_packet(
+              src_pattern,
+              dst_pattern,
+              ip_v_assumption,
+              packet,
+              packet_len,
+              icmp_echo_pkt,
+              icmp_echo_pkt_len,
+              IP_PROTO_ICMPV6,
+              ip_ttl);
+  }
 } /* hy_build_icmp_echo_packet */
 
 /* -------------------------------------------------------------------------- */
