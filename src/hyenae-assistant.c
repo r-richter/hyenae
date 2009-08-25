@@ -677,7 +677,7 @@ int
   if ((ret =
          hy_assistant_input_numeric(
            "\n  Enter payload length:",
-           &attack->pay_len,
+           (int*) &attack->pay_len,
            1,
            1000)) != HY_ER_OK) {
     printf("\n");

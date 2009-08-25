@@ -31,8 +31,8 @@
   int
     hy_encode_domain_name
     (
-      unsigned char* name,
-      unsigned char** enc_name,
+      const char* name,
+      char** enc_name,
       int* len
     ) {
 
@@ -101,7 +101,7 @@ int
   uint16_t* type = NULL;
   uint16_t* class = NULL;
   char tmp[HY_DNS_N_BUFLEN];
-  unsigned char* enc_n = NULL;
+  char* enc_n = NULL;
   
   qry_len = strlen(queries);
   if (qry_len > HY_DNS_QRY_BUFLEN) {

@@ -92,7 +92,7 @@ typedef
   unsigned long max_dur;
   unsigned int ip_ttl;
   unsigned int icmp_unr_code;
-  unsigned char dns_qry[HY_DNS_QRY_BUFLEN];
+  char dns_qry[HY_DNS_QRY_BUFLEN];
   unsigned int tcp_flgs;
   unsigned long tcp_seq;
   unsigned long tcp_seq_ins;

@@ -70,8 +70,8 @@ typedef
   int
     hy_encode_domain_name
     (
-      unsigned char*,
-      unsigned char**,
+      const char*,
+      char**,
       int*
     );
 
