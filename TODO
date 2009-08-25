@@ -19,13 +19,9 @@
     * Add debian run script
 
   Medium Priority
-    * Add ICMPv6 support
     * Add NDP support
 
   Low Priority
-    * Add PPPoE support
-    * Add RTP support
-    * Add LLDP support
     * Client/Daemon conversation encryption (SSL)
 
 --------------------------------------------------------------------------------
