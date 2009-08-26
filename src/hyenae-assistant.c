@@ -1179,7 +1179,7 @@ int
       printf("\n  > 3. Blind TCP-Connection reset          DoS");
       printf("\n  > 4. UDP flood                           DoS");
       printf("\n  > 5. DNS-Query flood                     DoS");
-      max_opt_val = 6;
+      max_opt_val = 5;
     }
   } else {
     if (attack->ip_v_asm == HY_AD_T_IP_V4) {
