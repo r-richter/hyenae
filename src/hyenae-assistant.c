@@ -1474,6 +1474,12 @@ int
       printf("a");
     }
   }
+  if (attack->tcp_seq > 0) {
+    printf(" -q %i", attack->tcp_seq);
+  }
+  if (attack->tcp_seq_ins > 0) {
+    printf(" -Q %i", attack->tcp_seq_ins);
+  }
   if (attack->type == HY_AT_T_UDP) {
     printf(" -p %i",attack->pay_len);
   }
