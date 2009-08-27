@@ -14,7 +14,7 @@
 
 --------------------------------------------------------------------------------
 
-  Version 0.33-1 (Sep. 1st, 2009)
+  Version 0.33-1 (Aug. 31st, 2009)
     * Fixed build warnings
     * Added ICMPv6-Echo support
     * Added ICMPv6-Echo flood to attack assistant
