@@ -420,6 +420,8 @@ int
   int opt = 0;
 
   attack->type = HY_AT_T_ICMP_UNREACH_TCP;
+  attack->tcp_seq = 1;
+  attack->tcp_seq_ins = 1;
   /* Select ICMP "Destination Unreachable" Code */
   if ((ret =
          hy_assistant_input_numeric(
