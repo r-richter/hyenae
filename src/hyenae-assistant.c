@@ -1146,57 +1146,57 @@ int
     if (attack->ip_v_asm == HY_AD_T_IP_V4) {
       if (eap_free == 1) {
         /* NAT-Free, EAP-Free IPv4 attacks */
-        printf("\n  > 1.  ARP-Request flood                DoS");
-        printf("\n  > 2.  ARP-Cache poisoning              MITM");
-        printf("\n  > 3.  ICMP-Echo flood                  DoS");
-        printf("\n  > 4.  ICMP-Smurf attack                DDoS");
-        printf("\n  > 5.  ICMP based TCP-Connection reset  DoS");
-        printf("\n  > 6.  TCP-SYN flood                    DoS");
-        printf("\n  > 7.  TCP-Land attack                  DoS");
-        printf("\n  > 8.  Blind TCP-Connection reset       DoS");
-        printf("\n  > 9.  UDP flood                        DoS");
-        printf("\n  > 10. DNS-Query flood                  DoS");
-        printf("\n  > 11. DHCP-Discover flood              DoS");
-        printf("\n  > 12. DHCP starvation                  DoS");
-        printf("\n  > 13. DHCP-Release forcing             DoS");
+        printf("\n  > 1.  ARP-Request flood                  DoS");
+        printf("\n  > 2.  ARP-Cache poisoning                MITM");
+        printf("\n  > 3.  ICMPv4-Echo flood                  DoS");
+        printf("\n  > 4.  ICMPv4-Smurf attack                DDoS");
+        printf("\n  > 5.  ICMPv4 based TCP-Connection reset  DoS");
+        printf("\n  > 6.  TCP-SYN flood                      DoS");
+        printf("\n  > 7.  TCP-Land attack                    DoS");
+        printf("\n  > 8.  Blind TCP-Connection reset         DoS");
+        printf("\n  > 9.  UDP flood                          DoS");
+        printf("\n  > 10. DNS-Query flood                    DoS");
+        printf("\n  > 11. DHCP-Discover flood                DoS");
+        printf("\n  > 12. DHCP starvation                    DoS");
+        printf("\n  > 13. DHCP-Release forcing               DoS");
         max_opt_val = 13;
       } else {
         /* NAT-Free, None EAP-Free IPv4 attacks */
-        printf("\n  > 1.  ARP-Cache poisoning              MITM");
-        printf("\n  > 2.  ICMP-Echo flood                  DoS");
-        printf("\n  > 3.  ICMP-Smurf attack                DDoS");
-        printf("\n  > 4.  ICMP based TCP-Connection reset  DoS");
-        printf("\n  > 5.  TCP-SYN flood                    DoS");
-        printf("\n  > 6.  TCP-Land attack                  DoS");
-        printf("\n  > 7.  Blind TCP-Connection reset       DoS");
-        printf("\n  > 8.  UDP flood                        DoS");
-        printf("\n  > 9.  DNS-Query flood                  DoS");
-        printf("\n  > 10. DHCP-Release forcing             DoS");
+        printf("\n  > 1.  ARP-Cache poisoning                MITM");
+        printf("\n  > 2.  ICMPv4-Echo flood                  DoS");
+        printf("\n  > 3.  ICMPv4-Smurf attack                DDoS");
+        printf("\n  > 4.  ICMPv4 based TCP-Connection reset  DoS");
+        printf("\n  > 5.  TCP-SYN flood                      DoS");
+        printf("\n  > 6.  TCP-Land attack                    DoS");
+        printf("\n  > 7.  Blind TCP-Connection reset         DoS");
+        printf("\n  > 8.  UDP flood                          DoS");
+        printf("\n  > 9.  DNS-Query flood                    DoS");
+        printf("\n  > 10. DHCP-Release forcing               DoS");
         max_opt_val = 10;
       }
     } else {
       /* NAT-Free IPv6 attacks */
-      printf("\n  > 1. ICMP-Echo flood                     DoS");
-      printf("\n  > 2. TCP-SYN flood                       DoS");
-      printf("\n  > 3. Blind TCP-Connection reset          DoS");
-      printf("\n  > 4. UDP flood                           DoS");
-      printf("\n  > 5. DNS-Query flood                     DoS");
+      printf("\n  > 1. ICMPv6-Echo flood                     DoS");
+      printf("\n  > 2. TCP-SYN flood                         DoS");
+      printf("\n  > 3. Blind TCP-Connection reset            DoS");
+      printf("\n  > 4. UDP flood                             DoS");
+      printf("\n  > 5. DNS-Query flood                       DoS");
       max_opt_val = 5;
     }
   } else {
     if (attack->ip_v_asm == HY_AD_T_IP_V4) {
       /* None NAT-Free IPv4 attacks */
-      printf("\n  > 1. ICMP-Echo flood                     DoS");
-      printf("\n  > 2. TCP-SYN flood                       DoS");
-      printf("\n  > 3. UDP flood                           DoS");
-      printf("\n  > 4. DNS-Query flood                     DoS");
+      printf("\n  > 1. ICMPv4-Echo flood                     DoS");
+      printf("\n  > 2. TCP-SYN flood                         DoS");
+      printf("\n  > 3. UDP flood                             DoS");
+      printf("\n  > 4. DNS-Query flood                       DoS");
       max_opt_val = 4;
     } else {
       /* None NAT-Free IPv6 attacks */
-      printf("\n  > 1. ICMP-Echo flood                     DoS");
-      printf("\n  > 2. TCP-SYN flood                       DoS");
-      printf("\n  > 3. UDP flood                           DoS");
-      printf("\n  > 4. DNS-Query flood                     DoS");
+      printf("\n  > 1. ICMPv6-Echo flood                     DoS");
+      printf("\n  > 2. TCP-SYN flood                         DoS");
+      printf("\n  > 3. UDP flood                             DoS");
+      printf("\n  > 4. DNS-Query flood                       DoS");
       max_opt_val = 4;
     }
   }
