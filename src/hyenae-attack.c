@@ -43,6 +43,8 @@ int
     return HY_AT_T_ARP_REQUEST;
   } else if (strcmp(name, "arp-reply") == 0) {
     return HY_AT_T_ARP_REPLY;
+  } else if (strcmp(name, "pppoe-discover") == 0) {
+    return HY_AT_T_PPPOE_DISCOVER;
   } else if (strcmp(name, "icmp-echo") == 0) {
     return HY_AT_T_ICMP_ECHO;
   } else if (strcmp(name, "icmp-unreach-tcp") == 0) {
@@ -81,6 +83,8 @@ const char*
       return "arp-request";
     case HY_AT_T_ARP_REPLY:
       return "arp-reply";
+    case HY_AT_T_PPPOE_DISCOVER:
+      return "pppoe-discover";
     case HY_AT_T_ICMP_ECHO:
       return "icmp-echo";
     case HY_AT_T_ICMP_UNREACH_TCP:
@@ -372,7 +376,7 @@ void
 
   int pkt_len = 0;
   unsigned long i = 0;
-  unsigned long tcp_seq = 0;
+  unsigned long seq_sid = 0;
   unsigned long dur_start = 0;
   unsigned long dur_stop = 0;
   unsigned int tmp_buf_len = 0;
@@ -406,6 +410,23 @@ void
         (hy_get_milliseconds_of_day() - dur_start) >= dur_stop) {
       break;
     }
+    /* Calculate TCP sequence number / PPPoE session id */
+    if (params->att->seq_sid == 0) {
+      if (params->att->type == HY_AT_T_TCP ||
+          params->att->type == HY_AT_T_ICMP_UNREACH_TCP) {
+        if (params->att->seq_sid_ins == 0 || seq_sid == 0) {
+          seq_sid =
+            (hy_random(1, 32000) * 1000000000) +
+             hy_random(1, 32000);
+        }
+      }
+    } else if (seq_sid == 0) {
+      seq_sid = params->att->seq_sid;
+    }
+    if (params->att->seq_sid_ins > 0 &&
+        params->res->pkt_cnt > 0) {
+      seq_sid = seq_sid + params->att->seq_sid_ins;
+    }
     /* Build packet buffer */
     if (params->att->type == HY_AT_T_ARP_REQUEST) {
       if ((params->res->ret =
@@ -433,6 +454,18 @@ void
                ARP_OP_REPLY)) != HY_ER_OK) {
         break;
       }
+    } else if (params->att->type == HY_AT_T_PPPOE_DISCOVER) {
+      if ((params->res->ret =
+             hy_build_pppoe_discover_packet(
+               &params->att->src_pat,
+               &params->att->dst_pat,
+               params->att->ip_v_asm,
+               &params->pkt_buf,
+               &pkt_len,
+               seq_sid,
+               params->att->icmp_pppoe_code)) != HY_ER_OK) {
+        break;
+      }
     } else if (params->att->type == HY_AT_T_ICMP_ECHO) {
       if ((params->res->ret =
              hy_build_icmp_echo_packet(
@@ -448,19 +481,6 @@ void
       }
     } else if (params->att->type == HY_AT_T_TCP ||
                 params->att->type == HY_AT_T_ICMP_UNREACH_TCP) {
-      if (params->att->tcp_seq == 0) {
-        if (params->att->tcp_seq_ins == 0 || tcp_seq == 0) {
-          tcp_seq =
-            (hy_random(1, 32000) * 1000000000) +
-             hy_random(1, 32000);
-        }
-      } else if (tcp_seq == 0) {
-        tcp_seq = params->att->tcp_seq;
-      }
-      if (params->att->tcp_seq_ins > 0 &&
-          params->res->pkt_cnt > 0) {
-        tcp_seq = tcp_seq + params->att->tcp_seq_ins;
-      }
       if (params->att->type == HY_AT_T_ICMP_UNREACH_TCP) {
         if ((params->res->ret =
                hy_build_tcp_packet(
@@ -473,7 +493,7 @@ void
                  params->att->pay_len,
                  params->att->ip_ttl,
                  TH_SYN,
-                 tcp_seq,
+                 seq_sid,
                  params->att->tcp_ack,
                  0)) != HY_ER_OK) {
             if (params->res->ret == HY_ER_WRONG_PT_FMT_SRC) {
@@ -498,7 +518,7 @@ void
                  tmp_buf_len - sizeof(eth_h_t),
                  IP_PROTO_TCP,
                  params->att->ip_ttl,
-                 params->att->icmp_unr_code)) != HY_ER_OK) {
+                 params->att->icmp_pppoe_code)) != HY_ER_OK) {
           free(tmp_buf);
           break;
         }
@@ -515,7 +535,7 @@ void
                  params->att->pay_len,
                  params->att->ip_ttl,
                  params->att->tcp_flgs,
-                 tcp_seq,
+                 seq_sid,
                  params->att->tcp_ack,
                  params->att->tcp_wnd)) != HY_ER_OK) {
           break;

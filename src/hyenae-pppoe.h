@@ -24,62 +24,74 @@
  *
  */
 
-#ifndef HYENAE_H
-  #define HYENAE_H
+#ifndef HYENAE_PPPOE_H
+  #define HYENAE_PPPOE_H
 
-#include "hyenae-common.h"
-#include "hyenae-remote.h"
-#include "hyenae-assistant.h"
+#include "hyenae-base.h"
+#include "hyenae-patterns.h"
+#include "hyenae-attack.h"
 
-#include <getopt.h>
+/* PPPoE code definitions */
+#define HY_PPPOE_CODE_PADI 0x09
+#define HY_PPPOE_CODE_PADT 0xa7
+
+/* PPoE tag type definitions */
+#define HY_PPOE_TAG_T_SERVICE_NAME 0x0101
 
 /* -------------------------------------------------------------------------- */
 
-void
-  hy_handle_output
+typedef
+  struct hy_pppoe_h {
+
+  /*
+   * USAGE:
+   *   Represents a PPPoE header.
+   */
+
+  #if DNET_BYTESEX == DNET_BIG_ENDIAN
+    uint8_t ver:4;
+    uint8_t type:4;
+  #elif DNET_BYTESEX == DNET_LIL_ENDIAN
+    uint8_t type:4;
+    uint8_t ver:4;
+  #else
+    # error "need to include <dnet.h>"
+  #endif /* DNET_BYTESEX == DNET_BIG_ENDIAN */
+  uint8_t code;
+  uint16_t sid;
+  uint16_t len;
+
+} hy_pppoe_h_t;
+
+/* -------------------------------------------------------------------------- */
+
+typedef
+  struct hy_pppoe_tag {
+
+  /*
+   * USAGE:
+   *   Represents a PPPoE tag.
+   */
+
+  uint16_t type;
+  uint16_t len;
+
+} hy_pppoe_tag_t;
+
+/* -------------------------------------------------------------------------- */
+
+int
+  hy_build_pppoe_discover_packet
     (
-      FILE*,
+      hy_pattern_t*,
+      hy_pattern_t*,
       int,
-      const char*,
-      const char*
+      unsigned char**,
+      int*,
+      unsigned int,
+      unsigned int
     );
 
 /* -------------------------------------------------------------------------- */
 
-int
-  hy_parse_ppoe_discover_code
-    (
-      unsigned int*,
-      char*
-    );
-
-/* -------------------------------------------------------------------------- */
-
-int
-  hy_parse_icmp_unreach_code
-    (
-      unsigned int*,
-      char*
-    );
-
-/* -------------------------------------------------------------------------- */
-
-int
-  hy_parse_tcp_flags
-    (
-      unsigned int*,
-      const char*
-    );
-
-/* -------------------------------------------------------------------------- */
-
-int
-  main
-    (
-      int argc,
-      char** argv
-    );
-
-/* -------------------------------------------------------------------------- */
-
-#endif /* HYENAE_H */
+#endif /* HYENAE_PPPOE_H */

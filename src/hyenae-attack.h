@@ -32,6 +32,7 @@
 #include "hyenae-patterns.h"
 #include "hyenae-eth.h"
 #include "hyenae-arp.h"
+#include "hyenae-pppoe.h"
 #include "hyenae-ip.h"
 #include "hyenae-icmp.h"
 #include "hyenae-tcp.h"
@@ -47,14 +48,15 @@
 #define HY_AT_T_UNKNOWN         -1
 #define HY_AT_T_ARP_REQUEST      1
 #define HY_AT_T_ARP_REPLY        2
-#define HY_AT_T_ICMP_ECHO        3
-#define HY_AT_T_ICMP_UNREACH_TCP 4
-#define HY_AT_T_TCP              5
-#define HY_AT_T_UDP              6
-#define HY_AT_T_DNS_QUERY        7
-#define HY_AT_T_DHCP_DISCOVER    8
-#define HY_AT_T_DHCP_REQUEST     9
-#define HY_AT_T_DHCP_RELEASE     10
+#define HY_AT_T_PPPOE_DISCOVER   3
+#define HY_AT_T_ICMP_ECHO        4
+#define HY_AT_T_ICMP_UNREACH_TCP 5
+#define HY_AT_T_TCP              6
+#define HY_AT_T_UDP              7
+#define HY_AT_T_DNS_QUERY        8
+#define HY_AT_T_DHCP_DISCOVER    9
+#define HY_AT_T_DHCP_REQUEST     10
+#define HY_AT_T_DHCP_RELEASE     11
 
 /* Turncation flags */
 #define HY_TC_NONE    0
@@ -91,11 +93,11 @@ typedef
   unsigned long min_dur;
   unsigned long max_dur;
   unsigned int ip_ttl;
-  unsigned int icmp_unr_code;
+  unsigned int icmp_pppoe_code;
   char dns_qry[HY_DNS_QRY_BUFLEN];
   unsigned int tcp_flgs;
-  unsigned long tcp_seq;
-  unsigned long tcp_seq_ins;
+  unsigned long seq_sid;
+  unsigned long seq_sid_ins;
   unsigned long tcp_ack;
   unsigned int tcp_wnd;
   unsigned int ip_v_asm;

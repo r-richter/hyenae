@@ -105,6 +105,22 @@ int
 /* -------------------------------------------------------------------------- */
 
 int
+  hy_assistant_handle_blind_pppoe_ses_ini_flood
+    (
+      hy_attack_t*
+    );
+
+/* -------------------------------------------------------------------------- */
+
+int
+  hy_assistant_handle_blind_pppoe_ses_term
+    (
+      hy_attack_t*
+    );
+
+/* -------------------------------------------------------------------------- */
+
+int
   hy_assistant_handle_icmp_tcp_reset
     (
       hy_attack_t*

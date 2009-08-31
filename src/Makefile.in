@@ -71,8 +71,9 @@ PROGRAMS = $(bin_PROGRAMS)
 am_hyenae_OBJECTS = hyenae.$(OBJEXT) hyenae-assistant.$(OBJEXT) \
 	hyenae-remote.$(OBJEXT) hyenae-common.$(OBJEXT) \
 	hyenae-protocol.$(OBJEXT) hyenae-eth.$(OBJEXT) \
-	hyenae-arp.$(OBJEXT) hyenae-ip.$(OBJEXT) hyenae-icmp.$(OBJEXT) \
-	hyenae-tcp.$(OBJEXT) hyenae-udp.$(OBJEXT) hyenae-dns.$(OBJEXT) \
+	hyenae-arp.$(OBJEXT) hyenae-pppoe.$(OBJEXT) \
+	hyenae-ip.$(OBJEXT) hyenae-icmp.$(OBJEXT) hyenae-tcp.$(OBJEXT) \
+	hyenae-udp.$(OBJEXT) hyenae-dns.$(OBJEXT) \
 	hyenae-bootp.$(OBJEXT) hyenae-dhcp.$(OBJEXT) \
 	hyenae-attack.$(OBJEXT) hyenae-patterns.$(OBJEXT) \
 	hyenae-config.$(OBJEXT) hyenae-base.$(OBJEXT)
@@ -81,7 +82,8 @@ am__DEPENDENCIES_1 =
 hyenae_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_hyenaed_OBJECTS = hyenaed.$(OBJEXT) hyenaed-daemon.$(OBJEXT) \
 	hyenae-common.$(OBJEXT) hyenae-protocol.$(OBJEXT) \
-	hyenae-eth.$(OBJEXT) hyenae-arp.$(OBJEXT) hyenae-ip.$(OBJEXT) \
+	hyenae-eth.$(OBJEXT) hyenae-arp.$(OBJEXT) \
+	hyenae-pppoe.$(OBJEXT) hyenae-ip.$(OBJEXT) \
 	hyenae-icmp.$(OBJEXT) hyenae-tcp.$(OBJEXT) \
 	hyenae-udp.$(OBJEXT) hyenae-dns.$(OBJEXT) \
 	hyenae-bootp.$(OBJEXT) hyenae-dhcp.$(OBJEXT) \
@@ -198,6 +200,7 @@ hyenae_SOURCES = \
   hyenae-protocol.h hyenae-protocol.c \
   hyenae-eth.h hyenae-eth.c \
   hyenae-arp.h hyenae-arp.c \
+  hyenae-pppoe.h hyenae-pppoe.c \
   hyenae-ip.h hyenae-ip.c \
   hyenae-icmp.h hyenae-icmp.c \
   hyenae-tcp.h hyenae-tcp.c \
@@ -222,6 +225,7 @@ hyenaed_SOURCES = \
   hyenae-protocol.h hyenae-protocol.c \
   hyenae-eth.h hyenae-eth.c \
   hyenae-arp.h hyenae-arp.c \
+  hyenae-pppoe.h hyenae-pppoe.c \
   hyenae-ip.h hyenae-ip.c \
   hyenae-icmp.h hyenae-icmp.c \
   hyenae-tcp.h hyenae-tcp.c \
@@ -316,6 +320,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-icmp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-ip.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-patterns.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-pppoe.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-protocol.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-remote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-tcp.Po@am__quote@

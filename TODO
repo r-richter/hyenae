@@ -20,7 +20,6 @@
 
   Medium Priority
     * Add NDP support
-    * Add PPPoE support
 
   Low Priority
     * Client/Daemon conversation encryption (SSL)

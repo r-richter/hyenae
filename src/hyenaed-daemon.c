@@ -533,9 +533,33 @@ void
       buffer,
       attack->ip_ttl);
   }
+  if (attack->type == HY_AT_T_PPPOE_DISCOVER) {
+    memset(tmp, 0, 1024);
+    switch(attack->icmp_pppoe_code) {
+      case HY_PPPOE_CODE_PADI:
+        strncpy(tmp, "Active Discovery Initiation (PADI)", 1024);
+        break;
+      case HY_PPPOE_CODE_PADT:
+        strncpy(tmp, "Active Discovery Termination (PADT)", 1024);
+        break;
+      default:
+        strncpy(tmp, "Unknown", 1024);
+        break;
+    }
+    sprintf(
+      buffer,
+      "%s  > PPPoE session id: %u\n",
+      buffer,
+      attack->seq_sid);
+    sprintf(
+      buffer,
+      "%s  > PPPoE session id incr. steps: %u\n",
+      buffer,
+      attack->seq_sid_ins);
+  }
   if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
     memset(tmp, 0, 1024);
-    switch(attack->icmp_unr_code) {
+    switch(attack->icmp_pppoe_code) {
       case ICMP_UNREACH_NET:
         strncpy(tmp, "Network", 1024);
         break;
@@ -571,12 +595,12 @@ void
       buffer,
       "%s  > TCP seq. number: %u\n",
       buffer,
-      attack->tcp_seq);
+      attack->seq_sid);
     sprintf(
       buffer,
       "%s  > TCP seq. number incr. steps: %u\n",
       buffer,
-      attack->tcp_seq_ins);
+      attack->seq_sid_ins);
     sprintf(
       buffer,
       "%s  > TCP ack. number: %u\n",

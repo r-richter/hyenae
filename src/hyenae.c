@@ -53,6 +53,42 @@ void
 /* -------------------------------------------------------------------------- */
 
 int
+  hy_parse_ppoe_discover_code
+    (
+      unsigned int* code,
+      char* code_string
+    ) {
+
+  /*
+   * USAGE:
+   *   Parses the given PPPoE-Discover
+   *   code string and applies it to the
+   *   given integer buffer.
+   */
+
+  int ret = HY_ER_OK;
+  int len = strlen(code_string);
+
+  if (strcmp(hy_str_to_lower(
+               (char*) code_string,
+               len),
+               "padi") == 0) {
+    *code = HY_PPPOE_CODE_PADI;
+  } else if (strcmp(
+                hy_str_to_lower(
+                  (char*) code_string,
+                  len),
+                "padt") == 0) {
+    *code = HY_PPPOE_CODE_PADT;
+  } else {
+    ret = HY_ER_PPPOE_CODE_UNKNOWN;
+  }
+  return ret;
+} /* hy_parse_ppoe_discover_code */
+
+/* -------------------------------------------------------------------------- */
+
+int
   hy_parse_icmp_unreach_code
     (
       unsigned int* code,
@@ -333,15 +369,36 @@ int
           }
           break;
         case 'o':
-          if ((ret =
-                 hy_parse_icmp_unreach_code(
-                   &att.icmp_unr_code,
-                   optarg)) != HY_ER_OK) {
+          if (att.type == HY_AT_T_PPPOE_DISCOVER) {
+            if ((ret =
+                   hy_parse_ppoe_discover_code(
+                     &att.icmp_pppoe_code,
+                     optarg)) != HY_ER_OK) {
+              hy_output(
+                stdout,
+                HY_OUT_T_ERROR,
+                0,
+                hy_get_error_msg(ret));
+              return -1;
+            }
+          } else if (att.type == HY_AT_T_ICMP_UNREACH_TCP) {
+            if ((ret =
+                   hy_parse_icmp_unreach_code(
+                     &att.icmp_pppoe_code,
+                     optarg)) != HY_ER_OK) {
+              hy_output(
+                stdout,
+                HY_OUT_T_ERROR,
+                0,
+                hy_get_error_msg(ret));
+              return -1;
+            }
+          } else {
             hy_output(
               stdout,
               HY_OUT_T_ERROR,
               0,
-              hy_get_error_msg(ret));
+              hy_get_error_msg(HY_ER_CODE_WITHOUT_AT_T));
             return -1;
           }
           break;
@@ -364,10 +421,10 @@ int
           att.tcp_wnd = atoi(optarg);
           break;
         case 'q':
-          att.tcp_seq = atoi(optarg);
+          att.seq_sid = atoi(optarg);
           break;
         case 'Q':
-          att.tcp_seq_ins = atoi(optarg);
+          att.seq_sid_ins = atoi(optarg);
           break;
         case 'y':
           strncpy(att.dns_qry, optarg, HY_DNS_QRY_BUFLEN);
@@ -461,8 +518,8 @@ int
             "\n"
             "       hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]\n"
             "              [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]\n"
-            "              [-A ip-v-asm] [-t ip-ttl] [-o icmp-unr-code] [-f tcp-flags]\n"
-            "              [-k tcp-ack] [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins]\n"
+            "              [-A ip-v-asm] [-t ip-ttl] [-o icmp-pppoe-code] [-f tcp-flags]\n"
+            "              [-k tcp-ack] [-w tcp-win] [-q seq-sid] [-Q seq-sid-ins]\n"
             "              [-y dns_qry] [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]\n"
             "              [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]\n"
             "              [-mNlLV]\n"

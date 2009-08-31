@@ -46,6 +46,8 @@
   * Platform independence
   * Assisted ARP-Request flood setup
   * Assisted ARP-Cache poisoning setup
+  * Assisted PPPoE session initiation flood setup
+  * Assisted Blind PPPoE session termination setup
   * Assisted ICMP-Echo flood setup
   * Assisted ICMP-Smurf attack setup
   * Assisted ICMP based TCP-Connection reset setup
@@ -58,6 +60,7 @@
   * Assisted DHCP starvation setup
   * Assisted DHCP-Release forcing setup
   * Customizable ARP-Reply based attacks
+  * Customizable PPPoE-Discover based attacks
   * Customizable ICMP-Echo based attacks (IPv4 and IPv6)
   * CUstomizable ICMP "Destination Unreachable" based attacks (IPv4)
   * Customizable TCP based attacks (IPv4 and IPv6)
@@ -81,8 +84,8 @@
 
   hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]
          [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]
-         [-A ip-v-asm] [-t ip-ttl] [-o icmp-unr-code] [-f tcp-flags]
-         [-k tcp-ack] [-w tcp-win] [-q tcp-seq] [-Q tcp-seq-ins]
+         [-A ip-v-asm] [-t ip-ttl] [-o icmp-pppoe-code] [-f tcp-flags]
+         [-k tcp-ack] [-w tcp-win] [-q seq-sid] [-Q seq-sid-ins]
          [-y dns_qry] [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]
          [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]
          [-mNlLV]
@@ -153,16 +156,25 @@
        value between 1 and 255. If not set, a hop limit size of 128 will be
        used.
 
-    -o ICMP "Destination Unreachable" message code. This is optional on ICMP
-       "Destination Unreachable" attacks and defines the message code to set
-       for the generated packets. Valid values are:
+    -o ICMP "Destination Unreachable" message code / PPPoE discover code. This
+       is optional on ICMP "Destination Unreachable" attacks and required on
+       PPPoE attacks. It defines the message code to set on ICMP "Destination
+       Unreachable" attacks or the discover code of PPPoE packets.
+
+       Valid values on PPPoE attacks:
+
+         padi (Active Discovery Initiation)
+         padt (Active Discovery Termination)
+
+       Valid values on ICMP attacks:
 
          network  (Network Unreachable)
          host     (Host Unreachable)
          protocol (Protocol Unreachable)
          port     (Port Unreachable)
 
-       If not set, the message code "Network Unreachable" will be used.
+       If not set on ICMP "Destination Unreachable" attacks, the message code
+       "Network Unreachable" will be used.
 
     -f TCP flags. This option is required on TCP attacks and defines the TCP
        control flags to set for the generated packets. Valid values are any
@@ -181,15 +193,18 @@
     -w TCP window size. Defines the TCP window size to use on TCP based attacks.
        If not set or set to 0, a window size of 0 will be used.
 
-    -q TCP sequence number. Defines the TCP sequence number to use on TCP based
-       attacks. If not set or set to 0, every generated packet (unless a
+    -q TCP sequence number / PPPoE session id. Defines the TCP sequence number
+       on TCP based, or the session id on PPPoE-Discover based attacks. If not
+       set or set to 0 on TCP based attacks, every generated packet (unless a
        step value was given) will carry a completely randomized sequence number.
-       If a TCP sequence number incrementation step value was given, this
-       argument will be used as the initial sequence number to be incremented.
+       If set to 0 on PPPoE attacks, every generated packet (unless a step value
+       was given) will carry the session id 0. If a sequence number or session
+       id incrementation step value was given, this argument will be used as
+       the initial sequence number or session id to be incremented.
 
-    -Q TCP sequence number incrementation steps. If set, the sequence
-       number of every generated packet on TCP based attacks will be incremented
-       by the given value.
+    -Q TCP sequence number / PPPoE session id incrementation steps. If set, the
+       sequence number or session id of every generated packet will be
+       incremented by the given value.
 
     -y DNS query pattern. A DNS query pattern is required on DNS-Query based
        attacks to define the list of domain names to query. The list should have
@@ -425,6 +440,14 @@
          -d [HW-Address]
          -S [HW-Address]-[IP-Address (IPv4 only)]
          -D [HW-Address]-[IP-Address (IPv4 only)]
+
+  hyenae -a pppoe-discover
+         -s [HW-Address]
+         -d [HW-Address]
+         -o [PPPoE Discovery Code]
+  Optional:
+         -q [PPPoE Session ID Offset]
+         -Q [PPPoE Session ID Incrementation Steps]
 
   hyenae -a icmp-echo
          -s [HW-Address]-[IP-Address (IPv4 or IPv6)]
