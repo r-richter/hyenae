@@ -20,6 +20,7 @@
 
   Medium Priority
     * Add NDP support
+    * Add SNMP support
 
   Low Priority
     * Client/Daemon conversation encryption (SSL)
