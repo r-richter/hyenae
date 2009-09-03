@@ -15,9 +15,10 @@
 --------------------------------------------------------------------------------
 
   Project Support
-    * _acid_ (Advice)
+    * _acid_ (Advice and Debian run script)
     * Thomas Foss (Documentation improvements and corrections)
     * Siji Kurien (Documentation improvements and corrections)
+    * Vivek Ramachandran (Hyenae video tutorial on http://www.securitytube.net)
 
   External Libraries
     * Dug Song (dnet)
