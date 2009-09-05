@@ -14,7 +14,7 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Advanced Network Packet Generator Daemon"
 NAME=hyenaed
 DAEMON=/usr/local/bin/hyenaed
-DAEMON_ARGS=$(/etc/hyenae/hyenaed.args)
+DAEMON_ARGS=$(cat /etc/hyenae/hyenaed.args)
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
