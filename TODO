@@ -15,11 +15,9 @@
 --------------------------------------------------------------------------------
 
   High Priority
-    * Add configuration file support to daemon
-    * Add debian run script
+    * Add NDP support
 
   Medium Priority
-    * Add NDP support
     * Add SNMP support
 
   Low Priority

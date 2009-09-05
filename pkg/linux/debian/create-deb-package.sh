@@ -7,6 +7,8 @@ BUILD_DIR_PATH="./hyenae_"$HYENAE_VERSION"_"$BUILD_ARCHITECTURE
 
 # Create build directory
 mkdir -p $BUILD_DIR_PATH"/DEBIAN"
+mkdir -p $BUILD_DIR_PATH"/etc/hyenae"
+mkdir -p $BUILD_DIR_PATH"/etc/init.d"
 mkdir -p $BUILD_DIR_PATH"/usr/local/bin"
 mkdir -p $BUILD_DIR_PATH"/usr/local/share/man/man1"
 mkdir -p $BUILD_DIR_PATH"/usr/local/share/doc/hyenae"
@@ -22,9 +24,13 @@ INSTALLED_SIZE=$[ \
   `stat -c %s ./../../../man/hyenaed.1` + \
   `stat -c %s ./../../../HOWTO` + \
   `stat -c %s ./../../../LICENSE` + \
-  `stat -c %s ./../../../README`]
+  `stat -c %s ./../../../README` + \
+  `stat -c %s ./extra/hyenaed` + \
+  `stat -c %s ./extra/hyenaed.args`]
 
 # Copy files to build folder
+cp "./extra/hyenaed.args" $BUILD_DIR_PATH"/etc/hyenae/"
+cp "./extra/hyenaed" $BUILD_DIR_PATH"/etc/init.d/"
 cp "./../../../src/hyenae" $BUILD_DIR_PATH"/usr/local/bin/"
 cp "./../../../src/hyenaed" $BUILD_DIR_PATH"/usr/local/bin/"
 cp "./../../../man/hyenae.1" $BUILD_DIR_PATH"/usr/local/share/man/man1/"

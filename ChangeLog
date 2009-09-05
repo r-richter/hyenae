@@ -16,6 +16,7 @@
 
   Version 0.34-1 (?)
     * Updated documentation
+    * Added debian run script
     * Added PPPoE-Discover support
     * Added Blind PPPoE session initiation flood to attack assistant
     * Added Blind PPPoE session termination to attack assistant
