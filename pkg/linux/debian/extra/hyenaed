@@ -1,13 +1,13 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          skeleton
+# Provides:          hyenaed
 # Required-Start:    $local_fs,$network
 # Required-Stop:     $local_fs,$network
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Example initscript
-# Description:       This file should be used to construct scripts to be
-#                    placed in /etc/init.d.
+# Short-Description: Hyenae daemon initscript
+# Description:       The Hyenae daemon provides clients with the ability to set
+#                    up clustered DoS or MITM remote attacks.
 ### END INIT INFO
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
