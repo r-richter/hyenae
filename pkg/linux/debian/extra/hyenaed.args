@@ -1,15 +1,5 @@
-# Network interface to start attacks from
--i lo
-
-# IP-Address to bind to
+-I 1
 -a 127.0.0.1
-
-# Port to listen on for incoming attack requests
 -p 666
-
-# Maximum client connections
 -m 10
-
-# Attack duration limit (Max attack duration that
-# can be requested by clients)
 -u 4000
