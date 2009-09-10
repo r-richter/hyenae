@@ -56,7 +56,7 @@ int
   icmp_h_t* icmp_h = NULL;
   icmp_echo_t* icmp_echo = NULL;
 
-   /* Parse address patterns */
+  /* Parse address patterns */
   if ((ret =
          hy_parse_pattern(
            src_pattern,
@@ -160,6 +160,10 @@ int
   icmp_h_t* icmp_h = NULL;
   icmp_unreach_t* icmp_unr = NULL;
 
+  /* Check for ICMP "Destination Unreachable" code */
+  if (icmp_unr_code == 0) {
+    return HY_ER_ICMP_UNR_CODE_ZERO;
+  }
   /* Parse address patterns */
   if ((ret =
          hy_parse_pattern(
