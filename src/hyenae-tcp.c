@@ -58,6 +58,10 @@ int
   unsigned char tcp_pkt[tcp_pkt_len];
   tcp_h_t* tcp_h = NULL;
 
+  /* Check for TCP flags */
+  if (tcp_flags == 0) {
+    return HY_ER_NO_TCP_FLAGS;
+  }
    /* Parse address patterns */
   if ((ret =
          hy_parse_pattern(
@@ -82,9 +86,6 @@ int
   }
   if (src_pattern->ip_v != dst_pattern->ip_v) {
     return HY_ER_MULTIPLE_IP_V;
-  }
-  if (tcp_flags == 0) {
-    return HY_ER_NO_TCP_FLAGS;
   }
   memset(tcp_pkt, 0, tcp_pkt_len);
   /* Build TCP header */
