@@ -21,6 +21,7 @@
     * Added PPPoE-Discover support
     * Added Blind PPPoE session initiation flood to attack assistant
     * Added Blind PPPoE session termination to attack assistant
+    * Added network interface description output (Windows)
 
   Version 0.33-1 (Aug. 31st, 2009)
     * Bug fixes

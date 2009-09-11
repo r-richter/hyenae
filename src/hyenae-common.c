@@ -58,7 +58,15 @@ int
   }
   for(if_n = if_lst; if_n; if_n = if_n->next) {
     *if_count = *if_count + 1;
-    printf("  > %i. %s\n", *if_count, if_n->name);
+    #ifdef OS_WINDOWS
+      printf("  > %i. %s\n"
+             "       (%s)\n",
+             *if_count,
+             if_n->name,
+             if_n->description);
+    #else
+      printf("  > %i. %s\n", *if_count, if_n->name);
+    #endif /* OS_WINDOWS */
   }
   if (is_assistent_call != 1) {
     hy_output(
