@@ -19,7 +19,7 @@
     * Updated documentation
     * Added debian run script
     * Added PPPoE-Discover support
-    * Added Blind PPPoE session initiation flood to attack assistant
+    * Added PPPoE session initiation flood to attack assistant
     * Added Blind PPPoE session termination to attack assistant
     * Added network interface description output (Windows)
 
