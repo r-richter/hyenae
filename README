@@ -108,9 +108,9 @@
        ignored on remote attacks.
 
     -I Network interface to operate on (specified by index). A list
-       of all available network interfaces and their indices can be obtained
-       by starting Hyenae with the -l option. This argument is
-       ignored on remote attacks.
+       of all available network interfaces and their indexes can be obtained
+       by starting Hyenae with the -l option. This argument is ignored on remote
+       attacks.
 
     -r Single remote attack. If set, Hyenae will execute the specified attack
        on the Hyenae Daemon specified by the given server address pattern. A
@@ -290,7 +290,7 @@
 
     -I Network interface to attack on (specified by index). This will not set
        the network interface on which to listen for connections. A list of all
-       available network interfaces and their indices can be obtained by
+       available network interfaces and their indexes can be obtained by
        starting Hyenae with the -l option.
 
     -a IP address to bind the daemon's server socket to. The default value is

@@ -59,11 +59,7 @@ int
   for(if_n = if_lst; if_n; if_n = if_n->next) {
     *if_count = *if_count + 1;
     #ifdef OS_WINDOWS
-      printf("  > %i. %s\n"
-             "       (%s)\n",
-             *if_count,
-             if_n->name,
-             if_n->description);
+      printf("  > %i. %s\n", *if_count, if_n->description);
     #else
       printf("  > %i. %s\n", *if_count, if_n->name);
     #endif /* OS_WINDOWS */

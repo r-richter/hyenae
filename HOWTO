@@ -54,7 +54,7 @@
   * Finished: 4 network interfaces found
 
   You may provide the network interface either by name, using -i argument, or by
-  index, using -I argument. On Windows-based operating systems,  you should use
+  index, using -I argument. On Windows-based operating systems, you should use
   only the interface index to select the network interface.
 
 --------------------------------------------------------------------------------
@@ -130,7 +130,7 @@
 
     This example sends and inlimited amount of PPPoE-DIscovery packets with
     set PADT flag and an incrementing session id from an existing source adress
-    to an existing destination address. 
+    to an existing destination address.
 
     # hyenae -I 3 -a pppoe-discover -o padt -s 11:22:33:44:55:66 \
     # -d 44:55:66:77:88:99 -q 1 -Q 1
