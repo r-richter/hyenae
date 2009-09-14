@@ -725,8 +725,6 @@ const char*
     return "No TCP flags given";
   } else if (error == HY_ER_DNS_NO_QUERIES) {
     return "No DNS query given";
-  } else if (error == HY_ER_DNS_QRY_WRONG_FMT_N) {
-    return "Wrong domain name format";
   } else if (error == HY_ER_DNS_QRY_N_BUFLEN_EXCEED) {
     return "DNS query contains a domain name that is too long";
   } else if (error == HY_ER_DNS_QRY_BUFLEN_EXCEED) {

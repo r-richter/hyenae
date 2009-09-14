@@ -46,7 +46,7 @@
   int s_len = 0;
   int s_cnt = 0;
 
-  *len = strlen(name) + 2;
+  *len = strlen(name) + 1;
   *enc_name = malloc(*len);
   memset(*enc_name, 0, *len);
   while (1) {
@@ -68,9 +68,6 @@
     } else {
       break;
     }
-  }
-  if (s_cnt != 2) {
-    return HY_ER_DNS_QRY_WRONG_FMT_N;
   }
   return HY_ER_OK;
 } /* hy_encode_dns_name */
@@ -102,7 +99,7 @@ int
   uint16_t* class = NULL;
   char tmp[HY_DNS_N_BUFLEN];
   char* enc_n = NULL;
-  
+
   qry_len = strlen(queries);
   if (qry_len > HY_DNS_QRY_BUFLEN) {
     return HY_ER_DNS_QRY_BUFLEN_EXCEED;
