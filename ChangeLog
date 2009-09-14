@@ -15,7 +15,7 @@
 --------------------------------------------------------------------------------
 
   Version 0.34-2 (?)
-    * Applied DNS BugFix from Archie Adnrews
+    * Applied DNS BugFix from Archie Andrews
     * Removed DNS query URL format validation
 
   Version 0.34-1 (Sep. 14th, 2009)
