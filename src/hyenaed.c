@@ -39,7 +39,8 @@ void
 
   /*
    * USAGE:
-   *   Handles the output behavior of hyenaed
+   *   Handles the output behavior
+   *   of the Hyenae-Daemon.
    */
 
   /* Use default handler */
@@ -49,6 +50,29 @@ void
     timestamp,
     output);
 } /* hy_handle_output */
+
+/* -------------------------------------------------------------------------- */
+
+void
+  hy_handle_attack_blocking
+    (
+      hy_attack_loop_t* params
+    ) {
+
+  /*
+   * USAGE:
+   *   Handles the blocking behaviour
+   *   of the Hyenae-Daemon during an
+   *   attack.
+   */
+
+  while (1) {
+    fflush(stdin);
+    if (params->run_stat == HY_RUN_STAT_STOPPED) {
+      break;
+    }
+  }
+} /* hy_handle_attack_blocking */
 
 /* -------------------------------------------------------------------------- */
 

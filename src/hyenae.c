@@ -39,7 +39,8 @@ void
 
   /*
    * USAGE:
-   *   Handles the output behavior of hyenae
+   *   Handles the output behavior
+   *   of Hyenae.
    */
 
   /* Use default handler */
@@ -49,6 +50,39 @@ void
     timestamp,
     output);
 } /* hy_handle_output */
+
+/* -------------------------------------------------------------------------- */
+
+void
+  hy_handle_attack_blocking
+    (
+      hy_attack_loop_t* params
+    ) {
+
+  /*
+   * USAGE:
+   *   Handles the blocking behaviour
+   *   of Hyenae during an attack.
+   */
+
+  int stop_msg_init = 0;
+
+  while (1) {
+    fflush(stdin);
+    if (params->run_stat == HY_RUN_STAT_STOPPED) {
+      break;
+    }
+    if (params->run_stat == HY_RUN_STAT_RUNNING) {
+      if (stop_msg_init == 0) {
+        printf("\n  Press any key to stop\n\n");
+        stop_msg_init = 1;
+      }
+      if (hy_was_key_pressed() != 0) {
+        params->run_stat = HY_RUN_STAT_REQUESTED_STOP;
+      }
+    }
+  }
+} /* hy_handle_attack_blocking */
 
 /* -------------------------------------------------------------------------- */
 

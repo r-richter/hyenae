@@ -289,47 +289,11 @@ void
       return;
     }
   #endif /* OS_WINDOWS */
-  hy_handle_attack_blocking(&prm, is_remote_call);
+  hy_handle_attack_blocking(&prm);
   if (prm.pkt_buf != NULL) {
     free(prm.pkt_buf);
   }
 } /* hy_attack */
-
-/* -------------------------------------------------------------------------- */
-
-void
-  hy_handle_attack_blocking
-    (
-      hy_attack_loop_t* params,
-      int is_remote_call
-    ) {
-
-  /*
-   * USAGE:
-   *   Handles the blocking behaviour
-   *   during an attack
-   */
-
-  int stop_msg_init = 0;
-
-  while (1) {
-    fflush(stdin);
-    if (params->run_stat == HY_RUN_STAT_STOPPED) {
-      break;
-    }
-    if (params->run_stat == HY_RUN_STAT_RUNNING) {
-      if (is_remote_call == 0) {
-        if (stop_msg_init == 0) {
-          printf("\n  Press any key to stop\n\n");
-          stop_msg_init = 1;
-        }
-        if (hy_was_key_pressed() != 0) {
-          params->run_stat = HY_RUN_STAT_REQUESTED_STOP;
-        }
-      }
-    }
-  }
-} /* hy_handle_attack_blocking */
 
 /* -------------------------------------------------------------------------- */
 

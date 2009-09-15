@@ -15,6 +15,7 @@
 --------------------------------------------------------------------------------
 
   Version 0.34-3 (?)
+    * Refactored attack blocking handler
     * Applied DNS BugFix from Archie Andrews
     * Removed DNS query URL format validation
 
