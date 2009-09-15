@@ -16,6 +16,7 @@
 
   High Priority
     * Add NDP support
+    * Fix build warnings
 
   Medium Priority
     * Add SNMP support
