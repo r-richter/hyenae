@@ -84,7 +84,7 @@
 
   hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]
          [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]
-         [-A ip-v-asm] [-t ip-ttl] [-o icmp-pppoe-code] [-f tcp-flags]
+         [-A ip-v-asm] [-t ip-ttl] [-o opcode] [-f tcp-flags]
          [-k tcp-ack] [-w tcp-win] [-q seq-sid] [-Q seq-sid-ins]
          [-y dns_qry] [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]
          [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]
@@ -156,10 +156,9 @@
        value between 1 and 255. If not set, a hop limit size of 128 will be
        used.
 
-    -o ICMP "Destination Unreachable" message code / PPPoE discover code. This
-       is optional on ICMP "Destination Unreachable" attacks and required on
-       PPPoE attacks. It defines the message code to set on ICMP "Destination
-       Unreachable" attacks or the discover code of PPPoE packets.
+    -o Defines the ICMP "Destination Unreachable" message code on ICMP
+       "Destination Unreachable" based attacks or the PPPoE discover code on
+       PPPoE-Discover based attacks.
 
        Valid values on PPPoE attacks:
 
@@ -172,9 +171,6 @@
          host     (Host Unreachable)
          protocol (Protocol Unreachable)
          port     (Port Unreachable)
-
-       If not set on ICMP "Destination Unreachable" attacks, the message code
-       "Network Unreachable" will be used.
 
     -f TCP flags. This option is required on TCP attacks and defines the TCP
        control flags to set for the generated packets. Valid values are any
@@ -460,9 +456,9 @@
          -d [HW-Address]-[IP-Address (IPv4 only)]
          -S [HW-Address]-[IP-Address (IPv4 only)]@[Port]
          -D [HW-Address]-[IP-Address (IPv4 only)]@[Port]
+         -o [ICMP Message Code]
   Optional:
          -t [IP Time To Live (TTL)]
-         -o [ICMP Message Code]
          -k [TCP Achnkowledgement Number]
          -w [TCP Window Size]
          -q [TCP Sequence Number Offset]

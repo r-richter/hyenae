@@ -156,7 +156,7 @@
 #define HY_ER_WRONG_PT_FMT      -7002
 
 /* Other errors */
-#define HY_ER_CODE_WITHOUT_AT_T     -8001
+#define HY_ER_OPCODE_WITHOUT_AT_T   -8001
 #define HY_ER_PPPOE_CODE_ZERO       -8002
 #define HY_ER_PPPOE_CODE_UNKNOWN    -8003
 #define HY_ER_ICMP_UNR_CODE_ZERO    -8004

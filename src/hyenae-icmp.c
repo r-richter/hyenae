@@ -161,7 +161,7 @@ int
   icmp_unreach_t* icmp_unr = NULL;
 
   /* Check for ICMP "Destination Unreachable" code */
-  if (icmp_unr_code == 0) {
+  if (icmp_unr_code == HY_AT_OC_NONE) {
     return HY_ER_ICMP_UNR_CODE_ZERO;
   }
   /* Parse address patterns */

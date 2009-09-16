@@ -15,8 +15,11 @@
 --------------------------------------------------------------------------------
 
   Version 0.34-3 (?)
+    * Updated documentation
+    * Fixed PPPoE discover code logging
     * Refactored attack blocking handler
     * Refactored default value assignment
+    * Refactored attack parameter structure
     * Applied DNS BugFix from Archie Andrews
     * Removed DNS query URL format validation
 

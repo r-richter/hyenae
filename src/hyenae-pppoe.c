@@ -55,7 +55,7 @@ int
   hy_pppoe_tag_t* tag_sn = NULL;
 
   /* Check for PPPoE code */
-  if (pppoe_code == 0) {
+  if (pppoe_code == HY_AT_OC_NONE) {
     return HY_ER_PPPOE_CODE_ZERO;
   }
   /* Parse address patterns */

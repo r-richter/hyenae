@@ -58,6 +58,9 @@
 #define HY_AT_T_DHCP_REQUEST     10
 #define HY_AT_T_DHCP_RELEASE     11
 
+/* Opcode initialization value */
+#define HY_AT_OC_NONE -1
+
 /* Turncation flags */
 #define HY_TC_NONE    0
 #define HY_TC_PKT_CNT 0x00000001
@@ -93,7 +96,7 @@ typedef
   unsigned long min_dur;
   unsigned long max_dur;
   unsigned int ip_ttl;
-  unsigned int icmp_pppoe_code;
+  unsigned int opcode;
   char dns_qry[HY_DNS_QRY_BUFLEN];
   unsigned int tcp_flgs;
   unsigned long seq_sid;

@@ -420,7 +420,7 @@ int
   int ret = HY_ER_OK;
 
   attack->type = HY_AT_T_PPPOE_DISCOVER;
-  attack->icmp_pppoe_code = HY_PPPOE_CODE_PADI;
+  attack->opcode = HY_PPPOE_CODE_PADI;
   strncpy(
     attack->src_pat.src,
     "%",
@@ -449,7 +449,7 @@ int
   int ret = HY_ER_OK;
 
   attack->type = HY_AT_T_PPPOE_DISCOVER;
-  attack->icmp_pppoe_code = HY_PPPOE_CODE_PADT;
+  attack->opcode = HY_PPPOE_CODE_PADT;
   attack->seq_sid = 1;
   attack->seq_sid_ins = 1;
   /* Enter PPPoE-Session (A) pattern */
@@ -512,16 +512,16 @@ int
   }
   switch (opt) {
     case 1:
-      attack->icmp_pppoe_code = ICMP_UNREACH_NET;
+      attack->opcode = ICMP_UNREACH_NET;
       break;
     case 2:
-      attack->icmp_pppoe_code = ICMP_UNREACH_HOST;
+      attack->opcode = ICMP_UNREACH_HOST;
       break;
     case 3:
-      attack->icmp_pppoe_code = ICMP_UNREACH_PROTO;
+      attack->opcode = ICMP_UNREACH_PROTO;
       break;
     case 4:
-      attack->icmp_pppoe_code = ICMP_UNREACH_PORT;
+      attack->opcode = ICMP_UNREACH_PORT;
       break;
   }
   /* Enter TCP-Connection (A) pattern */
@@ -1532,10 +1532,10 @@ int
   printf(
     " -a %s",
     hy_get_attack_name(attack->type));
-  if (attack->icmp_pppoe_code > 0) {
+  if (attack->opcode > 0) {
     printf(" -o ");
     if (attack->type == HY_AT_T_PPPOE_DISCOVER) {
-      switch (attack->icmp_pppoe_code) {
+      switch (attack->opcode) {
         case HY_PPPOE_CODE_PADI:
           printf("padi");
           break;
@@ -1544,7 +1544,7 @@ int
           break;
       }
     } else {
-      switch (attack->icmp_pppoe_code) {
+      switch (attack->opcode) {
         case ICMP_UNREACH_NET:
           printf("network");
           break;

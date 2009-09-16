@@ -44,6 +44,7 @@ void
   attack->ip_v_asm = HY_AD_T_IP_V4;
   attack->ip_ttl = 128;
   attack->pay = NULL;
+  attack->opcode = HY_AT_OC_NONE;
 } /* hy_init_attack_params */
 
 /* -------------------------------------------------------------------------- */
@@ -447,7 +448,7 @@ void
                &params->pkt_buf,
                &pkt_len,
                seq_sid,
-               params->att->icmp_pppoe_code)) != HY_ER_OK) {
+               params->att->opcode)) != HY_ER_OK) {
         break;
       }
     } else if (params->att->type == HY_AT_T_ICMP_ECHO) {
@@ -502,7 +503,7 @@ void
                  tmp_buf_len - sizeof(eth_h_t),
                  IP_PROTO_TCP,
                  params->att->ip_ttl,
-                 params->att->icmp_pppoe_code)) != HY_ER_OK) {
+                 params->att->opcode)) != HY_ER_OK) {
           free(tmp_buf);
           break;
         }

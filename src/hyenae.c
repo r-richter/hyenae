@@ -403,7 +403,7 @@ int
           if (att.type == HY_AT_T_PPPOE_DISCOVER) {
             if ((ret =
                    hy_parse_ppoe_discover_code(
-                     &att.icmp_pppoe_code,
+                     &att.opcode,
                      optarg)) != HY_ER_OK) {
               hy_output(
                 stdout,
@@ -415,7 +415,7 @@ int
           } else if (att.type == HY_AT_T_ICMP_UNREACH_TCP) {
             if ((ret =
                    hy_parse_icmp_unreach_code(
-                     &att.icmp_pppoe_code,
+                     &att.opcode,
                      optarg)) != HY_ER_OK) {
               hy_output(
                 stdout,
@@ -429,7 +429,7 @@ int
               stdout,
               HY_OUT_T_ERROR,
               0,
-              hy_get_error_msg(HY_ER_CODE_WITHOUT_AT_T));
+              hy_get_error_msg(HY_ER_OPCODE_WITHOUT_AT_T));
             return -1;
           }
           break;
@@ -549,7 +549,7 @@ int
             "\n"
             "       hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]\n"
             "              [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]\n"
-            "              [-A ip-v-asm] [-t ip-ttl] [-o icmp-pppoe-code] [-f tcp-flags]\n"
+            "              [-A ip-v-asm] [-t ip-ttl] [-o opcode] [-f tcp-flags]\n"
             "              [-k tcp-ack] [-w tcp-win] [-q seq-sid] [-Q seq-sid-ins]\n"
             "              [-y dns_qry] [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]\n"
             "              [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]\n"

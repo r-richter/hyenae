@@ -558,13 +558,13 @@ void
       attack->type != HY_AT_T_ARP_REPLY) {
     sprintf(
       buffer,
-      "%s  > IP hop limit (TTL): %i\n",
+      "%s  > IP Hop Limit (TTL): %i\n",
       buffer,
       attack->ip_ttl);
   }
   if (attack->type == HY_AT_T_PPPOE_DISCOVER) {
     memset(tmp, 0, 1024);
-    switch(attack->icmp_pppoe_code) {
+    switch(attack->opcode) {
       case HY_PPPOE_CODE_PADI:
         strncpy(tmp, "Active Discovery Initiation (PADI)", 1024);
         break;
@@ -577,18 +577,23 @@ void
     }
     sprintf(
       buffer,
-      "%s  > PPPoE session id: %u\n",
+      "%s  > PPPoE Discover Code: %s\n",
+      buffer,
+      tmp);
+    sprintf(
+      buffer,
+      "%s  > PPPoE Session ID: %u\n",
       buffer,
       attack->seq_sid);
     sprintf(
       buffer,
-      "%s  > PPPoE session id incr. steps: %u\n",
+      "%s  > PPPoE Session ID Incr. Steps: %u\n",
       buffer,
       attack->seq_sid_ins);
   }
   if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
     memset(tmp, 0, 1024);
-    switch(attack->icmp_pppoe_code) {
+    switch(attack->opcode) {
       case ICMP_UNREACH_NET:
         strncpy(tmp, "Network", 1024);
         break;
@@ -614,7 +619,7 @@ void
   if (attack->type == HY_AT_T_DNS_QUERY) {
     sprintf(
       buffer,
-      "%s  > DNS queries: %s\n",
+      "%s  > DNS-Queries: %s\n",
       buffer,
       attack->dns_qry);
   }
@@ -622,17 +627,17 @@ void
       attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
     sprintf(
       buffer,
-      "%s  > TCP seq. number: %u\n",
+      "%s  > TCP Seq. Number: %u\n",
       buffer,
       attack->seq_sid);
     sprintf(
       buffer,
-      "%s  > TCP seq. number incr. steps: %u\n",
+      "%s  > TCP Seq. Number Incr. Steps: %u\n",
       buffer,
       attack->seq_sid_ins);
     sprintf(
       buffer,
-      "%s  > TCP ack. number: %u\n",
+      "%s  > TCP Ack. Number: %u\n",
       buffer,
       attack->tcp_ack);
     if (attack->type == HY_AT_T_TCP) {
@@ -654,12 +659,12 @@ void
       }
       sprintf(
         buffer,
-        "%s  > TCP flags: %s\n",
+        "%s  > TCP-Flags: %s\n",
         buffer,
         tmp);
       sprintf(
         buffer,
-        "%s  > TCP window size: %i\n",
+        "%s  > TCP Window Size: %i\n",
         buffer,
         attack->tcp_wnd);
     }
