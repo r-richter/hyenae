@@ -15,11 +15,12 @@
 --------------------------------------------------------------------------------
 
   High Priority
-    * Add NDP support
+    * Add HSRP support
+    * Add SNMP support
     * Fix build warnings
 
   Medium Priority
-    * Add SNMP support
+    * Add NDP support
 
   Low Priority
     * Client/Daemon conversation encryption (SSL)
