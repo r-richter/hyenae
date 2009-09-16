@@ -149,9 +149,9 @@ char*
   ret = malloc(HY_RES_LINE_BUFLEN);
   memset(ret, 0, HY_RES_LINE_BUFLEN);
   if (!(result->tc_flg & HY_TC_PKT_CNT)) {
-    sprintf(ret, "%u packets sent ", result->pkt_cnt);
+    sprintf(ret, "%li packets sent ", result->pkt_cnt);
     if (!(result->tc_flg & HY_TC_TOT_BYT)) {
-      sprintf(ret, "%s(%u bytes) ", ret, result->tot_byt);
+      sprintf(ret, "%s(li bytes) ", ret, result->tot_byt);
     }
   }
   if (result->dur_msec > 0) {
@@ -159,7 +159,7 @@ char*
     msec = result->dur_msec - (sec * 1000);
     sprintf(
       ret,
-      "%sin %u.%u seconds",
+      "%sin %li.%li seconds",
       ret,
       sec,
       msec);

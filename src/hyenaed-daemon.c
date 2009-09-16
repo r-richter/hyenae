@@ -582,12 +582,12 @@ void
       tmp);
     sprintf(
       buffer,
-      "%s  > PPPoE Session ID: %u\n",
+      "%s  > PPPoE Session ID: %li\n",
       buffer,
       attack->seq_sid);
     sprintf(
       buffer,
-      "%s  > PPPoE Session ID Incr. Steps: %u\n",
+      "%s  > PPPoE Session ID Incr. Steps: %li\n",
       buffer,
       attack->seq_sid_ins);
   }
@@ -627,17 +627,17 @@ void
       attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
     sprintf(
       buffer,
-      "%s  > TCP Seq. Number: %u\n",
+      "%s  > TCP Seq. Number: %li\n",
       buffer,
       attack->seq_sid);
     sprintf(
       buffer,
-      "%s  > TCP Seq. Number Incr. Steps: %u\n",
+      "%s  > TCP Seq. Number Incr. Steps: %li\n",
       buffer,
       attack->seq_sid_ins);
     sprintf(
       buffer,
-      "%s  > TCP Ack. Number: %u\n",
+      "%s  > TCP Ack. Number: %li\n",
       buffer,
       attack->tcp_ack);
     if (attack->type == HY_AT_T_TCP) {
@@ -671,12 +671,12 @@ void
   }
   sprintf(
     buffer,
-    "%s  > Min-Count: %i\n",
+    "%s  > Min-Count: %li\n",
     buffer,
     attack->min_cnt);
   sprintf(
     buffer,
-    "%s  > Max-Count: %i\n",
+    "%s  > Max-Count: %li\n",
     buffer,
     attack->max_cnt);
   sprintf(
@@ -691,12 +691,12 @@ void
     attack->max_del);
   sprintf(
     buffer,
-    "%s  > Min-Duration: %u\n",
+    "%s  > Min-Duration: %li\n",
     buffer,
     attack->min_dur);
   sprintf(
     buffer,
-    "%s  > Max-Duration: %u\n",
+    "%s  > Max-Duration: %li\n",
     buffer,
     attack->max_dur);
   sprintf(

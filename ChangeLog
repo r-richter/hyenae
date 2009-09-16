@@ -16,6 +16,7 @@
 
   Version 0.34-3 (?)
     * Bug fixes
+    * Fixed build warnings
     * Updated documentation
     * Refactored attack blocking handler
     * Refactored default value assignment

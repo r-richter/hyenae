@@ -17,7 +17,6 @@
   High Priority
     * Add HSRP support
     * Add SNMP support
-    * Fix build warnings
 
   Medium Priority
     * Add NDP support

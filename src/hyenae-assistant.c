@@ -1579,10 +1579,10 @@ int
     }
   }
   if (attack->seq_sid > 0) {
-    printf(" -q %i", attack->seq_sid);
+    printf(" -q %li", attack->seq_sid);
   }
   if (attack->seq_sid_ins > 0) {
-    printf(" -Q %i", attack->seq_sid_ins);
+    printf(" -Q %li", attack->seq_sid_ins);
   }
   if (attack->type == HY_AT_T_UDP) {
     printf(" -p %i",attack->pay_len);
