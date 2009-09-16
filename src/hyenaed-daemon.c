@@ -1,6 +1,6 @@
 /*
- * Hyenae
- *   Advanced Network Packet Generator
+ * Hyenae Daemon
+ *   Advanced Network Packet Generator Daemon
  *
  * Copyright (C) 2009  Robin Richter
  *
