@@ -57,7 +57,7 @@ int
   hy_pattern_t src_pat;
   hy_pattern_t dst_pat;
 
-   /* Parse address patterns */
+  /* Parse address patterns */
   if ((ret =
          hy_parse_pattern(
            src_pattern,
@@ -135,7 +135,7 @@ int
       data,
       data_len);
   }
-  /* Wrap IP-Layer */
+  /* Wrap UDP-Layer */
   return hy_build_udp_packet(
             &src_pat,
             &dst_pat,

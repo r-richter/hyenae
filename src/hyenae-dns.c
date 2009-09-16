@@ -237,7 +237,7 @@ int
   }
   dns_h->qdcount = htons(qry_cnt);
   dns_h->nscount = htons(0);
-  /* Wrap IP-Layer */
+  /* Wrap UDP-Layer */
   ret = hy_build_udp_packet(
           &src_pat,
           &dst_pat,
