@@ -1532,7 +1532,7 @@ int
   printf(
     " -a %s",
     hy_get_attack_name(attack->type));
-  if (attack->opcode > 0) {
+  if (attack->opcode != HY_AT_OC_NONE) {
     printf(" -o ");
     if (attack->type == HY_AT_T_PPPOE_DISCOVER) {
       switch (attack->opcode) {
