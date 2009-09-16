@@ -151,7 +151,7 @@ char*
   if (!(result->tc_flg & HY_TC_PKT_CNT)) {
     sprintf(ret, "%li packets sent ", result->pkt_cnt);
     if (!(result->tc_flg & HY_TC_TOT_BYT)) {
-      sprintf(ret, "%s(li bytes) ", ret, result->tot_byt);
+      sprintf(ret, "%s(%li bytes) ", ret, result->tot_byt);
     }
   }
   if (result->dur_msec > 0) {
