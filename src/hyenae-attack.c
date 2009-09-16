@@ -235,19 +235,16 @@ void
       attack->type == HY_AT_T_ARP_REQUEST ||
       attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
     if (strlen(attack->sec_src_pat.src) == 0) {
-      switch (attack->type) {
-        case HY_AT_T_ARP_REPLY:
-          result->ret = HY_ER_NO_SND_PT_GIVEN;
-          return;
-        case HY_AT_T_ARP_REQUEST:
-          result->ret = HY_ER_NO_SND_PT_GIVEN;
-          return;
-        case HY_AT_T_ICMP_UNREACH_TCP:
-          result->ret = HY_ER_NO_TCP_SRC_PT_GIVEN;
-          return;
-        default:
-          result->ret = HY_ER_UNKNOWN;
-          return;
+      if (attack->type == HY_AT_T_ARP_REPLY ||
+          attack->type == HY_AT_T_ARP_REQUEST) {
+        result->ret = HY_ER_NO_SND_PT_GIVEN;
+        return;
+      } else if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
+        result->ret = HY_ER_NO_TCP_SRC_PT_GIVEN;
+        return;
+      } else {
+        result->ret = HY_ER_UNKNOWN;
+        return;
       }
     }
   }
@@ -257,25 +254,20 @@ void
       attack->type == HY_AT_T_DHCP_REQUEST ||
       attack->type == HY_AT_T_DHCP_RELEASE) {
     if (strlen(attack->sec_dst_pat.src) == 0) {
-      switch (attack->type) {
-        case HY_AT_T_ARP_REPLY:
-          result->ret = HY_ER_NO_TRG_PT_GIVEN;
-          return;
-        case HY_AT_T_ARP_REQUEST:
-          result->ret = HY_ER_NO_TRG_PT_GIVEN;
-          return;
-        case HY_AT_T_ICMP_UNREACH_TCP:
-          result->ret = HY_ER_NO_TCP_DST_PT_GIVEN;
-          return;
-        case HY_AT_T_DHCP_REQUEST:
-          result->ret = HY_ER_NO_SRV_IP_GIVEN;
-          return;
-        case HY_AT_T_DHCP_RELEASE:
-          result->ret = HY_ER_NO_SRV_IP_GIVEN;
-          return;
-        default:
-          result->ret = HY_ER_UNKNOWN;
-          return;
+      if (attack->type == HY_AT_T_ARP_REPLY ||
+          attack->type == HY_AT_T_ARP_REQUEST) {
+        result->ret = HY_ER_NO_TRG_PT_GIVEN;
+        return;      
+      } else if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
+        result->ret = HY_ER_NO_TCP_DST_PT_GIVEN;
+        return;
+      } else if (attack->type == HY_AT_T_DHCP_REQUEST ||
+                 attack->type == HY_AT_T_DHCP_RELEASE) {
+        result->ret = HY_ER_NO_SRV_IP_GIVEN;
+        return;
+      } else {
+        result->ret = HY_ER_UNKNOWN;
+        return;
       }
     }
   }
