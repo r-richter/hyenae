@@ -32,13 +32,6 @@
 
 #include <getopt.h>
 
-/* Default log file path */
-#ifdef OS_WINDOWS
-  #define HY_ER_LF_FILEPATH ".\\hyenaed.log"
-#else
-  #define HY_ER_LF_FILEPATH "/var/log/hyenaed.log"
-#endif /* OS_WINDOWS */
-
 /* -------------------------------------------------------------------------- */
 
 void

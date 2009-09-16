@@ -28,6 +28,26 @@
 
 /* -------------------------------------------------------------------------- */
 
+void
+  hy_init_attack_params
+    (
+      hy_attack_t* attack
+    ) {
+
+  /*
+   * USAGE:
+   *   Initializes the given attack parameter
+   *   structure and applies the default values.
+   */
+
+  memset(attack, 0, sizeof(hy_attack_t));
+  attack->ip_v_asm = HY_AD_T_IP_V4;
+  attack->ip_ttl = 128;
+  attack->pay = NULL;
+} /* hy_init_attack_params */
+
+/* -------------------------------------------------------------------------- */
+
 int
   hy_get_attack_type_value
     (

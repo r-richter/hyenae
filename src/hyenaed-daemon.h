@@ -27,16 +27,26 @@
 #ifndef HYENAED_DAEMON_H
   #define HYENAED_DAEMON_H
 
+#include "hyenae-base.h"
+#include "hyenae-config.h"
+#include "hyenae-attack.h"
+#include "hyenae-protocol.h"
+
+/* Daemon default port */
+#define HY_DMN_DEF_PORT 666
+
 /* Daemon receive timeout in seconds */
 #define HY_DMN_RCV_TIMEOUT 3
 
 /* Log file buffer length */
 #define HY_DMN_LOG_FILE_BUFLEN 1024
 
-#include "hyenae-base.h"
-#include "hyenae-config.h"
-#include "hyenae-attack.h"
-#include "hyenae-protocol.h"
+/* Default log file path */
+#ifdef OS_WINDOWS
+  #define HY_ER_LF_FILEPATH ".\\hyenaed.log"
+#else
+  #define HY_ER_LF_FILEPATH "/var/log/hyenaed.log"
+#endif /* OS_WINDOWS */
 
 /* -------------------------------------------------------------------------- */
 
@@ -77,6 +87,14 @@ typedef
   hy_ip_list_t* none_tru_ip_lst;
 
 } hy_daemon_t;
+
+/* -------------------------------------------------------------------------- */
+
+void
+  hy_init_daemon_params
+    (
+      hy_daemon_t*
+    );
 
 /* -------------------------------------------------------------------------- */
 

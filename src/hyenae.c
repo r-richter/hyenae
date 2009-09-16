@@ -239,10 +239,7 @@ int
     HY_OUT_T_TASK,
     0,
     "Initializing");
-  memset(&att, 0, sizeof(hy_attack_t));
-  att.ip_v_asm = HY_AD_T_IP_V4;
-  att.ip_ttl = 128;
-  att.pay = NULL;
+  hy_init_attack_params(&att);
   if ((ret = hy_initialize()) != HY_ER_OK) {
     hy_output(
       stdout,

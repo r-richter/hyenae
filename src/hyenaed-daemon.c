@@ -28,6 +28,35 @@
 
 /* -------------------------------------------------------------------------- */
 
+void
+  hy_init_daemon_params
+    (
+      hy_daemon_t* config
+    ) {
+
+  /*
+   * USAGE:
+   *   Initializes the given daemon configuration
+   *   structure and applies the default values.
+   */
+
+  memset(config, 0, sizeof(hy_daemon_t));
+  config->if_n = NULL;
+  strcpy(config->ip_addr, "127.0.0.1");
+  config->port = HY_DMN_DEF_PORT;
+  config->bcklog = 5;
+  config->max_cli = 10;
+  config->ip_v = HY_AD_T_IP_V4;
+  config->tru_ip_lst = NULL;
+  config->none_tru_ip_lst = NULL;
+  strncpy(
+    config->log_file,
+    HY_ER_LF_FILEPATH,
+    HY_DMN_LOG_FILE_BUFLEN);
+} /* hy_init_daemon_params */
+
+/* -------------------------------------------------------------------------- */
+
 int
   hy_load_ip_list
     (

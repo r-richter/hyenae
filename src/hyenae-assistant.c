@@ -1044,13 +1044,12 @@ int
     0,
     "Starting attack assistant");
   *if_index = -1;
-  memset(attack, 0, sizeof(hy_attack_t));
+  hy_init_attack_params(attack);
   memset(inp, 0, HY_PT_BUFLEN);
   memset(srv_pat_inp, 0, HY_PT_BUFLEN);
   memset(srv_lst_inp, 0, HY_PT_BUFLEN);
   memset(hw_addr_gateway, 0, HY_PT_BUFLEN);
-  attack->ip_ttl = 128;
-  attack->pay = NULL;
+
   /* Select operation mode */
   if ((ret =
          hy_assistant_input_numeric(
@@ -1302,7 +1301,7 @@ int
           case 3:
             ret =
               hy_assistant_handle_blind_pppoe_ses_ini_flood(attack);
-            break;            
+            break;
           case 4:
             ret =
               hy_assistant_handle_blind_pppoe_ses_term(attack);
@@ -1415,7 +1414,7 @@ int
         case 1:
           ret =
             hy_assistant_handle_blind_pppoe_ses_ini_flood(attack);
-          break; 
+          break;
         case 2:
           ret =
             hy_assistant_handle_blind_pppoe_ses_term(attack);

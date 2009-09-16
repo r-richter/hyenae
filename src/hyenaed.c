@@ -99,19 +99,7 @@ int
     HY_OUT_T_TASK,
     0,
     "Initializing");
-  memset(&dmn, 0, sizeof(hy_daemon_t));
-  dmn.if_n = NULL;
-  strcpy(dmn.ip_addr, "127.0.0.1");
-  dmn.port = 666;
-  dmn.bcklog = 5;
-  dmn.max_cli = 10;
-  dmn.ip_v = HY_AD_T_IP_V4;
-  dmn.tru_ip_lst = NULL;
-  dmn.none_tru_ip_lst = NULL;
-  strncpy(
-    dmn.log_file,
-    HY_ER_LF_FILEPATH,
-    HY_DMN_LOG_FILE_BUFLEN);
+  hy_init_daemon_params(&dmn);
   if ((ret = hy_initialize()) != HY_ER_OK) {
     hy_output(
       stdout,
