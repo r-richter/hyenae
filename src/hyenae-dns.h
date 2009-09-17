@@ -27,6 +27,9 @@
 #ifndef HYENAE_DNS_H
   #define HYENAE_DNS_H
 
+/* Max. DNS query pattern length */
+#define HY_DNS_QRY_BUFLEN (1024)
+
 #include "hyenae-base.h"
 #include "hyenae-patterns.h"
 #include "hyenae-attack.h"
