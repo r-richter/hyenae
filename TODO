@@ -15,10 +15,11 @@
 --------------------------------------------------------------------------------
 
   High Priority
-    * Add HSRP support
-    * Add SNMP support
+    * Migrate to long arguments
 
   Medium Priority
+    * Add HSRP support
+    * Add SNMP support
     * Add NDP support
 
   Low Priority
