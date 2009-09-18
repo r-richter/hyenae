@@ -183,7 +183,7 @@
     identical source and destination address.
 
     # hyenae -I 3 -a tcp -f s -s 00:f0:21:03:c6:00-192.168.0.1@139 \
-    # -d -d 00:f0:21:03:c6:00-192.168.0.1@139 -C 1
+    # -d -d 00:f0:21:03:c6:00-192.168.0.1@139 -c 1
 
     5.11 Blind TCP-Connection Reset
 
@@ -242,7 +242,7 @@
     set to the IP-Address of the destination DHCP-Server.
 
     # hyenae -I 3 -a dhcp-release -s 11:22:33:44:55:66-192.168.0.2 \
-    # -d 44:55:66:77:88:99-192.168.0.1 -D 192.168.0.1 -C 1
+    # -d 44:55:66:77:88:99-192.168.0.1 -D 192.168.0.1 -c 1
 
     5.17 Cisco HSRP Active Router Hijacking
 
