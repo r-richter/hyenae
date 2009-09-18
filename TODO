@@ -15,6 +15,7 @@
 --------------------------------------------------------------------------------
 
   High Priority
+    * Add DNS-Response support
     * Migrate to long arguments
 
   Medium Priority
