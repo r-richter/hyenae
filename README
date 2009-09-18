@@ -253,14 +253,16 @@
 
     -e Minimum number of milliseconds to wait until the next packet is sent.
        On HSRP based attacks the send delay will be used as the hello/hold time
-       field value. The hold time on HSRP based attacks will be hello time
-       multiplied by 3.
+       field value and must not be greater than 255000. The hold time on HSRP
+       based attacks will be hello time multiplied by 3.
 
     -E Maximum number of milliseconds that may pass before the next packet is
        sent. If set, Hyenae will wait a random number of milliseconds between
        the minimum (-e X or 0 if not set) and the maximum number (-E X) before
-       sending the next packet. This is useful for breaking flood detections.The
-       hold time on HSRP based attacks will be hello time multiplied by 3.
+       sending the next packet. This is useful for breaking flood detections.
+       On HSRP based attacks the send delay will be used as the hello/hold time
+       field value and must not be greater than 255000. The hold time on HSRP
+       based attacks will be hello time multiplied by 3.
 
     -u Minimum attack duration in milliseconds. If not set or set to 0, the
        attack duration will be endless, unless a packet count was given. If not

@@ -169,6 +169,8 @@
 #define HY_ER_HSRP_AUTH_LEN_EXCEED    -8010
 #define HY_ER_HSRP_MAX_PRIO_EXCEEDED  -8011
 #define HY_ER_HSRP_MAX_GROUP_EXCEEDED -8012
+#define HY_ER_SND_DEL_WITHOUT_AT_T    -8013
+#define HY_ER_HSRP_DEL_EXCEEDED       -8014
 
 /* Thread run states */
 #define HY_RUN_STAT_RUNNING        0

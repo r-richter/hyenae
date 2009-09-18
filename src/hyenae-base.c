@@ -795,6 +795,10 @@ const char*
     return "Maximum HSRP priority value exceeded (too big priority value)";
   } else if (error == HY_ER_HSRP_MAX_GROUP_EXCEEDED) {
     return "Maximum HSRP group value exceeded (too big group value)";
+  } else if (error == HY_ER_SND_DEL_WITHOUT_AT_T) {
+    return "Attack type needs to be set before send delay";
+  } else if (error == HY_ER_HSRP_DEL_EXCEEDED) {
+    return "Maximum HSRP hello/hold time value exceeded (too big send delay)";
   } else {
     return "An unknown error occurred";
   }

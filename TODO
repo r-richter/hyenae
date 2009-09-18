@@ -16,7 +16,6 @@
 
   High Priority
     * Add DNS-Response support
-    * Prevent hello/hold time truncation on big send delays
     * Migrate to long arguments
 
   Medium Priority

@@ -499,7 +499,7 @@ int
                 hy_get_error_msg(ret));
               return -1;
             }
-          } else {
+          } else if (att.type == 0) {
             hy_output(
               stdout,
               HY_OUT_T_ERROR,
@@ -579,9 +579,49 @@ int
           break;
         case 'e':
           att.min_del = atoi(optarg);
-          break;
+          if (att.type != 0) {
+            if ((att.type == HY_AT_T_HSRP_HELLO ||
+                 att.type == HY_AT_T_HSRP_COUP ||
+                 att.type == HY_AT_T_HSRP_RESIGN) &&
+                 att.min_del > 255000) {
+              hy_output(
+                stdout,
+                HY_OUT_T_ERROR,
+                0,
+                hy_get_error_msg(HY_ER_HSRP_DEL_EXCEEDED));
+              return -1;
+            }
+            break;
+          } else {
+            hy_output(
+              stdout,
+              HY_OUT_T_ERROR,
+              0,
+              hy_get_error_msg(HY_ER_SND_DEL_WITHOUT_AT_T));
+            return -1;
+          }
         case 'E':
           att.max_del = atoi(optarg);
+          if (att.type != 0) {
+            if ((att.type == HY_AT_T_HSRP_HELLO ||
+                 att.type == HY_AT_T_HSRP_COUP ||
+                 att.type == HY_AT_T_HSRP_RESIGN) &&
+                 att.max_del > 255000) {
+              hy_output(
+                stdout,
+                HY_OUT_T_ERROR,
+                0,
+                hy_get_error_msg(HY_ER_HSRP_DEL_EXCEEDED));
+              return -1;
+            }
+          } else {
+            hy_output(
+              stdout,
+              HY_OUT_T_ERROR,
+              0,
+              hy_get_error_msg(HY_ER_SND_DEL_WITHOUT_AT_T));
+            return -1;
+          }
           break;
         case 'u':
           att.min_dur = atol(optarg);
