@@ -75,8 +75,9 @@ am_hyenae_OBJECTS = hyenae.$(OBJEXT) hyenae-assistant.$(OBJEXT) \
 	hyenae-ip.$(OBJEXT) hyenae-icmp.$(OBJEXT) hyenae-tcp.$(OBJEXT) \
 	hyenae-udp.$(OBJEXT) hyenae-dns.$(OBJEXT) \
 	hyenae-bootp.$(OBJEXT) hyenae-dhcp.$(OBJEXT) \
-	hyenae-attack.$(OBJEXT) hyenae-patterns.$(OBJEXT) \
-	hyenae-config.$(OBJEXT) hyenae-base.$(OBJEXT)
+	hyenae-hsrp.$(OBJEXT) hyenae-attack.$(OBJEXT) \
+	hyenae-patterns.$(OBJEXT) hyenae-config.$(OBJEXT) \
+	hyenae-base.$(OBJEXT)
 hyenae_OBJECTS = $(am_hyenae_OBJECTS)
 am__DEPENDENCIES_1 =
 hyenae_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -87,8 +88,9 @@ am_hyenaed_OBJECTS = hyenaed.$(OBJEXT) hyenaed-daemon.$(OBJEXT) \
 	hyenae-icmp.$(OBJEXT) hyenae-tcp.$(OBJEXT) \
 	hyenae-udp.$(OBJEXT) hyenae-dns.$(OBJEXT) \
 	hyenae-bootp.$(OBJEXT) hyenae-dhcp.$(OBJEXT) \
-	hyenae-attack.$(OBJEXT) hyenae-patterns.$(OBJEXT) \
-	hyenae-config.$(OBJEXT) hyenae-base.$(OBJEXT)
+	hyenae-hsrp.$(OBJEXT) hyenae-attack.$(OBJEXT) \
+	hyenae-patterns.$(OBJEXT) hyenae-config.$(OBJEXT) \
+	hyenae-base.$(OBJEXT)
 hyenaed_OBJECTS = $(am_hyenaed_OBJECTS)
 hyenaed_DEPENDENCIES = $(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I. -I$(top_builddir)@am__isrc@
@@ -208,6 +210,7 @@ hyenae_SOURCES = \
   hyenae-dns.h hyenae-dns.c \
   hyenae-bootp.h hyenae-bootp.c \
   hyenae-dhcp.h hyenae-dhcp.c \
+  hyenae-hsrp.h hyenae-hsrp.c \
   hyenae-attack.h hyenae-attack.c \
   hyenae-patterns.h hyenae-patterns.c \
   hyenae-config.h hyenae-config.c \
@@ -233,6 +236,7 @@ hyenaed_SOURCES = \
   hyenae-dns.h hyenae-dns.c \
   hyenae-bootp.h hyenae-bootp.c \
   hyenae-dhcp.h hyenae-dhcp.c \
+  hyenae-hsrp.h hyenae-hsrp.c \
   hyenae-attack.h hyenae-attack.c \
   hyenae-patterns.h hyenae-patterns.c \
   hyenae-config.h hyenae-config.c \
@@ -317,6 +321,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-dhcp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-dns.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-eth.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-hsrp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-icmp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-ip.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyenae-patterns.Po@am__quote@

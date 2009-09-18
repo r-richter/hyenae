@@ -59,6 +59,7 @@
   * Assisted DHCP-Discover flood setup
   * Assisted DHCP starvation setup
   * Assisted DHCP-Release forcing setup
+  * Assisted Cisco HSRP active router hijacking setup
   * Customizable ARP-Reply based attacks
   * Customizable PPPoE-Discover based attacks
   * Customizable ICMP-Echo based attacks (IPv4 and IPv6)
@@ -69,6 +70,9 @@
   * Customizable DHCP-Discover based attacks (IPv4)
   * Customizable DHCP-Request based attacks (IPv4)
   * Customizable DHCP-Release based attacks (IPv4)
+  * Customizable Cisco HSRP-Hello based attacks (IPv4)
+  * Customizable Cisco HSRP-Coup based attacks (IPv4)
+  * Customizable Cisco HSRP-Resign based attacks (IPv4)
   * Random or fixed packet count and or attack duration
   * Random or fixed send delay for breaking flood detections
   * Pattern based packet address configuration
@@ -86,13 +90,15 @@
          [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]
          [-A ip-v-asm] [-t ip-ttl] [-o opcode] [-f tcp-flags]
          [-k tcp-ack] [-w tcp-win] [-q seq-sid] [-Q seq-sid-ins]
-         [-y dns_qry] [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]
+         [-y dns_qry] [-h hsrp-auth] [-z hsrp-prio] [-g hsrp-group]
+         [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]
          [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]
          [-mNlLV]
 
     -s Source address pattern
 
-    -d Destination address pattern
+    -d Destination address pattern. Is also used to define the virtual
+       IP-Address pattern on HSRP based attacks.
 
     -S Secondary source address pattern. Defines the sender address on ARP-Reply
        attacks, the requested IP-Address on DHCP-Request attacks and the TCP
@@ -157,8 +163,9 @@
        used.
 
     -o Defines the ICMP "Destination Unreachable" message code on ICMP
-       "Destination Unreachable" based attacks or the PPPoE discover code on
-       PPPoE-Discover based attacks.
+       "Destination Unreachable" based attacks, the PPPoE discover code on
+       PPPoE-Discover based attacks or the HSRP state code on HSRP based
+       attacks.
 
        Valid values on PPPoE attacks:
 
@@ -171,6 +178,15 @@
          host     (Host Unreachable)
          protocol (Protocol Unreachable)
          port     (Port Unreachable)
+
+       Valid values on HSRP attacks:
+
+         init
+         learn
+         listen
+         speak
+         standby
+         active
 
     -f TCP flags. This option is required on TCP attacks and defines the TCP
        control flags to set for the generated packets. Valid values are any
@@ -212,6 +228,17 @@
        # Multiple DNS queries
        [www.domain1.com],[www.domain2.com],...
 
+    -h Defines the HSRP authentification data field value and is required on
+       HSRP based attacks. If not set, the default auth. data will be used
+       instead. Auth. data values must not be longer than 8 characters.
+
+    -z Defines the HSRP priority field value and is required on HSRP based
+       attacks. This value can be any number betwen 1 up to 255.
+
+    -g Defines the HSRP group number on HSRP based attacks. This value can be
+       any number betwen 0 up to 255. If not set, the group number will be set
+       to 0.
+
     -c Minimum number of packets to generate. If not set or set to 0, an
        unlimited amount of packets will be generated, unless an attack duration
        was set. If you provide a maximum number of packets to generate, the
@@ -225,11 +252,15 @@
        amount of packets will be generated.
 
     -e Minimum number of milliseconds to wait until the next packet is sent.
+       On HSRP based attacks the send delay will be used as the hello/hold time
+       field value. The hold time on HSRP based attacks will be hello time
+       multiplied by 3.
 
     -E Maximum number of milliseconds that may pass before the next packet is
        sent. If set, Hyenae will wait a random number of milliseconds between
        the minimum (-e X or 0 if not set) and the maximum number (-E X) before
-       sending the next packet. This is useful for breaking flood detections.
+       sending the next packet. This is useful for breaking flood detections.The
+       hold time on HSRP based attacks will be hello time multiplied by 3.
 
     -u Minimum attack duration in milliseconds. If not set or set to 0, the
        attack duration will be endless, unless a packet count was given. If not
@@ -510,5 +541,34 @@
   Optional:
          -t [IP Time To Live (TTL)]
 
+  hyenae -a hsrp-hello
+         -s [HW-Address]-[IP-Address (IPv4 only)]
+         -d [IP-Address (IPv4 only)]
+         -o [HSRP State Code]
+         -z [HSRP Priority]
+  Optional:
+         -t [IP Time To Live (TTL)]
+         -h [HSRP Auth. Data]
+         -g [HSRP Group Number]
+
+  hyenae -a hsrp-coup
+         -s [HW-Address]-[IP-Address (IPv4 only)]
+         -d [IP-Address (IPv4 only)]
+         -o [HSRP State Code]
+         -z [HSRP Priority]
+  Optional:
+         -t [IP Time To Live (TTL)]
+         -h [HSRP Auth. Data]
+         -g [HSRP Group Number]
+
+  hyenae -a hsrp-resign
+         -s [HW-Address]-[IP-Address (IPv4 only)]
+         -d [IP-Address (IPv4 only)]
+         -o [HSRP State Code]
+         -z [HSRP Priority]
+  Optional:
+         -t [IP Time To Live (TTL)]
+         -h [HSRP Auth. Data]
+         -g [HSRP Group Number]
 
 --------------------------------------------------------------------------------

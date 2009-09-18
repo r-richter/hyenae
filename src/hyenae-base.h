@@ -103,29 +103,30 @@
 #define HY_ER_NO_DST_PT_GIVEN         -3004
 #define HY_ER_NO_SND_PT_GIVEN         -3005
 #define HY_ER_NO_TCP_SRC_PT_GIVEN     -3006
-#define HY_ER_NO_IP_REQ_GIVEN         -3007
-#define HY_ER_NO_TRG_PT_GIVEN         -3008
-#define HY_ER_NO_TCP_DST_PT_GIVEN     -3009
-#define HY_ER_NO_SRV_IP_GIVEN         -3010
-#define HY_ER_PKT_PAY_UNSUPPORTED     -3011
-#define HY_ER_AT_T_UNKNOWN            -3012
-#define HY_MTU_LIMIT_EXCEED           -3013
-#define HY_ER_PCAP_WRITE              -3014
-#define HY_ER_MULTIPLE_IP_V           -3015
-#define HY_ER_WRONG_IP_V              -3016
-#define HY_ER_WRONG_PT_FMT_SRC        -3017
-#define HY_ER_WRONG_PT_FMT_DST        -3018
-#define HY_ER_WRONG_PT_FMT_SND        -3019
-#define HY_ER_WRONG_PT_FMT_TCP_SRC    -3020
-#define HY_ER_WRONG_PT_FMT_IP_REQ     -3021
-#define HY_ER_WRONG_PT_FMT_TRG        -3022
-#define HY_ER_WRONG_PT_FMT_TCP_DST    -3023
-#define HY_ER_WRONG_PT_FMT_SRV_IP     -3024
-#define HY_ER_NO_TCP_FLAGS            -3025
-#define HY_ER_DNS_NO_QUERIES          -3026
-#define HY_ER_DNS_QRY_N_BUFLEN_EXCEED -3027
-#define HY_ER_DNS_QRY_BUFLEN_EXCEED   -3028
-#define HY_ER_DHCP_MSG_UNSUPPORTED    -3029
+#define HY_ER_NO_VIR_PT_GIVEN         -3007
+#define HY_ER_NO_IP_REQ_GIVEN         -3008
+#define HY_ER_NO_TRG_PT_GIVEN         -3009
+#define HY_ER_NO_TCP_DST_PT_GIVEN     -3010
+#define HY_ER_NO_SRV_IP_GIVEN         -3011
+#define HY_ER_PKT_PAY_UNSUPPORTED     -3012
+#define HY_ER_AT_T_UNKNOWN            -3013
+#define HY_MTU_LIMIT_EXCEED           -3014
+#define HY_ER_PCAP_WRITE              -3015
+#define HY_ER_MULTIPLE_IP_V           -3016
+#define HY_ER_WRONG_IP_V              -3017
+#define HY_ER_WRONG_PT_FMT_SRC        -3018
+#define HY_ER_WRONG_PT_FMT_DST        -3019
+#define HY_ER_WRONG_PT_FMT_SND        -3020
+#define HY_ER_WRONG_PT_FMT_TCP_SRC    -3021
+#define HY_ER_WRONG_PT_FMT_IP_REQ     -3022
+#define HY_ER_WRONG_PT_FMT_TRG        -3023
+#define HY_ER_WRONG_PT_FMT_TCP_DST    -3024
+#define HY_ER_WRONG_PT_FMT_SRV_IP     -3025
+#define HY_ER_NO_TCP_FLAGS            -3026
+#define HY_ER_DNS_NO_QUERIES          -3027
+#define HY_ER_DNS_QRY_N_BUFLEN_EXCEED -3028
+#define HY_ER_DNS_QRY_BUFLEN_EXCEED   -3029
+#define HY_ER_DHCP_MSG_UNSUPPORTED    -3030
 
 /* Protocol based errors */
 #define HY_ER_MAX_RA_PKT_LEN_EXCEED -4001
@@ -156,12 +157,18 @@
 #define HY_ER_WRONG_PT_FMT      -7002
 
 /* Other errors */
-#define HY_ER_OPCODE_WITHOUT_AT_T   -8001
-#define HY_ER_PPPOE_CODE_ZERO       -8002
-#define HY_ER_PPPOE_CODE_UNKNOWN    -8003
-#define HY_ER_ICMP_UNR_CODE_ZERO    -8004
-#define HY_ER_ICMP_UNR_CODE_UNKNOWN -8005
-#define HY_ER_TCP_FLG_UNKNOWN       -8006
+#define HY_ER_OPCODE_WITHOUT_AT_T     -8001
+#define HY_ER_PPPOE_CODE_ZERO         -8002
+#define HY_ER_PPPOE_CODE_UNKNOWN      -8003
+#define HY_ER_ICMP_UNR_CODE_ZERO      -8004
+#define HY_ER_ICMP_UNR_CODE_UNKNOWN   -8005
+#define HY_ER_HSRP_PRIO_ZERO          -8006
+#define HY_ER_HSRP_CODE_ZERO          -8007
+#define HY_ER_HSRP_CODE_UNKNOWN       -8008
+#define HY_ER_TCP_FLG_UNKNOWN         -8009
+#define HY_ER_HSRP_AUTH_LEN_EXCEED    -8010
+#define HY_ER_HSRP_MAX_PRIO_EXCEEDED  -8011
+#define HY_ER_HSRP_MAX_GROUP_EXCEEDED -8012
 
 /* Thread run states */
 #define HY_RUN_STAT_RUNNING        0

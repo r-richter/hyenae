@@ -590,8 +590,7 @@ void
       "%s  > PPPoE Session ID Incr. Steps: %li\n",
       buffer,
       attack->seq_sid_ins);
-  }
-  if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
+  } else if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
     memset(tmp, 0, 1024);
     switch(attack->opcode) {
       case ICMP_UNREACH_NET:
@@ -615,7 +614,61 @@ void
     "%s  > ICMP \"Destination Unreachable\" Code: %s\n",
     buffer,
     tmp);
+  } else if (attack->type == HY_AT_T_HSRP_HELLO ||
+             attack->type == HY_AT_T_HSRP_COUP ||
+             attack->type == HY_AT_T_HSRP_RESIGN) {
+    memset(tmp, 0, 1024);
+    switch(attack->opcode) {
+      case HY_HSRP_STATE_INIT:
+        strncpy(tmp, "Init", 1024);
+        break;
+      case HY_HSRP_STATE_LEARN:
+        strncpy(tmp, "Learn", 1024);
+        break;
+      case HY_HSRP_STATE_LISTEN:
+        strncpy(tmp, "Listen", 1024);
+        break;
+      case HY_HSRP_STATE_SPEAK:
+        strncpy(tmp, "Speak", 1024);
+        break;
+      case HY_HSRP_STATE_STANDBY:
+        strncpy(tmp, "Standby", 1024);
+        break;
+      case HY_HSRP_STATE_ACTIVE:
+        strncpy(tmp, "Active", 1024);
+        break;
+      default:
+        strncpy(tmp, "Unknown", 1024);
+        break;
+    }
+  sprintf(
+    buffer,
+    "%s  > HSRP State Code: %s\n",
+    buffer,
+    tmp);
   }
+  if (strlen(attack->hsrp_auth) > 0) {
+    sprintf(
+      buffer,
+      "%s  > HSRP Auth. Data: %s\n",
+      buffer,
+      attack->hsrp_auth);
+  } else {
+    sprintf(
+      buffer,
+      "%s  > HSRP Auth. Data: <Default>\n",
+      buffer);
+  }
+  sprintf(
+    buffer,
+    "%s  > HSRP Priority: %i\n",
+    buffer,
+    attack->hsrp_prio);
+  sprintf(
+    buffer,
+    "%s  > HSRP Group Number: %i\n",
+    buffer,
+    attack->hsrp_group);
   if (attack->type == HY_AT_T_DNS_QUERY) {
     sprintf(
       buffer,

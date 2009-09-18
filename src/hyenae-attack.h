@@ -40,6 +40,7 @@
 #include "hyenae-dns.h"
 #include "hyenae-bootp.h"
 #include "hyenae-dhcp.h"
+#include "hyenae-hsrp.h"
 
 /* MTU limit */
 #define HY_MTU_LIMIT 1500
@@ -57,6 +58,9 @@
 #define HY_AT_T_DHCP_DISCOVER    9
 #define HY_AT_T_DHCP_REQUEST     10
 #define HY_AT_T_DHCP_RELEASE     11
+#define HY_AT_T_HSRP_HELLO       12
+#define HY_AT_T_HSRP_COUP        13
+#define HY_AT_T_HSRP_RESIGN      14
 
 /* Opcode initialization value */
 #define HY_AT_OC_NONE -1
@@ -95,6 +99,9 @@ typedef
   unsigned int ip_ttl;
   unsigned int opcode;
   char dns_qry[HY_DNS_QRY_BUFLEN];
+  unsigned char hsrp_auth[HY_HSRP_AUTH_LEN + 1];
+  unsigned char hsrp_prio;
+  unsigned char hsrp_group;
   unsigned int tcp_flgs;
   unsigned long seq_sid;
   unsigned long seq_sid_ins;

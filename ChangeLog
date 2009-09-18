@@ -14,15 +14,19 @@
 
 --------------------------------------------------------------------------------
 
-  Version 0.34-3 (?)
+  Version 0.35-1 (?)
     * Bug fixes
     * Fixed build warnings
     * Updated documentation
+    * Added Cisco HSRP-Hello support
+    * Added Cisco HSRP-Coup support
+    * Added Cisco HSRP-Resign support
     * Refactored attack blocking handler
     * Refactored default value assignment
     * Refactored attack parameter structure
     * Applied DNS patch from Archie Andrews
     * Removed DNS query URL format validation
+    * Added Cisco HSRP active router hijacking to attack assistant
 
   Version 0.34-1 (Sep. 14th, 2009)
     * Bug fixes

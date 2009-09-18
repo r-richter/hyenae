@@ -81,7 +81,10 @@
     > dhcp-discover
     > dhcp-request
     > dhcp-release
-  * Finished: 11 attack protocols available
+    > hsrp-hello
+    > hsrp-coup
+    > hsrp-resign
+  * Finished: 14 attack protocols available
 
   You can provide the attack protocol by its name (-a). The attack protocols
   use different address patterns and in certain cases, may require additional
@@ -241,6 +244,17 @@
     # hyenae -I 3 -a dhcp-release -s 11:22:33:44:55:66-192.168.0.2 \
     # -d 44:55:66:77:88:99-192.168.0.1 -D 192.168.0.1 -C 1
 
+    5.17 Cisco HSRP Active Router Hijacking
+
+    This example will send an unlimited amount of HSRP-Hello packets with set
+    init state and default authentification from a fictional source address to
+    the HSRP multicast address in an interval of 3 seconds. The virtual
+    IP-Address in this example is 172.16.40.1, the priority 1 (highest) and the
+    group number is 172.
+
+    # hyenae -I 3 -a hsrp-hello -o init -s 11:22:33:44:55:66-192.168.0.2 \
+    # -d 172.16.40.1 -z 1 -g 172 -e 3000
+
 --------------------------------------------------------------------------------
 
   6. Starting the attack assistant
@@ -271,7 +285,7 @@
   * Starting daemon
   * Opening network interface (en1)
   * Binding server to 127.0.0.1@666
-  * Hyenae Daemon v0.34-3: Online
+  * Hyenae Daemon v0.35-1: Online
 
   If the port argument is unspecified, the daemon will listen on port 666 by
   default. Alternatively, you can specify the port to listen on with the -p
@@ -288,7 +302,7 @@
   * Starting daemon
   * Opening network interface (en1)
   * Binding server to 192.168.0.2@666
-  * Hyenae Daemon v0.34-3: Online
+  * Hyenae Daemon v0.35-1: Online
 
 --------------------------------------------------------------------------------
 

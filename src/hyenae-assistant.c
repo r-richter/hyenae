@@ -1011,6 +1011,101 @@ int
 /* -------------------------------------------------------------------------- */
 
 int
+  hy_assistant_handle_hsrp_hello_hijacking
+    (
+      hy_attack_t* attack
+    ) {
+
+  /*
+   * USAGE:
+   *   Assistent handler for
+   *   HSRP active router hijacking.
+   */
+
+  int ret = HY_ER_OK;
+  int opt = 0;
+  char hsrp_auth_inp[HY_INPUT_BUFLEN];
+
+  attack->type = HY_AT_T_HSRP_HELLO;
+  attack->opcode = HY_HSRP_STATE_INIT;
+  attack->hsrp_prio = 1;
+  strcpy(
+    attack->dst_pat.src,
+    "00:00:00:00:00:00-");
+  memset(hsrp_auth_inp, 0, HY_INPUT_BUFLEN);
+  /* Enter target pattern */
+  ret =
+    hy_assistant_input_address_pattern(
+      "source",
+      "[HW-Address]-[IP-Address]",
+      attack->ip_v_asm,
+      attack->src_pat.src,
+      0);
+  while (1) {
+    /*  Enter virtual IP-Address pattern */
+    ret =
+      hy_assistant_input_address_pattern(
+        "virtual IP-Address",
+        "[IP-Address]",
+        attack->ip_v_asm,
+        attack->dst_pat.src,
+        18);
+    if (ret != HY_ER_OK) {
+      return ret;
+    }
+    if (strchr(attack->dst_pat.src, HY_PT_WCC) != NULL) {
+      printf("\n  (!) Pattern must not contain wildcards\n");
+    } else {
+      break;
+    }
+  }
+  /* Enter HSRP group */
+  if ((ret =
+         hy_assistant_input_numeric(
+           "\n  Enter HSRP group:",
+           (int*) &attack->hsrp_group,
+           1,
+           255)) != HY_ER_OK) {
+  }
+  /* Use default authentification? */
+  if ((ret =
+         hy_assistant_input_yes_no(
+           "\n  Use HSRP default authentification?"
+           "\n"
+           "\n  Say 'n' here if you want to define a custom "
+           "\n  authentification instead of using the default. "
+           "\n"
+           "\n  Enter choice",
+           &opt)) != HY_ER_OK) {
+    return ret;
+  }
+  if (opt == 0) {
+    /* Enter HSRP authentification */
+    while (1) {
+      if ((ret =
+             hy_assistant_input_text(
+               "\n  Enter HSRP authentification:",
+               hsrp_auth_inp,
+               HY_INPUT_BUFLEN)) != HY_ER_OK) {
+        printf("\n");
+        return ret;
+      }
+      if (strlen(hsrp_auth_inp) <= HY_HSRP_AUTH_LEN) {
+        break;
+      } else {
+        printf(
+          "\n  (!) %s\n",
+          hy_get_error_msg(HY_ER_HSRP_AUTH_LEN_EXCEED));
+      }
+    }
+    strncpy(attack->hsrp_auth, hsrp_auth_inp, HY_HSRP_AUTH_LEN);
+  }
+  return ret;
+} /* hy_assistant_handle_hsrp_hello_hijacking */
+
+/* -------------------------------------------------------------------------- */
+
+int
   hy_assistant_start
     (
       int* if_index,
@@ -1217,61 +1312,62 @@ int
     if (attack->ip_v_asm == HY_AD_T_IP_V4) {
       if (eap_free == 1) {
         /* NAT-Free, EAP-Free IPv4 attacks */
-        printf("\n  > 1.  ARP-Request flood                  DoS");
-        printf("\n  > 2.  ARP-Cache poisoning                MITM");
-        printf("\n  > 3.  PPPoE session initiation flood     DoS");
-        printf("\n  > 4.  Blind PPPoE session termination    DoS");
-        printf("\n  > 5.  ICMPv4-Echo flood                  DoS");
-        printf("\n  > 6.  ICMPv4-Smurf attack                DDoS");
-        printf("\n  > 7.  ICMPv4 based TCP-Connection reset  DoS");
-        printf("\n  > 8.  TCP-SYN flood                      DoS");
-        printf("\n  > 9.  TCP-Land attack                    DoS");
-        printf("\n  > 10. Blind TCP-Connection reset         DoS");
-        printf("\n  > 11. UDP flood                          DoS");
-        printf("\n  > 12. DNS-Query flood                    DoS");
-        printf("\n  > 13. DHCP-Discover flood                DoS");
-        printf("\n  > 14. DHCP starvation                    DoS");
-        printf("\n  > 15. DHCP-Release forcing               DoS");
-        max_opt_val = 15;
+        printf("\n  > 1.  ARP-Request flood                   DoS");
+        printf("\n  > 2.  ARP-Cache poisoning                 MITM");
+        printf("\n  > 3.  PPPoE session initiation flood      DoS");
+        printf("\n  > 4.  Blind PPPoE session termination     DoS");
+        printf("\n  > 5.  ICMPv4-Echo flood                   DoS");
+        printf("\n  > 6.  ICMPv4-Smurf attack                 DDoS");
+        printf("\n  > 7.  ICMPv4 based TCP-Connection reset   DoS");
+        printf("\n  > 8.  TCP-SYN flood                       DoS");
+        printf("\n  > 9.  TCP-Land attack                     DoS");
+        printf("\n  > 10. Blind TCP-Connection reset          DoS");
+        printf("\n  > 11. UDP flood                           DoS");
+        printf("\n  > 12. DNS-Query flood                     DoS");
+        printf("\n  > 13. DHCP-Discover flood                 DoS");
+        printf("\n  > 14. DHCP starvation                     DoS");
+        printf("\n  > 15. DHCP-Release forcing                DoS");
+        printf("\n  > 16. Cisco HSRP active router hijacking  DoS");
+        max_opt_val = 16;
       } else {
         /* NAT-Free, None EAP-Free IPv4 attacks */
-        printf("\n  > 1.  ARP-Cache poisoning                MITM");
-        printf("\n  > 2.  ICMPv4-Echo flood                  DoS");
-        printf("\n  > 3.  ICMPv4-Smurf attack                DDoS");
-        printf("\n  > 4.  ICMPv4 based TCP-Connection reset  DoS");
-        printf("\n  > 5.  TCP-SYN flood                      DoS");
-        printf("\n  > 6.  TCP-Land attack                    DoS");
-        printf("\n  > 7.  Blind TCP-Connection reset         DoS");
-        printf("\n  > 8.  UDP flood                          DoS");
-        printf("\n  > 9.  DNS-Query flood                    DoS");
-        printf("\n  > 10. DHCP-Release forcing               DoS");
+        printf("\n  > 1.  ARP-Cache poisoning                 MITM");
+        printf("\n  > 2.  ICMPv4-Echo flood                   DoS");
+        printf("\n  > 3.  ICMPv4-Smurf attack                 DDoS");
+        printf("\n  > 4.  ICMPv4 based TCP-Connection reset   DoS");
+        printf("\n  > 5.  TCP-SYN flood                       DoS");
+        printf("\n  > 6.  TCP-Land attack                     DoS");
+        printf("\n  > 7.  Blind TCP-Connection reset          DoS");
+        printf("\n  > 8.  UDP flood                           DoS");
+        printf("\n  > 9.  DNS-Query flood                     DoS");
+        printf("\n  > 10. DHCP-Release forcing                DoS");
         max_opt_val = 10;
       }
     } else {
       /* NAT-Free IPv6 attacks */
-      printf("\n  > 1. PPPoE session initiation flood        DoS");
-      printf("\n  > 2. Blind PPPoE session termination       DoS");
-      printf("\n  > 3. ICMPv6-Echo flood                     DoS");
-      printf("\n  > 4. TCP-SYN flood                         DoS");
-      printf("\n  > 5. Blind TCP-Connection reset            DoS");
-      printf("\n  > 6. UDP flood                             DoS");
-      printf("\n  > 7. DNS-Query flood                       DoS");
+      printf("\n  > 1. PPPoE session initiation flood         DoS");
+      printf("\n  > 2. Blind PPPoE session termination        DoS");
+      printf("\n  > 3. ICMPv6-Echo flood                      DoS");
+      printf("\n  > 4. TCP-SYN flood                          DoS");
+      printf("\n  > 5. Blind TCP-Connection reset             DoS");
+      printf("\n  > 6. UDP flood                              DoS");
+      printf("\n  > 7. DNS-Query flood                        DoS");
       max_opt_val = 7;
     }
   } else {
     if (attack->ip_v_asm == HY_AD_T_IP_V4) {
       /* None NAT-Free IPv4 attacks */
-      printf("\n  > 1. ICMPv4-Echo flood                     DoS");
-      printf("\n  > 2. TCP-SYN flood                         DoS");
-      printf("\n  > 3. UDP flood                             DoS");
-      printf("\n  > 4. DNS-Query flood                       DoS");
+      printf("\n  > 1. ICMPv4-Echo flood                      DoS");
+      printf("\n  > 2. TCP-SYN flood                          DoS");
+      printf("\n  > 3. UDP flood                              DoS");
+      printf("\n  > 4. DNS-Query flood                        DoS");
       max_opt_val = 4;
     } else {
       /* None NAT-Free IPv6 attacks */
-      printf("\n  > 1. ICMPv6-Echo flood                     DoS");
-      printf("\n  > 2. TCP-SYN flood                         DoS");
-      printf("\n  > 3. UDP flood                             DoS");
-      printf("\n  > 4. DNS-Query flood                       DoS");
+      printf("\n  > 1. ICMPv6-Echo flood                      DoS");
+      printf("\n  > 2. TCP-SYN flood                          DoS");
+      printf("\n  > 3. UDP flood                              DoS");
+      printf("\n  > 4. DNS-Query flood                        DoS");
       max_opt_val = 4;
     }
   }
@@ -1355,6 +1451,10 @@ int
           case 15:
             ret =
               hy_assistant_handle_dhcp_release_forcing(attack);
+            break;
+          case 16:
+            ret =
+              hy_assistant_handle_hsrp_hello_hijacking(attack);
             break;
         }
       } else {
@@ -1496,23 +1596,37 @@ int
       }
     }
   }
-  if (attack->max_cnt == 0) {
+  if (attack->min_cnt < 1 &&
+      attack->max_cnt < 1) {
     /* Activate random send delay? */
-    if ((ret =
-           hy_assistant_input_yes_no(
-             "\n  Activate random send delay?"
-             "\n"
-             "\n  A random send delay can be usefull to break"
-             "\n  flood detection mechanisms but will slow down "
-             "\n  the packet rate of the attack."
-             "\n"
-             "\n  Enter choice",
-             &opt)) != HY_ER_OK) {
-      return ret;
-    }
-    if (opt == 1) {
-      attack->min_del = 0;
-      attack->max_del = 1000;
+    if (attack->type == HY_AT_T_HSRP_HELLO) {
+      if ((ret =
+             hy_assistant_input_numeric(
+               "\n  Enter HSRP hello interval (Seconds):",
+               (int*) &attack->min_del,
+               1,
+               255)) != HY_ER_OK) {
+        return ret;
+      }
+      attack->min_del = attack->min_del * 1000;
+      attack->max_del = 0;
+    } else {
+      if ((ret =
+             hy_assistant_input_yes_no(
+               "\n  Activate random send delay?"
+               "\n"
+               "\n  A random send delay can be usefull to break"
+               "\n  flood detection mechanisms but will slow down "
+               "\n  the packet rate of the attack."
+               "\n"
+               "\n  Enter choice",
+               &opt)) != HY_ER_OK) {
+        return ret;
+      }
+      if (opt == 1) {
+        attack->min_del = 0;
+        attack->max_del = 1000;
+      }
     }
   }
   /* Print attack usage */
@@ -1543,7 +1657,7 @@ int
           printf("padt");
           break;
       }
-    } else {
+    } else if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
       switch (attack->opcode) {
         case ICMP_UNREACH_NET:
           printf("network");
@@ -1558,7 +1672,37 @@ int
           printf("port");
           break;
       }
+    } else if (attack->type == HY_AT_T_HSRP_HELLO ||
+               attack->type == HY_AT_T_HSRP_COUP ||
+               attack->type == HY_AT_T_HSRP_RESIGN) {
+      switch (attack->opcode) {
+        case HY_HSRP_STATE_INIT:
+          printf("init");
+          break;
+        case HY_HSRP_STATE_LEARN:
+          printf("learn");
+          break;
+        case HY_HSRP_STATE_LISTEN:
+          printf("listen");
+          break;
+        case HY_HSRP_STATE_SPEAK:
+          printf("speak");
+          break;
+        case HY_HSRP_STATE_STANDBY:
+          printf("standby");
+          break;
+        case HY_HSRP_STATE_ACTIVE:
+          printf("active");
+          break;
+      }
+    } else {
+      return HY_ER_UNKNOWN;
     }
+    if (strlen(attack->hsrp_auth) > 0) {
+      printf(" -h %s", attack->hsrp_auth);
+    }
+    printf(" -z %i", attack->hsrp_prio);
+    printf(" -g %i", attack->hsrp_group);
   }
   if (attack->type == HY_AT_T_TCP) {
     printf(" -f ");
@@ -1607,6 +1751,9 @@ int
   }
   if (strlen(attack->dns_qry) > 0) {
     printf("\n           -y %s", attack->dns_qry);
+  }
+  if (attack->min_del > 0) {
+    printf("\n           -e %i", attack->min_del);
   }
   if (attack->max_del > 0) {
     printf("\n           -E %i", attack->max_del);

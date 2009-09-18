@@ -24,76 +24,65 @@
  *
  */
 
-#ifndef HYENAE_DNS_H
-  #define HYENAE_DNS_H
+#ifndef HYENAE_HSRP_H
+  #define HYENAE_HSRP_H
 
-/* Max. DNS query pattern length */
-#define HY_DNS_QRY_BUFLEN 1024
+/* HSRP authentification data length */
+#define HY_HSRP_AUTH_LEN 8
 
 #include "hyenae-base.h"
 #include "hyenae-patterns.h"
 #include "hyenae-attack.h"
 
-/* Domain name sep. character */
-#define DNS_N_SC '.'
+/* HSRP opcode definitions */
+#define HY_HSRP_OP_HELLO  0
+#define HY_HSRP_OP_COUP   1
+#define HY_HSRP_OP_RESIGN 2
 
-/* DNS question/answer list sep. character */
-#define HY_DNS_QA_SC ','
+/* HSRP state definitions */
+#define HY_HSRP_STATE_INIT    0
+#define HY_HSRP_STATE_LEARN   1
+#define HY_HSRP_STATE_LISTEN  2
+#define HY_HSRP_STATE_SPEAK   4
+#define HY_HSRP_STATE_STANDBY 8
+#define HY_HSRP_STATE_ACTIVE  16
 
-/* DNS name buffer length */
-#define HY_DNS_N_BUFLEN 255
+/* HSRP port definitions*/
+#define HY_HSRP_PORT 1985
 
-/* DNS packet buffer length */
-#define HY_DNS_PACKET_BUFLEN (HY_MTU_LIMIT - sizeof(eth_h_t) - sizeof(udp_h_t))
+/* HSRP multicast IP-Address */
+#define HY_HSRP_MC_IP_ADDR "224.0.0.2"
 
-/* DNS port definitions */
-#define HY_DNS_PORT 53
+/* HSRP multicast HW-Address */
+#define HY_HSRP_MC_HW_ADDR "01:00:5e:00:00:02"
 
 /* -------------------------------------------------------------------------- */
 
 typedef
-  struct hy_dns_h {
+  struct hy_hsrp_h {
 
   /*
    * USAGE:
-   *   Represents a DNS header.
+   *   Represents an HSRP header.
    */
 
-  uint16_t id;
-  uint16_t flags;
-  uint16_t qdcount;
-  uint16_t ancount;
-  uint16_t nscount;
-  uint16_t arcount;
+  uint8_t ver;
+  uint8_t op;
+  uint8_t state;
+  uint8_t hello_tm;
+  uint8_t hold_tm;
+  uint8_t prio;
+  uint8_t grp;
+  uint8_t zero;
+  uint8_t auth[HY_HSRP_AUTH_LEN];
+  ip_addr_t v_ip;
 
-} hy_dns_h_t;
-
-/* -------------------------------------------------------------------------- */
-
-  int
-    hy_encode_domain_name
-    (
-      const char*,
-      char**,
-      int*
-    );
+} hy_hsrp_h_t;
 
 /* -------------------------------------------------------------------------- */
 
 int
-  hy_dns_parse_add_queries
-    (
-      unsigned char*,
-      int*,
-      const char*,
-      int*,
-      int
-    );
-
-/* -------------------------------------------------------------------------- */
-
-int
-  hy_build_dns_packet
+  hy_build_hsrp_packet
     (
       hy_pattern_t*,
       hy_pattern_t*,
@@ -101,9 +90,14 @@ int
       unsigned char**,
       int*,
       unsigned int,
-      const char*
+      unsigned int,
+      unsigned int,
+      unsigned char*,
+      unsigned int,
+      unsigned char,
+      unsigned char
     );
 
 /* -------------------------------------------------------------------------- */
 
-#endif /* HYENAE_DNS_H */
+#endif /* HYENAE_HSRP_H */

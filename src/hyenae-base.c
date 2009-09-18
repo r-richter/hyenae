@@ -685,6 +685,8 @@ const char*
     return "No sender pattern given";
   } else if (error == HY_ER_NO_TCP_SRC_PT_GIVEN) {
     return "No TCP source pattern given";
+  } else if (error == HY_ER_NO_VIR_PT_GIVEN) {
+    return "No virtual IP-Address pattern given";
   } else if (error == HY_ER_NO_IP_REQ_GIVEN) {
     return "No \"Requested IP-Address\" pattern given";
   } else if (error == HY_ER_NO_TRG_PT_GIVEN) {
@@ -779,8 +781,20 @@ const char*
     return "No ICMP \"Destination Unreachable\" code given";
   } else if (error == HY_ER_ICMP_UNR_CODE_UNKNOWN) {
     return "Unknown ICMP \"Destination Unreachable\" code";
+  } else if (error == HY_ER_HSRP_PRIO_ZERO) {
+    return "No HSRP priority given or given value is smaller than 1";
+  } else if (error == HY_ER_HSRP_CODE_ZERO) {
+    return "No HSRP state code given";
+  } else if (error == HY_ER_HSRP_CODE_UNKNOWN) {
+    return "Unknown HSRP state code";
   } else if (error == HY_ER_TCP_FLG_UNKNOWN) {
     return "TCP flag pattern contains an unknown flag";
+  } else if (error == HY_ER_HSRP_AUTH_LEN_EXCEED) {
+    return "HSRP authentification data length ecxeeded (too long auth. data)";
+  } else if (error == HY_ER_HSRP_MAX_PRIO_EXCEEDED) {
+    return "Maximum HSRP priority value exceeded (too big priority value)";
+  } else if (error == HY_ER_HSRP_MAX_GROUP_EXCEEDED) {
+    return "Maximum HSRP group value exceeded (too big group value)";
   } else {
     return "An unknown error occurred";
   }

@@ -18,7 +18,6 @@
     * Migrate to long arguments
 
   Medium Priority
-    * Add HSRP support
     * Add SNMP support
     * Add NDP support
 

@@ -172,6 +172,67 @@ int
 /* -------------------------------------------------------------------------- */
 
 int
+  hy_parse_hsrp_state_code
+    (
+      unsigned int* code,
+      char* code_string
+    ) {
+
+  /*
+   * USAGE:
+   *   Parses the given HSRP state code
+   *   string and applies it to the
+   *   given integer buffer.
+   */
+
+  int ret = HY_ER_OK;
+  int len = strlen(code_string);
+
+  if (strcmp(
+        hy_str_to_lower(
+          code_string,
+          len),
+        "init") == 0) {
+    *code = HY_HSRP_STATE_INIT;
+  } else if (strcmp(
+                hy_str_to_lower(
+                  (char*) code_string,
+                  len),
+                "learn") == 0) {
+    *code = HY_HSRP_STATE_LEARN;
+  } else if (strcmp(
+                hy_str_to_lower(
+                  (char*) code_string,
+                  len),
+                "listen") == 0) {
+    *code = HY_HSRP_STATE_LISTEN;
+  } else if (strcmp(
+                hy_str_to_lower(
+                  (char*) code_string,
+                  len),
+                "speak") == 0) {
+    *code = HY_HSRP_STATE_SPEAK;
+  } else if (strcmp(
+                hy_str_to_lower(
+                  (char*) code_string,
+                  len),
+                "standby") == 0) {
+    *code = HY_HSRP_STATE_STANDBY;
+  } else if (strcmp(
+                hy_str_to_lower(
+                  (char*) code_string,
+                  len),
+                "active") == 0) {
+    *code = HY_HSRP_STATE_ACTIVE;
+  } else {
+    ret = HY_ER_HSRP_CODE_UNKNOWN;
+  }
+  return ret;
+} /* hy_parse_hsrp_state_code */
+
+/* -------------------------------------------------------------------------- */
+
+int
   hy_parse_tcp_flags
     (
       unsigned int* tcp_flags,
@@ -273,7 +334,7 @@ int
               getopt(
                 argc,
                 argv,
-                "s:d:S:D:i:I:r:R:a:A:t:o:f:k:w:q:Q:y:c:C:e:E:u:U:p:P:mNlLXV")) != -1) {
+                "s:d:S:D:i:I:r:R:a:A:t:o:f:k:w:q:Q:y:h:z:g:c:C:e:E:u:U:p:P:mNlLXV")) != -1) {
       switch (opt) {
         case 's':
           if (strlen(optarg) > HY_PT_BUFLEN) {
@@ -424,6 +485,20 @@ int
                 hy_get_error_msg(ret));
               return -1;
             }
+          } else if (att.type == HY_AT_T_HSRP_HELLO ||
+                     att.type == HY_AT_T_HSRP_COUP ||
+                     att.type == HY_AT_T_HSRP_RESIGN) {
+            if ((ret =
+                   hy_parse_hsrp_state_code(
+                     &att.opcode,
+                     optarg)) != HY_ER_OK) {
+              hy_output(
+                stdout,
+                HY_OUT_T_ERROR,
+                0,
+                hy_get_error_msg(ret));
+              return -1;
+            }
           } else {
             hy_output(
               stdout,
@@ -459,6 +534,42 @@ int
           break;
         case 'y':
           strncpy(att.dns_qry, optarg, HY_DNS_QRY_BUFLEN);
+          break;
+        case 'h':
+          if (strlen(optarg) <= HY_HSRP_AUTH_LEN) {
+            strncpy(att.hsrp_auth, optarg, HY_HSRP_AUTH_LEN);
+          } else {
+            hy_output(
+              stdout,
+              HY_OUT_T_ERROR,
+              0,
+              hy_get_error_msg(HY_ER_HSRP_AUTH_LEN_EXCEED));
+            return -1;
+          }
+          break;
+        case 'z':
+          if (atoi(optarg) <= 255) {
+            att.hsrp_prio = (char) atoi(optarg);
+          } else {
+            hy_output(
+              stdout,
+              HY_OUT_T_ERROR,
+              0,
+              hy_get_error_msg(HY_ER_HSRP_MAX_PRIO_EXCEEDED));
+            return -1;
+          }
+          break;
+        case 'g':
+          if (atoi(optarg) <= 255) {
+            att.hsrp_group = (char) atoi(optarg);
+          } else {
+            hy_output(
+              stdout,
+              HY_OUT_T_ERROR,
+              0,
+              hy_get_error_msg(HY_ER_HSRP_MAX_GROUP_EXCEEDED));
+            return -1;
+          }
           break;
         case 'c':
           att.min_cnt = atol(optarg);
@@ -551,7 +662,8 @@ int
             "              [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]\n"
             "              [-A ip-v-asm] [-t ip-ttl] [-o opcode] [-f tcp-flags]\n"
             "              [-k tcp-ack] [-w tcp-win] [-q seq-sid] [-Q seq-sid-ins]\n"
-            "              [-y dns_qry] [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]\n"
+            "              [-y dns_qry] [-h hsrp-auth] [-z hsrp-prio] [-g hsrp-group]\n"
+            "              [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]\n"
             "              [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]\n"
             "              [-mNlLV]\n"
           );

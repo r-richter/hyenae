@@ -82,6 +82,12 @@ int
     return HY_AT_T_DHCP_REQUEST;
   } else if (strcmp(name, "dhcp-release") == 0) {
     return HY_AT_T_DHCP_RELEASE;
+  } else if (strcmp(name, "hsrp-hello") == 0) {
+    return HY_AT_T_HSRP_HELLO;
+  } else if (strcmp(name, "hsrp-coup") == 0) {
+    return HY_AT_T_HSRP_COUP;
+  } else if (strcmp(name, "hsrp-resign") == 0) {
+    return HY_AT_T_HSRP_RESIGN;
   }
   return HY_AT_T_UNKNOWN;
 } /* hy_get_attack_type_value */
@@ -122,6 +128,12 @@ const char*
       return "dhcp-request";
     case HY_AT_T_DHCP_RELEASE:
       return "dhcp-release";
+    case HY_AT_T_HSRP_HELLO:
+      return "hsrp-hello";
+    case HY_AT_T_HSRP_COUP:
+      return "hsrp-coup";
+    case HY_AT_T_HSRP_RESIGN:
+      return "hsrp-resign";
     default:
       return "Unknown";
   }
@@ -242,6 +254,11 @@ void
       } else if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
         result->ret = HY_ER_NO_TCP_SRC_PT_GIVEN;
         return;
+      } else if (attack->type == HY_AT_T_HSRP_HELLO ||
+                 attack->type == HY_AT_T_HSRP_COUP ||
+                 attack->type == HY_AT_T_HSRP_RESIGN) {
+        result->ret = HY_ER_NO_VIR_PT_GIVEN;
+        return;
       } else {
         result->ret = HY_ER_UNKNOWN;
         return;
@@ -257,7 +274,7 @@ void
       if (attack->type == HY_AT_T_ARP_REPLY ||
           attack->type == HY_AT_T_ARP_REQUEST) {
         result->ret = HY_ER_NO_TRG_PT_GIVEN;
-        return;      
+        return;
       } else if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
         result->ret = HY_ER_NO_TCP_DST_PT_GIVEN;
         return;
@@ -353,6 +370,7 @@ void
 
   int pkt_len = 0;
   unsigned long i = 0;
+  unsigned int snd_del = 0;
   unsigned long seq_sid = 0;
   unsigned long dur_start = 0;
   unsigned long dur_stop = 0;
@@ -387,6 +405,10 @@ void
         (hy_get_milliseconds_of_day() - dur_start) >= dur_stop) {
       break;
     }
+    /* Calculate send delay */
+    snd_del =
+      hy_random(params->att->min_del,
+                params->att->max_del);
     /* Calculate TCP sequence number / PPPoE session id */
     if (params->att->seq_sid == 0) {
       if (params->att->type == HY_AT_T_TCP ||
@@ -585,6 +607,57 @@ void
                HY_DHCP_MSG_RELEASE)) != HY_ER_OK) {
         break;
       }
+    } else if (params->att->type == HY_AT_T_HSRP_HELLO) {
+      if ((params->res->ret =
+             hy_build_hsrp_packet(
+               &params->att->src_pat,
+               &params->att->dst_pat,
+               params->att->ip_v_asm,
+               &params->pkt_buf,
+               &pkt_len,
+               params->att->ip_ttl,
+               HY_HSRP_OP_HELLO,
+               params->att->opcode,
+               params->att->hsrp_auth,
+               snd_del / 1000,
+               params->att->hsrp_prio,
+               params->att->hsrp_group)) != HY_ER_OK) {
+        break;
+      }
+    } else if (params->att->type == HY_AT_T_HSRP_COUP) {
+      if ((params->res->ret =
+             hy_build_hsrp_packet(
+               &params->att->src_pat,
+               &params->att->dst_pat,
+               params->att->ip_v_asm,
+               &params->pkt_buf,
+               &pkt_len,
+               params->att->ip_ttl,
+               HY_HSRP_OP_COUP,
+               params->att->opcode,
+               params->att->hsrp_auth,
+               snd_del / 1000,
+               params->att->hsrp_prio,
+               params->att->hsrp_group)) != HY_ER_OK) {
+        break;
+      }
+    } else if (params->att->type == HY_AT_T_HSRP_RESIGN) {
+      if ((params->res->ret =
+             hy_build_hsrp_packet(
+               &params->att->src_pat,
+               &params->att->dst_pat,
+               params->att->ip_v_asm,
+               &params->pkt_buf,
+               &pkt_len,
+               params->att->ip_ttl,
+               HY_HSRP_OP_RESIGN,
+               params->att->opcode,
+               params->att->hsrp_auth,
+               snd_del / 1000,
+               params->att->hsrp_prio,
+               params->att->hsrp_group)) != HY_ER_OK) {
+        break;
+      }
     } else {
       params->res->ret = HY_ER_AT_T_UNKNOWN;
       break;
@@ -617,10 +690,7 @@ void
         (params->pkt_lmt != 1 &&
          params->res->pkt_cnt < 1 ||
          (params->res->pkt_cnt + 1) < params->pkt_lmt)) {
-      hy_sleep(
-        hy_random(
-          params->att->min_del,
-          params->att->max_del));
+      hy_sleep(snd_del);
     }
     if ((params->res->tot_byt + pkt_len) < params->res->tot_byt) {
       params->res->tc_flg =
