@@ -406,9 +406,12 @@ void
       break;
     }
     /* Calculate send delay */
-    snd_del =
-      hy_random(params->att->min_del,
-                params->att->max_del);
+    if (params->att->min_del > 0 ||
+        params->att->max_del > 0) {
+      snd_del =
+        hy_random(params->att->min_del,
+                  params->att->max_del);
+    }
     /* Calculate TCP sequence number / PPPoE session id */
     if (params->att->seq_sid == 0) {
       if (params->att->type == HY_AT_T_TCP ||
