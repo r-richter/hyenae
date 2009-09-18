@@ -1027,7 +1027,7 @@ int
   char hsrp_auth_inp[HY_INPUT_BUFLEN];
 
   attack->type = HY_AT_T_HSRP_HELLO;
-  attack->opcode = HY_HSRP_STATE_INIT;
+  attack->opcode = HY_HSRP_STATE_ACTIVE;
   attack->hsrp_prio = 1;
   strcpy(
     attack->dst_pat.src,

