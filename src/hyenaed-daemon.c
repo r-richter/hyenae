@@ -263,10 +263,19 @@ int
         stdout,
         HY_OUT_T_TASK,
         0,
-        "Binding server to %s",
-        config->ip_addr);
+        "Binding server to %s%c%i",
+        config->ip_addr,
+        HY_PT_EOA_IP,
+        config->port);
       ip_pton(config->ip_addr, (ip_addr_t*) &sa_in.sin_addr.s_addr);
     } else {
+      hy_output(
+        stdout,
+        HY_OUT_T_TASK,
+        0,
+        "Binding server to *%c%i",
+        HY_PT_EOA_IP,
+        config->port);
       sa_in.sin_addr.s_addr = htonl(INADDR_ANY);
     }
     if (bind(
@@ -308,10 +317,19 @@ int
         stdout,
         HY_OUT_T_TASK,
         0,
-        "Binding server to %s",
-        config->ip_addr);
+        "Binding server to %s%c%i",
+        config->ip_addr,
+        HY_PT_EOA_IP,
+        config->port);
       ip6_pton(config->ip_addr, (ip6_addr_t*) &sa_in6.sin6_addr);
     } else {
+      hy_output(
+        stdout,
+        HY_OUT_T_TASK,
+        0,
+        "Binding server to *%c%i",
+        HY_PT_EOA_IP,
+        config->port);
       sa_in6.sin6_addr = in6addr_any;
     }
     if (bind(
@@ -342,16 +360,28 @@ int
     "%s Daemon v%s: Online",
     PACKAGE_NAME,
     PACKAGE_VERSION);
-  hy_output(
-    f,
-    HY_OUT_T_TASK,
-    1,
-    "%s Daemon v%s: Online (%s%c%i)",
-    PACKAGE_NAME,
-    PACKAGE_VERSION,
-    config->ip_addr,
-    HY_PT_EOA_IP,
-    config->port);
+  if (strlen(config->ip_addr) > 0) {
+    hy_output(
+      f,
+      HY_OUT_T_TASK,
+      1,
+      "%s Daemon v%s: Online (%s%c%i)",
+      PACKAGE_NAME,
+      PACKAGE_VERSION,
+      config->ip_addr,
+      HY_PT_EOA_IP,
+      config->port);
+  } else {
+    hy_output(
+      f,
+      HY_OUT_T_TASK,
+      1,
+      "%s Daemon v%s: Online (*%c%i)",
+      PACKAGE_NAME,
+      PACKAGE_VERSION,
+      HY_PT_EOA_IP,
+      config->port);
+  }
   /* Wait for client connections */
   while (1) {
     if (config->ip_v == HY_AD_T_IP_V4) {
