@@ -269,6 +269,18 @@
 
   # hyenae
 
+  * Initializing
+  * Starting attack assistant
+
+    Select operation mode:
+    > 1. Local
+    > 2. Remote (Single Daemon)
+    > 3. Remote (Multiple Daemons)
+
+    Enter option [1-3]:
+
+  ...
+
 --------------------------------------------------------------------------------
 
   7. Setting Up the Hyenae Daemon
