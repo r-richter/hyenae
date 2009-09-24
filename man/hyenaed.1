@@ -47,10 +47,12 @@ subject to change without prior notice.
       Hyenae with the -l option.
 
 \fB-a\fR    IP address to bind the daemon's
-      server socket to. The default value is
-      127.0.0.1 (localhost). The Hyenae
-      Daemon can not be bound to the network
-      interface you want to attack from.
+      server socket to. If not given, the
+      daemon will bind to any capable
+      network interface on this machine. The
+      Hyenae Daemon can not be bound to the
+      network interface you want to attack
+      from.
 
 \fB-p\fR    The port number on which the
       daemon shall listen for incoming

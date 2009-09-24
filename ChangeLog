@@ -26,6 +26,7 @@
     * Refactored attack parameter structure
     * Applied DNS patch from Archie Andrews
     * Removed DNS query URL format validation
+    * Fixed daemon default IP-Address binding
     * Added Cisco HSRP active router hijacking to attack assistant
 
   Version 0.34-1 (Sep. 14th, 2009)

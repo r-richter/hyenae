@@ -42,7 +42,6 @@ void
 
   memset(config, 0, sizeof(hy_daemon_t));
   config->if_n = NULL;
-  strcpy(config->ip_addr, "127.0.0.1");
   config->port = HY_DMN_DEF_PORT;
   config->bcklog = 5;
   config->max_cli = 10;
@@ -256,18 +255,20 @@ int
       fclose(f);
       return HY_ER_SOCK_SETOPT;
     }
-    hy_output(
-      stdout,
-      HY_OUT_T_TASK,
-      0,
-      "Binding server to %s%c%i",
-      config->ip_addr,
-      HY_PT_EOA_IP,
-      config->port);
     memset(&sa_in, 0, sizeof(sockaddr_in_t));
     sa_in.sin_family = AF_INET;
     sa_in.sin_port = htons(config->port);
-    ip_pton(config->ip_addr, (ip_addr_t*) &sa_in.sin_addr.s_addr);
+    if (strlen(config->ip_addr) > 0) {
+      hy_output(
+        stdout,
+        HY_OUT_T_TASK,
+        0,
+        "Binding server to %s",
+        config->ip_addr);
+      ip_pton(config->ip_addr, (ip_addr_t*) &sa_in.sin_addr.s_addr);
+    } else {
+      sa_in.sin_addr.s_addr = htonl(INADDR_ANY);
+    }
     if (bind(
           s_srv,
           (sockaddr_t*) &sa_in,
@@ -302,8 +303,17 @@ int
     memset(&sa_in6, 0, sizeof(sockaddr_in6_t));
     sa_in6.sin6_family = AF_INET6;
     sa_in6.sin6_port = htons(config->port);
-    ip6_pton(config->ip_addr, (ip6_addr_t*) &sa_in6.sin6_addr);
-    sa_in6.sin6_addr = in6addr_any;
+    if (strlen(config->ip_addr) > 0) {
+      hy_output(
+        stdout,
+        HY_OUT_T_TASK,
+        0,
+        "Binding server to %s",
+        config->ip_addr);
+      ip6_pton(config->ip_addr, (ip6_addr_t*) &sa_in6.sin6_addr);
+    } else {
+      sa_in6.sin6_addr = in6addr_any;
+    }
     if (bind(
           s_srv,
           (sockaddr_t*) &sa_in6,

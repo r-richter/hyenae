@@ -284,24 +284,23 @@
   * Initializing
   * Starting daemon
   * Opening network interface (en1)
-  * Binding server to 127.0.0.1@666
   * Hyenae Daemon v0.35-1: Online
 
   If the port argument is unspecified, the daemon will listen on port 666 by
   default. Alternatively, you can specify the port to listen on with the -p
   argument.
 
-  By default the Hyenae daemon will bind it's server socket to the loopback
-  interface of your machine. If you want to make the daemon available to other
-  network clients, you have to specify the IP-Address of the network interface
-  you want to bind to instead by using the -a argument.
+  By default the Hyenae daemon will bind it's server socket to any capable
+  network interfaces of your machine. If you want to make the daemon available
+  on a specific network interface only, you have to specify the IP-Address of
+  the network interface you want to bind it to instead by using the -a argument.
 
   # hyenaed -I 3 -a 192.168.0.2 -u 10000
 
   * Initializing
   * Starting daemon
   * Opening network interface (en1)
-  * Binding server to 192.168.0.2@666
+  * Binding server to 192.168.0.2
   * Hyenae Daemon v0.35-1: Online
 
 --------------------------------------------------------------------------------

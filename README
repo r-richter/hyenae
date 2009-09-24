@@ -322,9 +322,10 @@
        available network interfaces and their indexes can be obtained by
        starting Hyenae with the -l option.
 
-    -a IP address to bind the daemon's server socket to. The default value is
-       127.0.0.1 (localhost). The Hyenae Daemon can not be bound to the
-       network interface you want to attack from.
+    -a IP address to bind the daemon's server socket to. If not given, the
+       daemon will bind to any capable network interface on this machine. The
+       Hyenae Daemon can not be bound to the network interface you want to
+       attack from.
 
     -p The port number on which the daemon shall listen for incoming
        connections. By default the daemon will listen on port 666.
