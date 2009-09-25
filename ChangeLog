@@ -23,6 +23,7 @@
     * Added Cisco HSRP-Resign support
     * Refactored attack blocking handler
     * Refactored default value assignment
+    * Made opcode (code) argument optional
     * Refactored attack parameter structure
     * Applied DNS patch from Archie Andrews
     * Removed DNS query URL format validation
