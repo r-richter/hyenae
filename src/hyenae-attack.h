@@ -99,7 +99,7 @@ typedef
   unsigned int ip_ttl;
   unsigned int opcode;
   char dns_qry[HY_DNS_QRY_BUFLEN];
-  unsigned char hsrp_auth[HY_HSRP_AUTH_LEN + 1];
+  unsigned char hsrp_auth[HY_HSRP_AUTH_LEN];
   unsigned char hsrp_prio;
   unsigned char hsrp_group;
   unsigned int tcp_flgs;
