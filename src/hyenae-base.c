@@ -773,18 +773,12 @@ const char*
     return "Wrong pattern format";
   } else if (error == HY_ER_OPCODE_WITHOUT_AT_T) {
     return "Attack type needs to be set before opcode";
-  } else if (error == HY_ER_PPPOE_CODE_ZERO) {
-    return "No PPPoE code given";
   } else if (error == HY_ER_PPPOE_CODE_UNKNOWN) {
     return "Unknown PPPoE discovery code";
-  } else if (error == HY_ER_ICMP_UNR_CODE_ZERO) {
-    return "No ICMP \"Destination Unreachable\" code given";
   } else if (error == HY_ER_ICMP_UNR_CODE_UNKNOWN) {
     return "Unknown ICMP \"Destination Unreachable\" code";
   } else if (error == HY_ER_HSRP_PRIO_ZERO) {
     return "No HSRP priority given or given value is smaller than 1";
-  } else if (error == HY_ER_HSRP_CODE_ZERO) {
-    return "No HSRP state code given";
   } else if (error == HY_ER_HSRP_CODE_UNKNOWN) {
     return "Unknown HSRP state code";
   } else if (error == HY_ER_TCP_FLG_UNKNOWN) {

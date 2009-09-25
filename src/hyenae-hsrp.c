@@ -72,10 +72,6 @@ int
   if (hsrp_prio == 0) {
     return HY_ER_HSRP_PRIO_ZERO;
   }
-  /* Check for HSRP state code */
-  if (hsrp_state == HY_AT_OC_NONE) {
-    return HY_ER_HSRP_CODE_ZERO;
-  }
   /* Parse address patterns */
   if (strcmp(vir_pattern->src, "%") == 0) {
     strncpy(

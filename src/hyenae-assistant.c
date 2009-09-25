@@ -420,7 +420,7 @@ int
   int ret = HY_ER_OK;
 
   attack->type = HY_AT_T_PPPOE_DISCOVER;
-  attack->opcode = HY_PPPOE_CODE_PADI;
+  attack->pppoe_disc_code = HY_PPPOE_CODE_PADI;
   strncpy(
     attack->src_pat.src,
     "%",
@@ -449,7 +449,7 @@ int
   int ret = HY_ER_OK;
 
   attack->type = HY_AT_T_PPPOE_DISCOVER;
-  attack->opcode = HY_PPPOE_CODE_PADT;
+  attack->pppoe_disc_code = HY_PPPOE_CODE_PADT;
   attack->seq_sid = 1;
   attack->seq_sid_ins = 1;
   /* Enter PPPoE-Session (A) pattern */
@@ -512,16 +512,16 @@ int
   }
   switch (opt) {
     case 1:
-      attack->opcode = ICMP_UNREACH_NET;
+      attack->icmp_unr_code = ICMP_UNREACH_NET;
       break;
     case 2:
-      attack->opcode = ICMP_UNREACH_HOST;
+      attack->icmp_unr_code = ICMP_UNREACH_HOST;
       break;
     case 3:
-      attack->opcode = ICMP_UNREACH_PROTO;
+      attack->icmp_unr_code = ICMP_UNREACH_PROTO;
       break;
     case 4:
-      attack->opcode = ICMP_UNREACH_PORT;
+      attack->icmp_unr_code = ICMP_UNREACH_PORT;
       break;
   }
   /* Enter TCP-Connection (A) pattern */
@@ -1027,7 +1027,7 @@ int
   char hsrp_auth_inp[HY_INPUT_BUFLEN];
 
   attack->type = HY_AT_T_HSRP_HELLO;
-  attack->opcode = HY_HSRP_STATE_ACTIVE;
+  attack->hsrp_state_code = HY_HSRP_STATE_ACTIVE;
   attack->hsrp_prio = 1;
   strcpy(
     attack->dst_pat.src,
@@ -1646,10 +1646,14 @@ int
   printf(
     " -a %s",
     hy_get_attack_name(attack->type));
-  if (attack->opcode != HY_AT_OC_NONE) {
+  if (attack->type == HY_AT_T_PPPOE_DISCOVER ||
+      attack->type == HY_AT_T_ICMP_UNREACH_TCP ||
+      attack->type == HY_AT_T_HSRP_HELLO ||
+      attack->type == HY_AT_T_HSRP_COUP ||
+      attack->type == HY_AT_T_HSRP_RESIGN) {
     printf(" -o ");
     if (attack->type == HY_AT_T_PPPOE_DISCOVER) {
-      switch (attack->opcode) {
+      switch (attack->pppoe_disc_code) {
         case HY_PPPOE_CODE_PADI:
           printf("padi");
           break;
@@ -1658,7 +1662,7 @@ int
           break;
       }
     } else if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
-      switch (attack->opcode) {
+      switch (attack->icmp_unr_code) {
         case ICMP_UNREACH_NET:
           printf("network");
           break;
@@ -1675,7 +1679,7 @@ int
     } else if (attack->type == HY_AT_T_HSRP_HELLO ||
                attack->type == HY_AT_T_HSRP_COUP ||
                attack->type == HY_AT_T_HSRP_RESIGN) {
-      switch (attack->opcode) {
+      switch (attack->hsrp_state_code) {
         case HY_HSRP_STATE_INIT:
           printf("init");
           break;
@@ -1695,14 +1699,14 @@ int
           printf("active");
           break;
       }
+      if (strlen(attack->hsrp_auth) > 0) {
+        printf(" -h %s", attack->hsrp_auth);
+      }
+      printf(" -z %i", attack->hsrp_prio);
+      printf(" -g %i", attack->hsrp_group);
     } else {
       return HY_ER_UNKNOWN;
     }
-    if (strlen(attack->hsrp_auth) > 0) {
-      printf(" -h %s", attack->hsrp_auth);
-    }
-    printf(" -z %i", attack->hsrp_prio);
-    printf(" -g %i", attack->hsrp_group);
   }
   if (attack->type == HY_AT_T_TCP) {
     printf(" -f ");

@@ -62,9 +62,6 @@
 #define HY_AT_T_HSRP_COUP        13
 #define HY_AT_T_HSRP_RESIGN      14
 
-/* Opcode initialization value */
-#define HY_AT_OC_NONE -1
-
 /* Turncation flags */
 #define HY_TC_NONE    0
 #define HY_TC_PKT_CNT 0x00000001
@@ -97,7 +94,9 @@ typedef
   unsigned long min_dur;
   unsigned long max_dur;
   unsigned int ip_ttl;
-  unsigned int opcode;
+  unsigned int icmp_unr_code;
+  unsigned int pppoe_disc_code;
+  unsigned int hsrp_state_code;
   char dns_qry[HY_DNS_QRY_BUFLEN];
   unsigned char hsrp_auth[HY_HSRP_AUTH_LEN];
   unsigned char hsrp_prio;

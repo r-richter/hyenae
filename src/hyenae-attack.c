@@ -44,7 +44,9 @@ void
   attack->ip_v_asm = HY_AD_T_IP_V4;
   attack->ip_ttl = 128;
   attack->pay = NULL;
-  attack->opcode = HY_AT_OC_NONE;
+  attack->icmp_unr_code = ICMP_UNREACH_NET;
+  attack->pppoe_disc_code = HY_PPPOE_CODE_PADI;
+  attack->hsrp_state_code = HY_HSRP_STATE_INIT;
 } /* hy_init_attack_params */
 
 /* -------------------------------------------------------------------------- */
@@ -465,7 +467,7 @@ void
                &params->pkt_buf,
                &pkt_len,
                seq_sid,
-               params->att->opcode)) != HY_ER_OK) {
+               params->att->pppoe_disc_code)) != HY_ER_OK) {
         break;
       }
     } else if (params->att->type == HY_AT_T_ICMP_ECHO) {
@@ -520,7 +522,7 @@ void
                  tmp_buf_len - sizeof(eth_h_t),
                  IP_PROTO_TCP,
                  params->att->ip_ttl,
-                 params->att->opcode)) != HY_ER_OK) {
+                 params->att->icmp_unr_code)) != HY_ER_OK) {
           free(tmp_buf);
           break;
         }
@@ -620,7 +622,7 @@ void
                &pkt_len,
                params->att->ip_ttl,
                HY_HSRP_OP_HELLO,
-               params->att->opcode,
+               params->att->hsrp_state_code,
                params->att->hsrp_auth,
                snd_del / 1000,
                params->att->hsrp_prio,
@@ -637,7 +639,7 @@ void
                &pkt_len,
                params->att->ip_ttl,
                HY_HSRP_OP_COUP,
-               params->att->opcode,
+               params->att->hsrp_state_code,
                params->att->hsrp_auth,
                snd_del / 1000,
                params->att->hsrp_prio,
@@ -654,7 +656,7 @@ void
                &pkt_len,
                params->att->ip_ttl,
                HY_HSRP_OP_RESIGN,
-               params->att->opcode,
+               params->att->hsrp_state_code,
                params->att->hsrp_auth,
                snd_del / 1000,
                params->att->hsrp_prio,

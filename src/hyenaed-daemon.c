@@ -604,7 +604,7 @@ void
   }
   if (attack->type == HY_AT_T_PPPOE_DISCOVER) {
     memset(tmp, 0, 1024);
-    switch(attack->opcode) {
+    switch(attack->pppoe_disc_code) {
       case HY_PPPOE_CODE_PADI:
         strncpy(tmp, "Active Discovery Initiation (PADI)", 1024);
         break;
@@ -632,7 +632,7 @@ void
       attack->seq_sid_ins);
   } else if (attack->type == HY_AT_T_ICMP_UNREACH_TCP) {
     memset(tmp, 0, 1024);
-    switch(attack->opcode) {
+    switch(attack->icmp_unr_code) {
       case ICMP_UNREACH_NET:
         strncpy(tmp, "Network", 1024);
         break;
@@ -658,7 +658,7 @@ void
              attack->type == HY_AT_T_HSRP_COUP ||
              attack->type == HY_AT_T_HSRP_RESIGN) {
     memset(tmp, 0, 1024);
-    switch(attack->opcode) {
+    switch(attack->hsrp_state_code) {
       case HY_HSRP_STATE_INIT:
         strncpy(tmp, "Init", 1024);
         break;
@@ -681,34 +681,34 @@ void
         strncpy(tmp, "Unknown", 1024);
         break;
     }
-  sprintf(
-    buffer,
-    "%s  > HSRP State Code: %s\n",
-    buffer,
-    tmp);
-  }
-  if (strlen(attack->hsrp_auth) > 0) {
     sprintf(
       buffer,
-      "%s  > HSRP Auth. Data: %s\n",
+      "%s  > HSRP State Code: %s\n",
       buffer,
-      attack->hsrp_auth);
-  } else {
+      tmp);
+    if (strlen(attack->hsrp_auth) > 0) {
+      sprintf(
+        buffer,
+        "%s  > HSRP Auth. Data: %s\n",
+        buffer,
+        attack->hsrp_auth);
+    } else {
+      sprintf(
+        buffer,
+        "%s  > HSRP Auth. Data: <Default>\n",
+        buffer);
+    }
     sprintf(
       buffer,
-      "%s  > HSRP Auth. Data: <Default>\n",
-      buffer);
+      "%s  > HSRP Priority: %i\n",
+      buffer,
+      attack->hsrp_prio);
+    sprintf(
+      buffer,
+      "%s  > HSRP Group Number: %i\n",
+      buffer,
+      attack->hsrp_group);
   }
-  sprintf(
-    buffer,
-    "%s  > HSRP Priority: %i\n",
-    buffer,
-    attack->hsrp_prio);
-  sprintf(
-    buffer,
-    "%s  > HSRP Group Number: %i\n",
-    buffer,
-    attack->hsrp_group);
   if (attack->type == HY_AT_T_DNS_QUERY) {
     sprintf(
       buffer,

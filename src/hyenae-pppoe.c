@@ -48,16 +48,12 @@ int
 
   int ret = HY_ER_OK;
   int pppoe_pkt_len =
-    sizeof(hy_pppoe_h_t) + 
+    sizeof(hy_pppoe_h_t) +
     sizeof(hy_pppoe_tag_t); /* Service Name*/
   unsigned char pppoe_pkt[pppoe_pkt_len];
   hy_pppoe_h_t* pppoe_h = NULL;
   hy_pppoe_tag_t* tag_sn = NULL;
 
-  /* Check for PPPoE code */
-  if (pppoe_code == HY_AT_OC_NONE) {
-    return HY_ER_PPPOE_CODE_ZERO;
-  }
   /* Parse address patterns */
   if ((ret =
          hy_parse_pattern(
@@ -87,7 +83,7 @@ int
   if (pppoe_code == HY_PPPOE_CODE_PADI) {
     tag_sn = (hy_pppoe_tag_t*) (pppoe_pkt + sizeof(hy_pppoe_h_t));
     tag_sn->type = HY_PPOE_TAG_T_SERVICE_NAME;
-    tag_sn->len = htons(0); /* Zero length to accept any service */    
+    tag_sn->len = htons(0); /* Zero length to accept any service */
     pppoe_h->len = htons(sizeof(hy_pppoe_tag_t));
   }
   /* Wrap Ethernet-Layer */

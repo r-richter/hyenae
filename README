@@ -172,12 +172,16 @@
          padi (Active Discovery Initiation)
          padt (Active Discovery Termination)
 
+         If not set, the default value is 'padi'.
+
        Valid values on ICMP attacks:
 
          network  (Network Unreachable)
          host     (Host Unreachable)
          protocol (Protocol Unreachable)
          port     (Port Unreachable)
+
+         If not set, the default value is 'network'.
 
        Valid values on HSRP attacks:
 
@@ -187,6 +191,8 @@
          speak
          standby
          active
+
+         If not set, the default value is 'init'.
 
     -f TCP flags. This option is required on TCP attacks and defines the TCP
        control flags to set for the generated packets. Valid values are any
@@ -474,8 +480,8 @@
   hyenae -a pppoe-discover
          -s [HW-Address]
          -d [HW-Address]
-         -o [PPPoE Discovery Code]
   Optional:
+         -o [PPPoE Discovery Code]
          -q [PPPoE Session ID Offset]
          -Q [PPPoE Session ID Incrementation Steps]
 
@@ -490,8 +496,8 @@
          -d [HW-Address]-[IP-Address (IPv4 only)]
          -S [HW-Address]-[IP-Address (IPv4 only)]@[Port]
          -D [HW-Address]-[IP-Address (IPv4 only)]@[Port]
-         -o [ICMP Message Code]
   Optional:
+         -o [ICMP Message Code]
          -t [IP Time To Live (TTL)]
          -k [TCP Achnkowledgement Number]
          -w [TCP Window Size]
@@ -547,9 +553,9 @@
   hyenae -a hsrp-hello
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [IP-Address (IPv4 only)]
-         -o [HSRP State Code]
          -z [HSRP Priority]
   Optional:
+         -o [HSRP State Code]
          -t [IP Time To Live (TTL)]
          -h [HSRP Auth. Data]
          -g [HSRP Group Number]
@@ -557,9 +563,9 @@
   hyenae -a hsrp-coup
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [IP-Address (IPv4 only)]
-         -o [HSRP State Code]
          -z [HSRP Priority]
   Optional:
+         -o [HSRP State Code]
          -t [IP Time To Live (TTL)]
          -h [HSRP Auth. Data]
          -g [HSRP Group Number]
@@ -567,9 +573,9 @@
   hyenae -a hsrp-resign
          -s [HW-Address]-[IP-Address (IPv4 only)]
          -d [IP-Address (IPv4 only)]
-         -o [HSRP State Code]
          -z [HSRP Priority]
   Optional:
+         -o [HSRP State Code]
          -t [IP Time To Live (TTL)]
          -h [HSRP Auth. Data]
          -g [HSRP Group Number]

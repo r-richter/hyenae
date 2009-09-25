@@ -464,7 +464,7 @@ int
           if (att.type == HY_AT_T_PPPOE_DISCOVER) {
             if ((ret =
                    hy_parse_ppoe_discover_code(
-                     &att.opcode,
+                     &att.pppoe_disc_code,
                      optarg)) != HY_ER_OK) {
               hy_output(
                 stdout,
@@ -476,7 +476,7 @@ int
           } else if (att.type == HY_AT_T_ICMP_UNREACH_TCP) {
             if ((ret =
                    hy_parse_icmp_unreach_code(
-                     &att.opcode,
+                     &att.icmp_unr_code,
                      optarg)) != HY_ER_OK) {
               hy_output(
                 stdout,
@@ -490,7 +490,7 @@ int
                      att.type == HY_AT_T_HSRP_RESIGN) {
             if ((ret =
                    hy_parse_hsrp_state_code(
-                     &att.opcode,
+                     &att.hsrp_state_code,
                      optarg)) != HY_ER_OK) {
               hy_output(
                 stdout,
