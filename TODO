@@ -16,6 +16,7 @@
 
   High Priority
     * Add DNS-Response support
+    * Refactor opcode argument code
     * Migrate to long arguments
 
   Medium Priority
