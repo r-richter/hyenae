@@ -771,8 +771,8 @@ const char*
     return "Maximum input length exceeded";
   } else if (error == HY_ER_WRONG_PT_FMT) {
     return "Wrong pattern format";
-  } else if (error == HY_ER_OPCODE_WITHOUT_AT_T) {
-    return "Attack type needs to be set before opcode";
+  } else if (error == HY_ER_CODE_WITHOUT_AT_T) {
+    return "Attack type needs to be set before code argument";
   } else if (error == HY_ER_PPPOE_CODE_UNKNOWN) {
     return "Unknown PPPoE discovery code";
   } else if (error == HY_ER_ICMP_UNR_CODE_UNKNOWN) {

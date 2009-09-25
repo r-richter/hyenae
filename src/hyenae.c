@@ -504,7 +504,7 @@ int
               stdout,
               HY_OUT_T_ERROR,
               0,
-              hy_get_error_msg(HY_ER_OPCODE_WITHOUT_AT_T));
+              hy_get_error_msg(HY_ER_CODE_WITHOUT_AT_T));
             return -1;
           }
           break;
@@ -700,7 +700,7 @@ int
             "\n"
             "       hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]\n"
             "              [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]\n"
-            "              [-A ip-v-asm] [-t ip-ttl] [-o opcode] [-f tcp-flags]\n"
+            "              [-A ip-v-asm] [-t ip-ttl] [-o code] [-f tcp-flags]\n"
             "              [-k tcp-ack] [-w tcp-win] [-q seq-sid] [-Q seq-sid-ins]\n"
             "              [-y dns_qry] [-h hsrp-auth] [-z hsrp-prio] [-g hsrp-group]\n"
             "              [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]\n"
