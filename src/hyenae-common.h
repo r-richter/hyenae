@@ -38,7 +38,7 @@
 #include "hyenae-protocol.h"
 
 /* General informations */
-#define HY_COPYRIGHT "2008 Robin Richter"
+#define HY_COPYRIGHT "2009 Robin Richter"
 #define HY_CONTACT   "richterr@users.sourceforge.net"
 #define HY_HOMEPAGE  "http://sourceforge.net/projects/hyenae/"
 
