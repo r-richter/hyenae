@@ -329,7 +329,7 @@ int
       return 0;
     }
   } else {
-        /* Proccess command line arguments */
+    /* Proccess command line arguments */
     while ((opt =
               getopt(
                 argc,
