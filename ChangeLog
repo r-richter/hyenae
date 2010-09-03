@@ -14,6 +14,9 @@
 
 --------------------------------------------------------------------------------
 
+  Version 0.35-2 (?)
+    * Applied memory leak patch by Archie Andrews
+
   Version 0.35-1 (Oct. 1st, 2009)
     * Bug fixes
     * Fixed build warnings
@@ -25,7 +28,7 @@
     * Refactored default value assignment
     * Made opcode (code) argument optional
     * Refactored attack parameter structure
-    * Applied DNS patch from Archie Andrews
+    * Applied DNS patch by Archie Andrews
     * Removed DNS query URL format validation
     * Added Cisco HSRP active router hijacking to attack assistant
     * Daemon now binds to every capable network interface by default
