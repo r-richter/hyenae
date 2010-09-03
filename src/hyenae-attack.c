@@ -691,6 +691,8 @@ void
         }
       #endif /* OS_WINDOWS */
     }
+    free(params->pkt_buf);
+    params->pkt_buf = NULL;
     if (params->res->tc_flg & HY_TC_PKT_CNT ||
         (params->pkt_lmt != 1 &&
          params->res->pkt_cnt < 1 ||
