@@ -89,6 +89,7 @@ int
    */
 
   int opt = 0;
+  int opt_i = 0;
   int ret = HY_ER_OK;
   int if_cnt = 0;
   char err_buf[PCAP_ERRBUF_SIZE];
@@ -109,7 +110,35 @@ int
       hy_get_error_msg(ret));
     return -1;
   }
-  while ((opt = getopt(argc, argv, "i:I:a:p:b:A:c:u:m:t:T:k:f:lV")) != -1) {
+  /* Proccess command line arguments */
+  while (1) {
+    static struct option opts[] = {
+      {"if-n", required_argument, 0, 'i'},
+      {"if-i", required_argument, 0, 'I'},
+      {"bind-ip", required_argument, 0, 'a'},
+      {"port", required_argument, 0, 'p'},
+      {"backlog", required_argument, 0, 'b'},
+      {"tru-ip-lst", required_argument, 0, 't'},
+      {"none-tru-ip-lst", required_argument, 0, 'T'},
+      {"ip-v", required_argument, 0, 'A'},
+      {"cli-pkt-lmt", required_argument, 0, 'c'},
+      {"cli-dur-lmt", required_argument, 0, 'u'},
+      {"cli-max", required_argument, 0, 'm'},
+      {"pwd", required_argument, 0, 'k'},
+      {"log-file", required_argument, 0, 'f'},
+      {"ls-if", no_argument, 0, 'l'},
+      {"version", no_argument, 0, 'V'}
+    };
+    opt =
+      getopt_long(
+        argc,
+        argv,
+        "i:I:a:p:b:A:c:u:m:t:T:k:f:lV",
+        opts,
+        &opt_i);
+    if (opt == -1) {
+      break;
+    }
     switch (opt) {
       case 'i':
         dmn.if_n = malloc(strlen(optarg) + 1);

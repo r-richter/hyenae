@@ -285,6 +285,7 @@ int
    */
 
   int opt = 0;
+  int opt_i = 0;
   int ret = HY_ER_OK;
   int if_i = -1;
   int if_cnt = 0;
@@ -330,11 +331,53 @@ int
     }
   } else {
     /* Proccess command line arguments */
-    while ((opt =
-              getopt(
-                argc,
-                argv,
-                "s:d:S:D:i:I:r:R:a:A:t:o:f:k:w:q:Q:y:h:z:g:c:C:e:E:u:U:p:P:mNlLXV")) != -1) {
+    while (1) {
+      static struct option opts[] = {
+        {"src-pat", required_argument, 0, 's'},
+        {"dst-pat", required_argument, 0, 'd'},
+        {"sec-src-pat", required_argument, 0, 'S'},
+        {"sec-dst-pat", required_argument, 0, 'D'},
+        {"if-n", required_argument, 0, 'i'},
+        {"if-i", required_argument, 0, 'I'},
+        {"srv-pat", required_argument, 0, 'r'},
+        {"srv-file", required_argument, 0, 'R'},
+        {"att-type", required_argument, 0, 'a'},
+        {"ip-v-asm", required_argument, 0, 'A'},
+        {"ip-ttl", required_argument, 0, 't'},
+        {"code", required_argument, 0, 'o'},
+        {"tcp-flags", required_argument, 0, 'f'},
+        {"tcp-ack", required_argument, 0, 'k'},
+        {"tcp-win", required_argument, 0, 'w'},
+        {"seq-sid", required_argument, 0, 'q'},
+        {"seq-sid-ins", required_argument, 0, 'Q'},
+        {"dns-qry", required_argument, 0, 'y'},
+        {"hsrp-auth", required_argument, 0, 'h'},
+        {"hsrp-prio", required_argument, 0, 'z'},
+        {"hsrp-group", required_argument, 0, 'g'},
+        {"min-cnt", required_argument, 0, 'c'},
+        {"max-cnt", required_argument, 0, 'C'},
+        {"min-del", required_argument, 0, 'e'},
+        {"max-del", required_argument, 0, 'E'},
+        {"min-dur", required_argument, 0, 'u'},
+        {"max-dur", required_argument, 0, 'U'},
+        {"rnd-pay", required_argument, 0, 'p'},
+        {"pay-file", required_argument, 0, 'P'},
+        {"mtu", no_argument, 0, 'm'},
+        {"cold-run", no_argument, 0, 'N'},
+        {"ls-if", no_argument, 0, 'l'},
+        {"ls-att", no_argument, 0, 'L'},
+        {"version", no_argument, 0, 'V'}
+      };
+      opt =
+        getopt_long(
+          argc,
+          argv,
+          "s:d:S:D:i:I:r:R:a:A:t:o:f:k:w:q:Q:y:h:z:g:c:C:e:E:u:U:p:P:mNlLXV",
+          opts,
+          &opt_i);
+      if (opt == -1) {
+        break;
+      }
       switch (opt) {
         case 's':
           if (strlen(optarg) > HY_PT_BUFLEN) {
@@ -700,17 +743,17 @@ int
             "\n"
             "       hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]\n"
             "              [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]\n"
-            "              [-A ip-v-asm] [-t ip-ttl] [-o code] [-f tcp-flags]\n"
+            "              [-A ip-v] [-t ip-ttl] [-o code] [-f tcp-flags]\n"
             "              [-k tcp-ack] [-w tcp-win] [-q seq-sid] [-Q seq-sid-ins]\n"
             "              [-y dns_qry] [-h hsrp-auth] [-z hsrp-prio] [-g hsrp-group]\n"
             "              [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]\n"
-            "              [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]\n"
+            "              [-u min-dur] [-U max-dur] [-p rnd-pay] [-P pay-file]\n"
             "              [-mNlLV]\n"
           );
           return -1;
       }
     }
-  }
+  }  
   if (srv_lst == NULL) {
     /* Execute local attack */
     if (if_i != -1) {
