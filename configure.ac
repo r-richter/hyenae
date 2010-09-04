@@ -29,7 +29,7 @@
 
 AC_INIT(
   [Hyenae],
-  [0.35-1],
+  [0.35-2],
   [richterr@users.sourceforge.net])
 
 AC_CONFIG_HEADERS([config.h])
