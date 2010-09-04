@@ -15,6 +15,7 @@
 --------------------------------------------------------------------------------
 
   Version 0.35-2 (?)
+    * Bug fixes
     * Updated documentation
     * Extended command line usage infos
     * Applied memory leak patch by Archie Andrews
