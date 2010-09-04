@@ -2,7 +2,7 @@
  * Hyenae
  *   Advanced Network Packet Generator
  *
- * Copyright (C) 2009 - 2010 Robin Richter
+ * Copyright (C) 2009  Robin Richter
  *
  *   Contact  : richterr@users.sourceforge.net
  *   Homepage : http://sourceforge.net/projects/hyenae/
@@ -285,7 +285,6 @@ int
    */
 
   int opt = 0;
-  int opt_i = 0;
   int ret = HY_ER_OK;
   int if_i = -1;
   int if_cnt = 0;
@@ -330,54 +329,12 @@ int
       return 0;
     }
   } else {
-    /* Proccess command line arguments */
-    while (1) {
-      static struct option opts[] = {
-        {"src-pat", required_argument, 0, 's'},
-        {"dst-pat", required_argument, 0, 'd'},
-        {"sec-src-pat", required_argument, 0, 'S'},
-        {"sec-dst-pat", required_argument, 0, 'D'},
-        {"if-n", required_argument, 0, 'i'},
-        {"if-i", required_argument, 0, 'I'},
-        {"srv-pat", required_argument, 0, 'r'},
-        {"srv-file", required_argument, 0, 'R'},
-        {"att-type", required_argument, 0, 'a'},
-        {"ip-v", required_argument, 0, 'A'},
-        {"ip-ttl", required_argument, 0, 't'},
-        {"code", required_argument, 0, 'o'},
-        {"tcp-flags", required_argument, 0, 'f'},
-        {"tcp-ack", required_argument, 0, 'k'},
-        {"tcp-win", required_argument, 0, 'w'},
-        {"seq-sid", required_argument, 0, 'q'},
-        {"seq-sid-ins", required_argument, 0, 'Q'},
-        {"dns-qry", required_argument, 0, 'y'},
-        {"hsrp-auth", required_argument, 0, 'h'},
-        {"hsrp-prio", required_argument, 0, 'z'},
-        {"hsrp-group", required_argument, 0, 'g'},
-        {"min-cnt", required_argument, 0, 'c'},
-        {"max-cnt", required_argument, 0, 'C'},
-        {"min-del", required_argument, 0, 'e'},
-        {"max-del", required_argument, 0, 'E'},
-        {"min-dur", required_argument, 0, 'u'},
-        {"max-dur", required_argument, 0, 'U'},
-        {"rnd-pay", required_argument, 0, 'p'},
-        {"pay-file", required_argument, 0, 'P'},
-        {"ignore-mtu", no_argument, 0, 'm'},
-        {"cold-run", no_argument, 0, 'N'},
-        {"ls-if", no_argument, 0, 'l'},
-        {"ls-att", no_argument, 0, 'L'},
-        {"version", no_argument, 0, 'V'}
-      };
-      opt =
-        getopt_long(
-          argc,
-          argv,
-          "s:d:S:D:i:I:r:R:a:A:t:o:f:k:w:q:Q:y:h:z:g:c:C:e:E:u:U:p:P:mNlLXV",
-          opts,
-          &opt_i);
-      if (opt == -1) {
-        break;
-      }
+        /* Proccess command line arguments */
+    while ((opt =
+              getopt(
+                argc,
+                argv,
+                "s:d:S:D:i:I:r:R:a:A:t:o:f:k:w:q:Q:y:h:z:g:c:C:e:E:u:U:p:P:mNlLXV")) != -1) {
       switch (opt) {
         case 's':
           if (strlen(optarg) > HY_PT_BUFLEN) {
@@ -741,300 +698,19 @@ int
           printf(
             "usage: hyenae (Starts attack assistant...)\n"
             "\n"
-            "       hyenae -l (Prints all available network interfaces and exits)\n"
-            "\n"
-            "       hyenae -L (Prints all available attacks and exits)\n"
-            "\n"
-            "       hyenae -V (Prints version and exits)\n"
-            "\n"
-            "       hyenae -a arp-reply\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]\n"
-            "              -d [Dst HW-Address]\n"
-            "              -S [Snd HW-Address]-[Snd IP-Address (IPv4 only)]\n"
-            "              -D [Trg HW-Address]-[Trg IP-Address (IPv4 only)]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a arp-request\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]\n"
-            "              -d [Dst HW-Address]\n"
-            "              -S [Snd HW-Address]-[Snd IP-Address (IPv4 only)]\n"
-            "              -D [Trg HW-Address]-[Trg IP-Address (IPv4 only)]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a pppoe-discover\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]\n"
-            "              -d [Dst HW-Address]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -o [PPPoE Discovery Code]\n"
-            "              -q [PPPoE Session ID Offset]\n"
-            "              -Q [PPPoE Session ID Incrementation Steps]\n"
-            "              -p | -P [Random payload length | Payload file]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a icmp-echo\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]-[Src IP-Address (IPv4 or IPv6)]\n"
-            "              -d [Dst HW-Address]-[Dst IP-Address (IPv4 or IPv6)]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -t [IP Time To Live (TTL)]\n"
-            "              -p | -P [Random payload length | Payload file]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -A [Assumed IP-Address version on random address strips]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a icmp-unreach-tcp\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]-[Src IP-Address (IPv4 only)]\n"
-            "              -d [Dst HW-Address]-[Dst IP-Address (IPv4 only)]\n"
-            "              -S [TCP Src HW-Address]-[TCP Src IP-Address (IPv4 only)]@[TCP Src Port]\n"
-            "              -D [TCP Dst HW-Address]-[TCP Dst IP-Address (IPv4 only)]@[TCP Dst Port]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -o [ICMP Message Code]\n"
-            "              -t [IP Time To Live (TTL)]\n"
-            "              -k [TCP Achnkowledgement Number]\n"
-            "              -w [TCP Window Size]\n"
-            "              -q [TCP Sequence Number Offset]\n"
-            "              -Q [TCP Sequence Number Incrementation Steps]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a tcp\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]-[Src IP-Address (IPv4 or IPv6)]@[Src Port]\n"
-            "              -d [Dst HW-Address]-[Dst IP-Address (IPv4 or IPv6)]@[Dst Port]\n"
-            "              -f [TCP-Flags]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -t [IP Time To Live (TTL)]\n"
-            "              -k [TCP Achnkowledgement Number]\n"
-            "              -w [TCP Window Size]\n"
-            "              -q [TCP Sequence Number Offset]\n"
-            "              -Q [TCP Sequence Number Incrementation Steps]\n"
-            "              -p | -P [Random payload length | Payload file]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -A [Assumed IP-Address version on random address strips]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a udp\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]-[Src IP-Address (IPv4 or IPv6)]@[Src Port]\n"
-            "              -d [Dst HW-Address]-[Dst IP-Address (IPv4 or IPv6)]@[Dst Port]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -t [IP Time To Live (TTL)]\n"
-            "              -p | -P [Random payload length | Payload file]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -A [Assumed IP-Address version on random address strips]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a dns-query\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]-[Src IP-Address (IPv4 or IPv6)]\n"
-            "              -d [Dst HW-Address]-[Dst IP-Address (IPv4 or IPv6)]\n"
-            "              -y [DNS query pattern]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -t [IP Time To Live (TTL)]\n"
-            "              -p | -P [Random payload length | Payload file]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -A [Assumed IP-Address version on random address strips]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a dhcp-discover\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]-[Src IP-Address (IPv4 only)]\n"
-            "              -d [Dst HW-Address]-[Dst IP-Address (IPv4 only)]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -t [IP Time To Live (TTL)]\n"
-            "              -S [IP-Address (IPv4 only)]\n"
-            "              -p | -P [Random payload length | Payload file]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a dhcp-request\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]-[Src IP-Address (IPv4 only)]\n"
-            "              -d [Dst HW-Address]-[Dst IP-Address (IPv4 only)]\n"
-            "              -D [Req IP-Address (IPv4 only)]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -t [IP Time To Live (TTL)]\n"
-            "              -S [IP-Address (IPv4 only)]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a dhcp-release\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]-[Src IP-Address (IPv4 only)]\n"
-            "              -d [Dst HW-Address]-[Dst IP-Address (IPv4 only)]\n"
-            "              -D [Srv IP-Address (IPv4 only)]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -t [IP Time To Live (TTL)]\n"
-            "              -p | -P [Random payload length | Payload file]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a hsrp-hello\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]-[Src IP-Address (IPv4 only)]\n"
-            "              -d [Virtual IP-Address (IPv4 only)]\n"
-            "              -z [HSRP Priority]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -o [HSRP State Code]\n"
-            "              -t [IP Time To Live (TTL)]\n"
-            "              -h [HSRP Auth. Data]\n"
-            "              -g [HSRP Group Number]\n"
-            "              -p | -P [Random payload length | Payload file]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a hsrp-coup\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]-[Src IP-Address (IPv4 only)]\n"
-            "              -d [Virtual IP-Address (IPv4 only)]\n"
-            "              -z [HSRP Priority]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -o [HSRP State Code]\n"
-            "              -t [IP Time To Live (TTL)]\n"
-            "              -h [HSRP Auth. Data]\n"
-            "              -g [HSRP Group Number]\n"
-            "              -p | -P [Random payload length | Payload file]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n"
-            "\n"
-            "       hyenae -a hsrp-resign\n"
-            "              -i | -I [Network interface name | index]\n"
-            "              -s [Src HW-Address]-[Src IP-Address (IPv4 only)]\n"
-            "              -d [Virtual IP-Address (IPv4 only)]\n"
-            "              -z [HSRP Priority]\n"
-            "\n"
-            "              OPTIONAL:\n"
-            "              -o [HSRP State Code]\n"
-            "              -t [IP Time To Live (TTL)]\n"
-            "              -h [HSRP Auth. Data]\n"
-            "              -g [HSRP Group Number]\n"
-            "              -p | -P [Random payload length | Payload file]\n"
-            "              -r | -R [remote daemon address (Single) | address file (Clustered)]\n"
-            "              -c [Min packet count]\n"
-            "              -C [Max packet count]\n"
-            "              -e [Min send delay (ms)]\n"
-            "              -E [Max send delay (ms)]\n"
-            "              -u [Min attack duration (ms)]\n"
-            "              -U [Max attack duration (ms)]\n"
-            "              -m (Set to ignore MTU limit)\n"
-            "              -N (Set for cold run)\n");
+            "       hyenae [-s src-pat] [-d dst-pat] [-S sec-src-pat] [-D sec-dst-pat]\n"
+            "              [-i if-n] [-I if-i] [-r srv-pat] [-R srv-file] [-a att-type]\n"
+            "              [-A ip-v-asm] [-t ip-ttl] [-o code] [-f tcp-flags]\n"
+            "              [-k tcp-ack] [-w tcp-win] [-q seq-sid] [-Q seq-sid-ins]\n"
+            "              [-y dns_qry] [-h hsrp-auth] [-z hsrp-prio] [-g hsrp-group]\n"
+            "              [-c min-cnt] [-C max-cnt] [-e min-del] [-E max-del]\n"
+            "              [-u min-dur] [-U max-dur] [-p rnd-payload] [-P payload-file]\n"
+            "              [-mNlLV]\n"
+          );
           return -1;
       }
     }
-  }  
+  }
   if (srv_lst == NULL) {
     /* Execute local attack */
     if (if_i != -1) {

@@ -7,18 +7,12 @@
   Hyenae
     Advanced Network Packet Generator
 
-  Copyright (C) 2009 - 2010 Robin Richter
+  Copyright (C) 2009  Robin Richter
 
   Contact  : richterr@users.sourceforge.net
   Homepage : http://sourceforge.net/projects/hyenae/
 
 --------------------------------------------------------------------------------
-
-  Version 0.35-2 (?)
-    * Updated documentation
-    * Migrated to getopt_long
-    * Extended command line usage infos
-    * Applied memory leak patch by Archie Andrews
 
   Version 0.35-1 (Oct. 1st, 2009)
     * Bug fixes
@@ -31,7 +25,7 @@
     * Refactored default value assignment
     * Made opcode (code) argument optional
     * Refactored attack parameter structure
-    * Applied DNS patch by Archie Andrews
+    * Applied DNS patch from Archie Andrews
     * Removed DNS query URL format validation
     * Added Cisco HSRP active router hijacking to attack assistant
     * Daemon now binds to every capable network interface by default

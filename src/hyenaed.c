@@ -2,7 +2,7 @@
  * Hyenae Daemon
  *   Advanced Network Packet Generator Daemon
  *
- * Copyright (C) 2009 - 2010 Robin Richter
+ * Copyright (C) 2009  Robin Richter
  *
  *   Contact  : richterr@users.sourceforge.net
  *   Homepage : http://sourceforge.net/projects/hyenae/
@@ -89,7 +89,6 @@ int
    */
 
   int opt = 0;
-  int opt_i = 0;
   int ret = HY_ER_OK;
   int if_cnt = 0;
   char err_buf[PCAP_ERRBUF_SIZE];
@@ -110,35 +109,7 @@ int
       hy_get_error_msg(ret));
     return -1;
   }
-  /* Proccess command line arguments */
-  while (1) {
-    static struct option opts[] = {
-      {"if-n", required_argument, 0, 'i'},
-      {"if-i", required_argument, 0, 'I'},
-      {"bind-ip", required_argument, 0, 'a'},
-      {"port", required_argument, 0, 'p'},
-      {"backlog", required_argument, 0, 'b'},
-      {"tru-ip-lst", required_argument, 0, 't'},
-      {"untru-ip-lst", required_argument, 0, 'T'},
-      {"ip-v", required_argument, 0, 'A'},
-      {"cli-pkt-lmt", required_argument, 0, 'c'},
-      {"cli-dur-lmt", required_argument, 0, 'u'},
-      {"cli-max", required_argument, 0, 'm'},
-      {"pwd", required_argument, 0, 'k'},
-      {"log-file", required_argument, 0, 'f'},
-      {"ls-if", no_argument, 0, 'l'},
-      {"version", no_argument, 0, 'V'}
-    };
-    opt =
-      getopt_long(
-        argc,
-        argv,
-        "i:I:a:p:b:A:c:u:m:t:T:k:f:lV",
-        opts,
-        &opt_i);
-    if (opt == -1) {
-      break;
-    }
+  while ((opt = getopt(argc, argv, "i:I:a:p:b:A:c:u:m:t:T:k:f:lV")) != -1) {
     switch (opt) {
       case 'i':
         dmn.if_n = malloc(strlen(optarg) + 1);
@@ -287,23 +258,10 @@ int
         return 0;
       default:
         printf(
-          "usage: hyenaed -l (Prints all available network interfaces and exits)\n"
-          "\n"
-          "       hyenaed -V (Prints daemon version and exits)\n"
-          "\n"
-          "       hyenaed -i | -I [Network interface name | index]\n"
-          "               -c &| -u [Packet count limit &| Attack duration limit]\n"
-          "\n"
-          "               OPTIONAL:\n"
-          "               -a [IP-Address to bind to]\n"
-          "               -p [Port to listen on]\n"
-          "               -b [Max backlog connections]\n"
-          "               -t [Trusted IP-Address list file]\n"
-          "               -T [Untrusted IP-Address list file]\n"
-          "               -A [Assumed IP-Address version on random address strips]\n"
-          "               -m [Max client connections]\n"
-          "               -k [Deamon password]\n"
-          "               -f [log file]\n");
+          "usage: hyenaed [-i if-n] [-I if-i] [-a bind-ip] [-p port] [-b bcklog]\n"
+          "               [-t tru-ip-lst] [-T none-tru-ip-lst] [-A ip-v]\n"
+          "               [-c cli-pkt-lmt] [-u cli-dur-lmt] [-m max-cl]\n"
+          "               [-k pwd] [-flV]\n");
         return -1;
     }
   }
