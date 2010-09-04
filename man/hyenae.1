@@ -1,17 +1,299 @@
-.TH "Hyenae" "1" "Sep. 2009" "Robin Richter" "Hyenae Users Manual"
+.TH "Hyenae" "1" "Sep. 2010" "Robin Richter" "Hyenae Users Manual"
 .SH NAME
 hyenae - Advanced Network Packet Generator
 .SH SYNOPSIS
 hyenae (Starts attack assistant...)
 
-hyenae [\fB-s\fR src-pat] [\fB-d\fR dst-pat] [\fB-S\fR sec-src-pat] [\fB-D\fR sec-dst-pat]
-       [\fB-i\fR if-n] [\fB-I\fR if-i] [\fB-r\fR srv-pat] [\fB-R\fR srv-file] [\fB-a\fR att-type]
-       [\fB-A\fR ip-v-asm] [\fB-t\fR ip-ttl] [\fB-o\fR code] [\fB-f\fR tcp-flags]
-       [\fB-k\fR tcp-ack] [\fB-w\fR tcp-win] [\fB-q\fR tcp-seq] [\fB-Q\fR tcp-seq-ins]
-       [\fB-y\fR dns_qry] [\fB-h\fR hsrp_auth] [\fB-z\fR hsrp-prio] [\fB-g\fR hsrp-group]
-       [\fB-c\fR min-cnt] [\fB-C\fR max-cnt] [\fB-e\fR min-del] [\fB-E\fR max-del]
-       [\fB-u\fR min-dur] [\fB-U\fR max-dur] [\fB-p\fR rnd-payload] [\fB-P\fR payload-file]
-       [\fB-mNlLV\fR]
+hyenae \fB-l\fR (Prints all available network interfaces and exits)
+
+hyenae \fB-L\fR (Prints all available attacks and exits)
+
+hyenae \fB-V\fR (Prints version and exits)
+
+hyenae \fB-a\fR arp-reply
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]
+       \fB-d\fR [Dst HW-Address]
+       \fB-S\fR [Snd HW-Address]-[Snd IP-Address (IPv4 only)]
+       \fB-D\fR [Trg HW-Address]-[Trg IP-Address (IPv4 only)]
+
+       OPTIONAL:
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR arp-request
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]
+       \fB-d\fR [Dst HW-Address]
+       \fB-S\fR [Snd HW-Address]-[Snd IP-Address (IPv4 only)]
+       \fB-D\fR [Trg HW-Address]-[Trg IP-Address (IPv4 only)]
+
+       OPTIONAL:
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR pppoe-discover
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]
+       \fB-d\fR [Dst HW-Address]
+
+       OPTIONAL:
+       \fB-o\fR [PPPoE Discovery Code]
+       \fB-q\fR [PPPoE Session ID Offset]
+       \fB-Q\fR [PPPoE Session ID Incrementation Steps]
+       \fB-p\fR | \fB-P\fR [Random payload length | Payload file]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR icmp-echo
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]-[Src IP-Address (IPv4 or IPv6)]
+       \fB-d\fR [Dst HW-Address]-[Dst IP-Address (IPv4 or IPv6)]
+
+       OPTIONAL:
+       \fB-t\fR [IP Time To Live (TTL)]
+       \fB-p\fR | \fB-P\fR [Random payload length | Payload file]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-A\fR [Assumed IP-Address version on random address strips]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR icmp-unreach-tcp
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]-[Src IP-Address (IPv4 only)]
+       \fB-d\fR [Dst HW-Address]-[Dst IP-Address (IPv4 only)]
+       \fB-S\fR [TCP Src HW-Address]-[TCP Src IP-Address (IPv4 only)]@[TCP Src Port]
+       \fB-D\fR [TCP Dst HW-Address]-[TCP Dst IP-Address (IPv4 only)]@[TCP Dst Port]
+
+       OPTIONAL:
+       \fB-o\fR [ICMP Message Code]
+       \fB-t\fR [IP Time To Live (TTL)]
+       \fB-k\fR [TCP Achnkowledgement Number]
+       \fB-w\fR [TCP Window Size]
+       \fB-q\fR [TCP Sequence Number Offset]
+       \fB-Q\fR [TCP Sequence Number Incrementation Steps]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR tcp
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]-[Src IP-Address (IPv4 or IPv6)]@[Src Port]
+       \fB-d\fR [Dst HW-Address]-[Dst IP-Address (IPv4 or IPv6)]@[Dst Port]
+       \fB-f\fR [TCP-Flags]
+
+       OPTIONAL:
+       \fB-t\fR [IP Time To Live (TTL)]
+       \fB-k\fR [TCP Achnkowledgement Number]
+       \fB-w\fR [TCP Window Size]
+       \fB-q\fR [TCP Sequence Number Offset]
+       \fB-Q\fR [TCP Sequence Number Incrementation Steps]
+       \fB-p\fR | \fB-P\fR [Random payload length | Payload file]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-A\fR [Assumed IP-Address version on random address strips]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR udp
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]-[Src IP-Address (IPv4 or IPv6)]@[Src Port]
+       \fB-d\fR [Dst HW-Address]-[Dst IP-Address (IPv4 or IPv6)]@[Dst Port]
+
+       OPTIONAL:
+       \fB-t\fR [IP Time To Live (TTL)]
+       \fB-p\fR | \fB-P\fR [Random payload length | Payload file]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-A\fR [Assumed IP-Address version on random address strips]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR dns-query
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]-[Src IP-Address (IPv4 or IPv6)]
+       \fB-d\fR [Dst HW-Address]-[Dst IP-Address (IPv4 or IPv6)]
+       \fB-y\fR [DNS query pattern]
+
+       OPTIONAL:
+       \fB-t\fR [IP Time To Live (TTL)]
+       \fB-p\fR | \fB-P\fR [Random payload length | Payload file]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-A\fR [Assumed IP-Address version on random address strips]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR\fR dhcp-discover
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]-[Src IP-Address (IPv4 only)]
+       \fB-d\fR [Dst HW-Address]-[Dst IP-Address (IPv4 only)]
+
+       OPTIONAL:
+       \fB-t\fR [IP Time To Live (TTL)]
+       \fB-S\fR [IP-Address (IPv4 only)]
+       \fB-p\fR | \fB-P\fR [Random payload length | Payload file]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR dhcp-request
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]-[Src IP-Address (IPv4 only)]
+       \fB-d\fR [Dst HW-Address]-[Dst IP-Address (IPv4 only)]
+       \fB-D\fR [Req IP-Address (IPv4 only)]
+
+       OPTIONAL:
+       \fB-t\fR [IP Time To Live (TTL)]
+       \fB-S\fR [IP-Address (IPv4 only)]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR dhcp-release
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]-[Src IP-Address (IPv4 only)]
+       \fB-d\fR [Dst HW-Address]-[Dst IP-Address (IPv4 only)]
+       \fB-D\fR [Srv IP-Address (IPv4 only)]
+
+       OPTIONAL:
+       \fB-t\fR [IP Time To Live (TTL)]
+       \fB-p\fR | \fB-P\fR [Random payload length | Payload file]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR hsrp-hello
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]-[Src IP-Address (IPv4 only)]
+       \fB-d\fR [Virtual IP-Address (IPv4 only)]
+       \fB-z\fR [HSRP Priority]
+
+       OPTIONAL:
+       \fB-o\fR [HSRP State Code]
+       \fB-t\fR [IP Time To Live (TTL)]
+       \fB-h\fR [HSRP Auth. Data]
+       \fB-g\fR [HSRP Group Number]
+       \fB-p\fR | \fB-P\fR [Random payload length | Payload file]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR hsrp-coup
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]-[Src IP-Address (IPv4 only)]
+       \fB-d\fR [Virtual IP-Address (IPv4 only)]
+       \fB-z\fR [HSRP Priority]
+
+       OPTIONAL:
+       \fB-o\fR [HSRP State Code]
+       \fB-t\fR [IP Time To Live (TTL)]
+       \fB-h\fR [HSRP Auth. Data]
+       \fB-g\fR [HSRP Group Number]
+       \fB-p\fR | \fB-P\fR [Random payload length | Payload file]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
+
+hyenae \fB-a\fR hsrp-resign
+       \fB-i\fR | \fB-I\fR [Network interface name | index]
+       \fB-s\fR [Src HW-Address]-[Src IP-Address (IPv4 only)]
+       \fB-d\fR [Virtual IP-Address (IPv4 only)]
+       \fB-z\fR [HSRP Priority]
+
+       OPTIONAL:
+       \fB-o\fR [HSRP State Code]
+       \fB-t\fR [IP Time To Live (TTL)]
+       \fB-h\fR [HSRP Auth. Data]
+       \fB-g\fR [HSRP Group Number]
+       \fB-p\fR | \fB-P\fR [Random payload length | Payload file]
+       \fB-r\fR | \fB-R\fR [remote daemon address (Single) | address file (Clustered)]
+       \fB-c\fR [Min packet count]
+       \fB-C\fR [Max packet count]
+       \fB-e\fR [Min send delay (ms)]
+       \fB-E\fR [Max send delay (ms)]
+       \fB-u\fR [Min attack duration (ms)]
+       \fB-U\fR [Max attack duration (ms)]
+       \fB-m\fR (Set to ignore MTU limit)
+       \fB-N\fR (Set for cold run)
 
 .SH DESCRIPTION
 Hyenae is a highly flexible and platform independent network packet generator.
@@ -49,16 +331,16 @@ subject to change without prior notice.
 \fB-S\fR    Secondary source address
       pattern. Defines the sender address
       on ARP-Reply attacks, the requested
-      IP-Address on DHCP-Request attacks
+      IP-Address on DHCP-Based attacks
       and the TCP source address pattern
       on TCP based ICMP "Destination
       Unreachable" attacks.
 
 \fB-D\fR    Secondary destination address
       pattern. Defines the target address on
-      ARP-Reply attacks, the server
+      ARP-Based attacks, the server
       identifier (IP-Address) on DHCP-Release
-      attacks  and the TCP destination
+      attacks and the TCP destination
       address pattern on TCP based ICMP
       "Destination Unreachable" attacks.
 
@@ -182,13 +464,6 @@ subject to change without prior notice.
         \fBR\fR (RST)
         \fBP\fR (PSH)
         \fBA\fR (ACK)
-
-\fB-f\fR    TCP flags. This option is
-      required on TCP attacks and defines
-      the TCP control flags to set for the
-      generated packets. Valid values are
-      any combination of: F (FIN), S (SYN),
-      R (RST), P (PSH), A (ACK)
 
 \fB-k\fR    TCP acknowledgement number.
       Defines the TCP acknowledgement number

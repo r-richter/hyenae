@@ -1,11 +1,24 @@
-.TH "Hyenae Daemon" "1" "Sep. 2009" "Robin Richter" "Hyenae Users Manual"
+.TH "Hyenae Daemon" "1" "Sep. 2010" "Robin Richter" "Hyenae Users Manual"
 .SH NAME
 hyenaed - Advanced Network Packet Generator Daemon
 .SH SYNOPSIS
-hyenaed [\fB-i\fR if-n] [\fB-I\fR if-i] [\fB-a\fR bind-ip] [\fB-p\fR port] [\fB-b\fR bcklog]
-        [\fB-t\fR tru-ip-lst] [\fB-T\fR none-tru-ip-lst] [\fB-A\fR ip-v]
-        [\fB-c\fR cli-pkt-lmt] [\fB-u\fR cli-dur-lmt] [\fB-m\fR max-cl]
-        [\fB-k\fR pwd] [\fB-flV\fR]
+hyenaed \fB-l\fR (Prints all available network interfaces and exits)
+
+hyenaed \fB-V\fR (Prints daemon version and exits)
+
+hyenaed \fB-i\fR | \fB-I\fR [Network interface name | index]
+        \fB-c\fR &| \fB-u\fR [Packet count limit &| Attack duration limit]
+
+        OPTIONAL:
+        \fB-a\fR [IP-Address to bind to]
+        \fB-p\fR [Port to listen on]
+        \fB-b\fR [Max backlog connections]
+        \fB-t\fR [Trusted IP-Address list file]
+        \fB-T\fR [Untrusted IP-Address list file]
+        \fB-A\fR [Assumed IP-Address version on random address strips]
+        \fB-m\fR [Max client connections]
+        \fB-k\fR [Deamon password]
+        \fB-f\fR [log file]
 
 .SH DESCRIPTION
 Hyenae is a highly flexible and platform independent network packet generator.
