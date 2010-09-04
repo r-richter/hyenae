@@ -2,7 +2,7 @@
  * Hyenae
  *   Advanced Network Packet Generator
  *
- * Copyright (C) 2009  Robin Richter
+ * Copyright (C) 2009 - 2010 Robin Richter
  *
  *   Contact  : richterr@users.sourceforge.net
  *   Homepage : http://sourceforge.net/projects/hyenae/
@@ -38,7 +38,7 @@
 #include "hyenae-protocol.h"
 
 /* General informations */
-#define HY_COPYRIGHT "2009 Robin Richter"
+#define HY_COPYRIGHT "2009 - 2010 Robin Richter"
 #define HY_CONTACT   "richterr@users.sourceforge.net"
 #define HY_HOMEPAGE  "http://sourceforge.net/projects/hyenae/"
 
