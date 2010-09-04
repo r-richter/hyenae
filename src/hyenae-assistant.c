@@ -149,11 +149,7 @@ int
     if (ret == HY_ER_INP_BUFLEN_EXCEED) {
       break;
     } else {
-      if (strcmp(input, "%") == 0) {
-        strcpy(ver_pat.src, "%-%");
-      } else {
-        strncpy(ver_pat.src, input, HY_PT_BUFLEN);
-      }
+      strncpy(ver_pat.src, input, HY_PT_BUFLEN);
       ret = hy_parse_pattern(&ver_pat, ip_v_asm);
       if ((strstr(format, "[HW-Address]") != NULL &&
            strlen(ver_pat.hw_addr) == 0) ||
