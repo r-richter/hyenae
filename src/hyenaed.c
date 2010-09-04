@@ -119,7 +119,7 @@ int
       {"port", required_argument, 0, 'p'},
       {"backlog", required_argument, 0, 'b'},
       {"tru-ip-lst", required_argument, 0, 't'},
-      {"none-tru-ip-lst", required_argument, 0, 'T'},
+      {"untru-ip-lst", required_argument, 0, 'T'},
       {"ip-v", required_argument, 0, 'A'},
       {"cli-pkt-lmt", required_argument, 0, 'c'},
       {"cli-dur-lmt", required_argument, 0, 'u'},
@@ -287,10 +287,23 @@ int
         return 0;
       default:
         printf(
-          "usage: hyenaed [-i if-n] [-I if-i] [-a bind-ip] [-p port] [-b bcklog]\n"
-          "               [-t tru-ip-lst] [-T none-tru-ip-lst] [-A ip-v]\n"
-          "               [-c cli-pkt-lmt] [-u cli-dur-lmt] [-m max-cl]\n"
-          "               [-k pwd] [-flV]\n");
+          "usage: hyenaed -l (Prints all available network interfaces and exits)\n"
+          "\n"
+          "       hyenaed -V (Prints daemon version and exits)\n"
+          "\n"
+          "       hyenaed -i | -I [Network interface name | index]\n"
+          "               -c &| -u [Packet count limit &| Attack duration limit]\n"
+          "\n"
+          "               OPTIONAL:\n"
+          "               -a [IP-Address to bind to]\n"
+          "               -p [Port to listen on]\n"
+          "               -b [Max backlog connections]\n"
+          "               -t [Trusted IP-Address list file]\n"
+          "               -T [Untrusted IP-Address list file]\n"
+          "               -A [Assumed IP-Address version on random address strips]\n"
+          "               -m [Max client connections]\n"
+          "               -k [Deamon password]\n"
+          "               -f [log file]\n");
         return -1;
     }
   }
