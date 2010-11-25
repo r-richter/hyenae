@@ -693,10 +693,7 @@ void
       free(params->pkt_buf);
       params->pkt_buf = NULL;
     }
-    if (params->res->tc_flg & HY_TC_PKT_CNT ||
-        (params->pkt_lmt != 1 &&
-         params->res->pkt_cnt < 1 ||
-         (params->res->pkt_cnt + 1) < params->pkt_lmt)) {
+    if (snd_del > 0) {
       hy_sleep(snd_del);
     }
     if ((params->res->tot_byt + pkt_len) < params->res->tot_byt) {
