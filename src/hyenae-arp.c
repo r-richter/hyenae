@@ -52,7 +52,6 @@ int
     sizeof(arp_h_t) +
     sizeof(arp_eth_ip_t) +
     22 /* Padding bytes to reach at least 64 Bytes */;
-    printf("%i", arp_pkt_len);
   int src_hw_len = 0;
   int snd_hw_len = 0;
   unsigned char arp_pkt[arp_pkt_len];
