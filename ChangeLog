@@ -16,6 +16,7 @@
 
   Version 0.35-3 ()
     * Fixed send delay
+    * Fixed byte padding on ARP attacks
 
   Version 0.35-2 (Sep. 4th, 2010)
     * Bug fixes
