@@ -20,7 +20,6 @@
   sure that the following software packages are installed on your system:
 
   Windows:
-    Cygwin                          http://www.cygwin.com/
     MingGW                          http://www.mingw.org/
       Make
       GNU Compiler Collection (GCC)
