@@ -1747,7 +1747,7 @@ int
     } else {
       printf(" ");
     }
-    printf("-D %s", attack->dst_pat.src);
+    printf("-D %s", attack->sec_dst_pat.src);
   }
   if (strlen(attack->dns_qry) > 0) {
     printf("\n           -y %s", attack->dns_qry);
