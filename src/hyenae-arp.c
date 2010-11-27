@@ -50,8 +50,12 @@ int
   int ret = HY_ER_OK;
   int arp_pkt_len =
     sizeof(arp_h_t) +
-    sizeof(arp_eth_ip_t) +
-    22 /* Padding bytes to reach at least 64 Bytes */;
+    sizeof(arp_eth_ip_t);
+  if (opcode == ARP_OP_REPLY) {
+    /* Padding bytes to reach at least
+       60 Bytes on ARP-Replys*/
+    arp_pkt_len = arp_pkt_len + 18;
+  }
   int src_hw_len = 0;
   int snd_hw_len = 0;
   unsigned char arp_pkt[arp_pkt_len];
