@@ -1,8 +1,8 @@
 !include "MUI2.nsh"
 !include ".\include\EnvVarUpdate.nsh"
 
-Name "Hyenae 0.35-2"
-OutFile "hyenae-0.35-2-win32.exe"
+Name "Hyenae 0.35-3"
+OutFile "hyenae-0.35-3-win32.exe"
 InstallDir $PROGRAMFILES\Hyenae
 
 ; Required for Windows Vista
@@ -33,14 +33,14 @@ Section "Base Components (Required)"
   ${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR"
 SectionEnd
 
-Section "WinPcap 4.0.2 (Required)"
+Section "WinPcap 4.1.2 (Required)"
   SectionIn RO
   SetOutPath $INSTDIR
 
   File ..\..\src\hyenaed.exe
-  File components\WinPcap_4_0_2.exe
+  File components\WinPcap_4_1_2.exe
 
-  ExecShell "" "$INSTDIR\WinPcap_4_0_2.exe"
+  ExecShell "" "$INSTDIR\WinPcap_4_1_2.exe"
 SectionEnd
 
 Section "Hyenae Daemon"
