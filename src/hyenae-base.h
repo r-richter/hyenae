@@ -69,17 +69,16 @@
 #define HY_ER_UNKNOWN          -1
 #define HY_ER_NOT_ROOT         -2
 #define HY_ER_FOPEN            -3
-#define HY_ER_FILE_EMPTY       -4
-#define HY_ER_PCAP_FINDALLDEVS -5
-#define HY_ER_WSA_STARTUP      -6
-#define HY_ER_SOCK_CREATE      -7
-#define HY_ER_SOCK_SETOPT      -8
-#define HY_ER_SOCK_BIND        -9
-#define HY_ER_SOCK_LISTEN      -10
-#define HY_ER_SOCK_ACCEPT      -11
-#define HY_ER_CREATE_THREAD    -12
-#define HY_ER_FE_STOP_CREATE   -13
-#define HY_ER_FE_STOP_REMOVE   -14
+#define HY_ER_DELETE_FILE      -4
+#define HY_ER_FILE_EMPTY       -5
+#define HY_ER_PCAP_FINDALLDEVS -6
+#define HY_ER_WSA_STARTUP      -7
+#define HY_ER_SOCK_CREATE      -8
+#define HY_ER_SOCK_SETOPT      -9
+#define HY_ER_SOCK_BIND        -10
+#define HY_ER_SOCK_LISTEN      -11
+#define HY_ER_SOCK_ACCEPT      -12
+#define HY_ER_CREATE_THREAD    -13
 
 /* Config based errors */
 #define HY_ER_CF_KEY_BUFLEN_EXCEED -1001
@@ -124,11 +123,22 @@
 #define HY_ER_WRONG_PT_FMT_TRG        -3023
 #define HY_ER_WRONG_PT_FMT_TCP_DST    -3024
 #define HY_ER_WRONG_PT_FMT_SRV_IP     -3025
-#define HY_ER_NO_TCP_FLAGS            -3026
-#define HY_ER_DNS_NO_QUERIES          -3027
-#define HY_ER_DNS_QRY_N_BUFLEN_EXCEED -3028
-#define HY_ER_DNS_QRY_BUFLEN_EXCEED   -3029
-#define HY_ER_DHCP_MSG_UNSUPPORTED    -3030
+#define HY_ER_SND_DEL_WITHOUT_AT_T    -3026
+#define HY_ER_CODE_WITHOUT_AT_T       -3027
+#define HY_ER_PPPOE_CODE_UNKNOWN      -3028
+#define HY_ER_ICMP_UNR_CODE_UNKNOWN   -3029
+#define HY_ER_NO_TCP_FLAGS            -3030
+#define HY_ER_TCP_FLG_UNKNOWN         -3031
+#define HY_ER_DNS_NO_QUERIES          -3032
+#define HY_ER_DNS_QRY_N_BUFLEN_EXCEED -3033
+#define HY_ER_DNS_QRY_BUFLEN_EXCEED   -3034
+#define HY_ER_DHCP_MSG_UNSUPPORTED    -3035
+#define HY_ER_HSRP_PRIO_ZERO          -3036
+#define HY_ER_HSRP_CODE_UNKNOWN       -3037
+#define HY_ER_HSRP_AUTH_LEN_EXCEED    -3038
+#define HY_ER_HSRP_MAX_PRIO_EXCEEDED  -3039
+#define HY_ER_HSRP_MAX_GROUP_EXCEEDED -3040
+#define HY_ER_HSRP_DEL_EXCEEDED       -3041
 
 /* Protocol based errors */
 #define HY_ER_MAX_RA_PKT_LEN_EXCEED -4001
@@ -150,26 +160,17 @@
 #define HY_ER_BACKLOG_ZERO               -6008
 #define HY_ER_MAX_CL_ZERO                -6009
 #define HY_ER_MAX_CL_PKT_DUR_LMT_ZERO    -6010
-#define HY_ER_FOPEN_LOG_FILE             -6011
-#define HY_ER_CLI_PKT_LMT_EXCEED         -6012
-#define HY_ER_CLI_DUR_LMT_EXCEED         -6013
+#define HY_ER_CLI_PKT_LMT_EXCEED         -6011
+#define HY_ER_CLI_DUR_LMT_EXCEED         -6012
 
 /* Assistant based errors */
 #define HY_ER_INP_BUFLEN_EXCEED -7001
 #define HY_ER_WRONG_PT_FMT      -7002
 
 /* Other errors */
-#define HY_ER_CODE_WITHOUT_AT_T       -8001
-#define HY_ER_PPPOE_CODE_UNKNOWN      -8002
-#define HY_ER_ICMP_UNR_CODE_UNKNOWN   -8003
-#define HY_ER_HSRP_PRIO_ZERO          -8004
-#define HY_ER_HSRP_CODE_UNKNOWN       -8005
-#define HY_ER_TCP_FLG_UNKNOWN         -8006
-#define HY_ER_HSRP_AUTH_LEN_EXCEED    -8007
-#define HY_ER_HSRP_MAX_PRIO_EXCEEDED  -8008
-#define HY_ER_HSRP_MAX_GROUP_EXCEEDED -8009
-#define HY_ER_SND_DEL_WITHOUT_AT_T    -8010
-#define HY_ER_HSRP_DEL_EXCEEDED       -8011
+
+#define HY_ER_FE_PATH_BUFLEN_EXCEED   -8012
+
 
 /* Thread run states */
 #define HY_RUN_STAT_RUNNING        0
@@ -302,6 +303,14 @@ void
 
 int
   hy_file_exist
+    (
+      const char*
+    );
+
+/* -------------------------------------------------------------------------- */
+
+int
+  hy_delete_file
     (
       const char*
     );

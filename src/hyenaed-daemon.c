@@ -214,8 +214,14 @@ int
            err_buf)) == NULL) {
     return HY_ER_PCAP_OPEN_LIVE;
   }
+  hy_output(
+    stdout,
+    HY_OUT_T_TASK,
+    0,
+    "Opening log file (%s)",
+    config->log_file);
   if ((f = fopen(config->log_file, "a")) == NULL) {
-    return HY_ER_FOPEN_LOG_FILE;
+    return HY_ER_FOPEN;
   }
   #ifdef OS_WINDOWS
     #ifndef WSA_STARTUP

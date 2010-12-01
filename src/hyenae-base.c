@@ -470,6 +470,31 @@ int
 /* -------------------------------------------------------------------------- */
 
 int
+  hy_delete_file
+    (
+      const char* filename
+    ) {
+
+  /*
+   * USAGE:
+   *   Checks a file for existence.
+   */
+
+  #ifdef OS_WINDOWS
+    if (DeleteFile(filename)) {
+      return HY_ER_FOPEN;
+    }
+  #else
+    if (remove(filename)) {
+      return HY_ER_FOPEN;
+    }
+  #endif /* OS_WINDOWS */
+  return HY_ER_OK;
+} /* hy_delete_file */
+
+/* -------------------------------------------------------------------------- */
+
+int
   hy_load_file_to_buffer
     (
       const char* filename,
@@ -652,6 +677,8 @@ const char*
     return "Root privileges required";
   } else if (error == HY_ER_FOPEN) {
     return "Unable to open file";
+  } else if (error == HY_ER_DELETE_FILE) {
+    return "Unable to delete file";
   } else if (error == HY_ER_FILE_EMPTY) {
     return "File is empty";
   } else if (error == HY_ER_PCAP_FINDALLDEVS) {
@@ -670,10 +697,6 @@ const char*
     return "Failed to accept client connection";
   } else if (error == HY_ER_CREATE_THREAD) {
     return "Failed to create new thread";
-  } else if (error == HY_ER_FE_STOP_CREATE) {
-    return "Failed to create frontend stop condition file";
-  } else if (error == HY_ER_FE_STOP_REMOVE) {
-    return "Failed to remove previous frontend stop condition file";
   } else if (error == HY_ER_CF_KEY_BUFLEN_EXCEED) {
     return "Key buffer length exceeded (too long key)";
   } else if (error == HY_ER_CF_VAL_BUFLEN_EXCEED) {
@@ -750,14 +773,38 @@ const char*
     return "Wrong address pattern format (TCP destination)";
   } else if (error == HY_ER_WRONG_PT_FMT_SRV_IP) {
     return "Wrong address pattern format (server identifier)";
+  } else if (error == HY_ER_SND_DEL_WITHOUT_AT_T) {
+    return "Attack type needs to be set before send delay";
+  } else if (error == HY_ER_CODE_WITHOUT_AT_T) {
+    return "Attack type needs to be set before code argument";
+  } else if (error == HY_ER_PPPOE_CODE_UNKNOWN) {
+    return "Unknown PPPoE discovery code";
+  } else if (error == HY_ER_ICMP_UNR_CODE_UNKNOWN) {
+    return "Unknown ICMP \"Destination Unreachable\" code";
   } else if (error == HY_ER_NO_TCP_FLAGS) {
     return "No TCP flags given";
+  } else if (error == HY_ER_TCP_FLG_UNKNOWN) {
+    return "TCP flag pattern contains an unknown flag";
   } else if (error == HY_ER_DNS_NO_QUERIES) {
     return "No DNS query given";
   } else if (error == HY_ER_DNS_QRY_N_BUFLEN_EXCEED) {
     return "DNS query contains a domain name that is too long";
   } else if (error == HY_ER_DNS_QRY_BUFLEN_EXCEED) {
     return "Maximum DNS query length exceeded (too long pattern)";
+  } else if (error == HY_ER_DHCP_MSG_UNSUPPORTED) {
+    return "DHCP-Message not supported";
+  } else if (error == HY_ER_HSRP_PRIO_ZERO) {
+    return "No HSRP priority given or given value is smaller than 1";
+  } else if (error == HY_ER_HSRP_CODE_UNKNOWN) {
+    return "Unknown HSRP state code";
+  } else if (error == HY_ER_HSRP_AUTH_LEN_EXCEED) {
+    return "HSRP authentification data length ecxeeded (too long auth. data)";
+  } else if (error == HY_ER_HSRP_MAX_PRIO_EXCEEDED) {
+    return "Maximum HSRP priority value exceeded (too big priority value)";
+  } else if (error == HY_ER_HSRP_MAX_GROUP_EXCEEDED) {
+    return "Maximum HSRP group value exceeded (too big group value)";
+  } else if (error == HY_ER_HSRP_DEL_EXCEEDED) {
+    return "Maximum HSRP hello/hold time value exceeded (too big send delay)";
   } else if (error == HY_ER_MAX_RA_PKT_LEN_EXCEED) {
     return "Maximum remote attack packet length exceeded (too long payload)";
   } else if (error == HY_ER_PR_MALFORMED_RAR_H) {
@@ -788,8 +835,6 @@ const char*
     return "Number of maximum client connections can not be zero";
   } else if (error == HY_ER_MAX_CL_PKT_DUR_LMT_ZERO) {
     return "At least a packet or an attack duration limit is requiered";
-  } else if (error == HY_ER_FOPEN_LOG_FILE) {
-    return "Unable to open/create log file";
   } else if (error == HY_ER_CLI_PKT_LMT_EXCEED) {
     return "Requested packet count exceeds daemon limit";
   } else if (error == HY_ER_CLI_DUR_LMT_EXCEED) {
@@ -798,28 +843,8 @@ const char*
     return "Maximum input length exceeded";
   } else if (error == HY_ER_WRONG_PT_FMT) {
     return "Wrong pattern format";
-  } else if (error == HY_ER_CODE_WITHOUT_AT_T) {
-    return "Attack type needs to be set before code argument";
-  } else if (error == HY_ER_PPPOE_CODE_UNKNOWN) {
-    return "Unknown PPPoE discovery code";
-  } else if (error == HY_ER_ICMP_UNR_CODE_UNKNOWN) {
-    return "Unknown ICMP \"Destination Unreachable\" code";
-  } else if (error == HY_ER_HSRP_PRIO_ZERO) {
-    return "No HSRP priority given or given value is smaller than 1";
-  } else if (error == HY_ER_HSRP_CODE_UNKNOWN) {
-    return "Unknown HSRP state code";
-  } else if (error == HY_ER_TCP_FLG_UNKNOWN) {
-    return "TCP flag pattern contains an unknown flag";
-  } else if (error == HY_ER_HSRP_AUTH_LEN_EXCEED) {
-    return "HSRP authentification data length ecxeeded (too long auth. data)";
-  } else if (error == HY_ER_HSRP_MAX_PRIO_EXCEEDED) {
-    return "Maximum HSRP priority value exceeded (too big priority value)";
-  } else if (error == HY_ER_HSRP_MAX_GROUP_EXCEEDED) {
-    return "Maximum HSRP group value exceeded (too big group value)";
-  } else if (error == HY_ER_SND_DEL_WITHOUT_AT_T) {
-    return "Attack type needs to be set before send delay";
-  } else if (error == HY_ER_HSRP_DEL_EXCEEDED) {
-    return "Maximum HSRP hello/hold time value exceeded (too big send delay)";
+  } else if (error == HY_ER_FE_PATH_BUFLEN_EXCEED) {
+    return "Frontend stop condition file path buffer exceeded, to long log file path";
   } else {
     return "An unknown error occurred";
   }

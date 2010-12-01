@@ -26,9 +26,6 @@
 
 #include "hyenae.h"
 
-/* Frontend stop condition filename */
-#define HY_FE_STOP_FILENAME ".hyenae_fe_stop"
-
 /* -------------------------------------------------------------------------- */
 
 void
@@ -79,7 +76,7 @@ void
     }
     if (params->run_stat == HY_RUN_STAT_RUNNING) {
       fe_stop =
-        hy_file_exist(HY_FE_STOP_FILENAME);
+        hy_file_exist(HY_FE_STOP_PATH);
       if (fe_stop != 0 ||
           hy_was_key_pressed() != 0) {
         params->run_stat = HY_RUN_STAT_REQUESTED_STOP;
@@ -277,6 +274,39 @@ int
 /* -------------------------------------------------------------------------- */
 
 int
+  hy_init_fe_stop_path
+    (
+      char** argv
+    ) {
+
+  /*
+   * USAGE:
+   *   Initializes the HY_FE_STOP_PATH
+   */
+
+  int i = 0;
+  int path_len = 0;
+  int name_len = 0;
+
+  while (i < strlen(*argv)) {
+    if (*((*argv) + i) == HY_PATH_SEP_CHR) {
+      path_len = i + 1;
+    }
+    i = i + 1;
+  }
+  name_len = strlen(HY_FE_STOP_FILENAME);
+  if ((path_len + name_len + 1) >= HY_FE_STOP_PATH_BUFLEN) {
+    return HY_ER_FE_PATH_BUFLEN_EXCEED;
+  }
+  strncpy(HY_FE_STOP_PATH, *argv, path_len);
+  strncpy(HY_FE_STOP_PATH + path_len, HY_FE_STOP_FILENAME, name_len);
+  return HY_ER_OK;
+
+} /* hy_init_fe_stop_path */
+
+/* -------------------------------------------------------------------------- */
+
+int
   main
     (
       int argc,
@@ -298,7 +328,7 @@ int
   hy_attack_t att;
   hy_attack_result_t res;
   hy_server_list_t* srv_lst = NULL;
-  FILE* f = NULL;
+  FILE* fe_stop_f = NULL;
 
   hy_output(
     stdout,
@@ -306,7 +336,8 @@ int
     0,
     "Initializing");
   hy_init_attack_params(&att);
-  if ((ret = hy_initialize()) != HY_ER_OK) {
+  if ((ret = hy_initialize()) != HY_ER_OK ||
+      (ret = hy_init_fe_stop_path(argv)) != HY_ER_OK) {
     hy_output(
       stdout,
       HY_OUT_T_ERROR,
@@ -342,8 +373,8 @@ int
       0,
       "Creating frontend stop condition file");
     /* Create frontend stop condition file */
-    if ((f = fopen(HY_FE_STOP_FILENAME, "w")) != NULL) {
-      fclose(f);
+    if ((fe_stop_f = fopen(HY_FE_STOP_PATH, "w")) != NULL) {
+      fclose(fe_stop_f);
       return 0;
     } else {
       hy_output(
@@ -351,7 +382,7 @@ int
         HY_OUT_T_ERROR,
         0,
         "%s",
-        hy_get_error_msg(HY_ER_FE_STOP_CREATE));
+        hy_get_error_msg(HY_ER_FOPEN));
       return -1;
     }
   } else {
@@ -1042,20 +1073,19 @@ int
         "No network interface given");
       return -1;
     }
-    if (hy_file_exist(HY_FE_STOP_FILENAME)) {
-      if (remove(HY_FE_STOP_FILENAME) == 0) {
+    if (hy_file_exist(HY_FE_STOP_PATH)) {
        hy_output(
           stdout,
-          HY_OUT_T_NOTE,
+          HY_OUT_T_TASK,
           0,
-          "Removed previous frontend stop condition file");
-      } else {
+          "Deleting previous frontend stop condition file");
+      if ((ret = hy_delete_file(HY_FE_STOP_PATH)) != HY_ER_OK) {
         hy_output(
           stdout,
           HY_OUT_T_ERROR,
           0,
           "%s",
-          hy_get_error_msg(HY_ER_FE_STOP_REMOVE));
+          hy_get_error_msg(ret));
         return -1;
       }
     }

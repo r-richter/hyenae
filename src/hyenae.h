@@ -33,6 +33,22 @@
 
 #include <getopt.h>
 
+/* Path separation character */
+ #ifdef OS_WINDOWS
+    #define HY_PATH_SEP_CHR '\\'
+#else
+  #define HY_PATH_SEP_CHR   '/'
+#endif
+
+/* Frontend stop condition file name */
+#define HY_FE_STOP_FILENAME ".hyenae_fe_stop"
+
+/* Frontend stop condition file path buffer length */
+#define HY_FE_STOP_PATH_BUFLEN 1024
+
+/* Frontend stop condition file path */
+const char HY_FE_STOP_PATH[HY_FE_STOP_PATH_BUFLEN];
+
 /* -------------------------------------------------------------------------- */
 
 void
@@ -86,6 +102,14 @@ int
     (
       unsigned int*,
       const char*
+    );
+
+/* -------------------------------------------------------------------------- */
+
+int
+  hy_init_fe_stop_path
+    (
+      char**
     );
 
 /* -------------------------------------------------------------------------- */
