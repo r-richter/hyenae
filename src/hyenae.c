@@ -1056,6 +1056,7 @@ int
           0,
           "%s",
           hy_get_error_msg(HY_ER_FE_STOP_REMOVE));
+        return -1;
       }
     }
     hy_local_attack(if_n, &att, &res);
