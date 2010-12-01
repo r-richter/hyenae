@@ -297,7 +297,7 @@
   * Starting daemon
   * Opening network interface (en1)
   * Binding server to *@666
-  * Hyenae Daemon v0.35-3: Online
+  * Hyenae Daemon v0.36-1: Online
 
   If the port argument is unspecified, the daemon will listen on port 666 by
   default. Alternatively, you can specify the port to listen on with the -p
@@ -314,7 +314,7 @@
   * Starting daemon
   * Opening network interface (en1)
   * Binding server to 192.168.0.2@666
-  * Hyenae Daemon v0.35-3: Online
+  * Hyenae Daemon v0.36-1: Online
 
 --------------------------------------------------------------------------------
 
