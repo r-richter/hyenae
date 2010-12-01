@@ -47,7 +47,7 @@
 #define HY_FE_STOP_PATH_BUFLEN 1024
 
 /* Frontend stop condition file path */
-const char HY_FE_STOP_PATH[HY_FE_STOP_PATH_BUFLEN];
+char HY_FE_STOP_PATH[HY_FE_STOP_PATH_BUFLEN];
 
 /* -------------------------------------------------------------------------- */
 

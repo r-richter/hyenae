@@ -482,11 +482,11 @@ int
 
   #ifdef OS_WINDOWS
     if (DeleteFile(filename) == 0) {
-      return HY_ER_FOPEN;
+      return HY_ER_DELETE_FILE;
     }
   #else
     if (remove(filename) != 0) {
-      return HY_ER_FOPEN;
+      return HY_ER_DELETE_FILE;
     }
   #endif /* OS_WINDOWS */
   return HY_ER_OK;
