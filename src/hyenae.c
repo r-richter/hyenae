@@ -69,18 +69,15 @@ void
    */
 
   int fe_stop = 0;
-  int stop_msg_init = 0;
 
+  fprintf(stdout, "\n  Press any key to stop\n\n");
+  fflush(stdout);
   while (1) {
     fflush(stdin);
     if (params->run_stat == HY_RUN_STAT_STOPPED) {
       break;
     }
     if (params->run_stat == HY_RUN_STAT_RUNNING) {
-      if (stop_msg_init == 0) {
-        printf("\n  Press any key to stop\n\n");
-        stop_msg_init = 1;
-      }
       fe_stop =
         hy_file_exist(HY_FE_STOP_FILENAME);
       if (fe_stop != 0 ||
