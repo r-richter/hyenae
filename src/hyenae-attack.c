@@ -337,9 +337,9 @@ void
 #ifdef OS_WINDOWS
   DWORD WINAPI
     hy_win32_attack_loop
-    (
-      LPVOID params
-    ) {
+      (
+        LPVOID params
+      ) {
 
     hy_attack_loop((hy_attack_loop_t*) params);
     return 0;
