@@ -26,6 +26,9 @@
 
 #include "hyenae.h"
 
+/* Frontend stop condition filename */
+#define HY_FE_STOP_FILENAME ".hyenae_fe_stop_wa"
+
 /* -------------------------------------------------------------------------- */
 
 void
@@ -65,6 +68,7 @@ void
    *   of Hyenae during an attack.
    */
 
+  int fe_stop = 0;
   int stop_msg_init = 0;
 
   while (1) {
@@ -77,7 +81,10 @@ void
         printf("\n  Press any key to stop\n\n");
         stop_msg_init = 1;
       }
-      if (hy_was_key_pressed() != 0) {
+      fe_stop =
+        hy_file_exist(HY_FE_STOP_FILENAME);
+      if (fe_stop != 0 ||
+          hy_was_key_pressed() != 0) {
         params->run_stat = HY_RUN_STAT_REQUESTED_STOP;
       }
     }
@@ -294,6 +301,7 @@ int
   hy_attack_t att;
   hy_attack_result_t res;
   hy_server_list_t* srv_lst = NULL;
+  FILE* f = NULL;
 
   hy_output(
     stdout,
@@ -311,6 +319,7 @@ int
     return -1;
   }
   if (argc == 1) {
+    /* Start attack assistant */
     if ((ret =
            hy_assistant_start(
              &if_i,
@@ -327,6 +336,26 @@ int
     }
     if (exec_att == 0) {
       return 0;
+    }
+  } else if (argc == 2 &&
+             strcmp(*(argv + 1), "fe_stop") == 0) {
+    hy_output(
+      stdout,
+      HY_OUT_T_TASK,
+      0,
+      "Creating frontend stop condition file");
+    /* Create frontend stop condition file */
+    if ((f = fopen(HY_FE_STOP_FILENAME, "w")) != NULL) {
+      fclose(f);
+      return 0;
+    } else {
+      hy_output(
+        stdout,
+        HY_OUT_T_ERROR,
+        0,
+        "%s",
+        hy_get_error_msg(HY_ER_FE_STOP_CREATE));
+      return -1;
     }
   } else {
     /* Proccess command line arguments */
@@ -1015,6 +1044,22 @@ int
         0,
         "No network interface given");
       return -1;
+    }
+    if (hy_file_exist(HY_FE_STOP_FILENAME)) {
+      if (remove(HY_FE_STOP_FILENAME) == 0) {
+       hy_output(
+          stdout,
+          HY_OUT_T_NOTE,
+          0,
+          "Removed previous frontend stop condition file");
+      } else {
+        hy_output(
+          stdout,
+          HY_OUT_T_ERROR,
+          0,
+          "%s",
+          hy_get_error_msg(HY_ER_FE_STOP_REMOVE));
+      }
     }
     hy_local_attack(if_n, &att, &res);
     ret = res.ret;

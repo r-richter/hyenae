@@ -447,6 +447,29 @@ void
 /* -------------------------------------------------------------------------- */
 
 int
+  hy_file_exist
+    (
+      const char* filename
+    ) {
+
+  /*
+   * USAGE:
+   *   Checks a file for existence.
+   */
+
+  FILE* f = NULL;
+
+  f = fopen(filename, "r");
+  if ((f = fopen(filename, "r")) != NULL) {
+    fclose(f);
+    return 1;
+  }
+  return 0;
+} /* hy_file_exist */
+
+/* -------------------------------------------------------------------------- */
+
+int
   hy_load_file_to_buffer
     (
       const char* filename,
@@ -647,6 +670,10 @@ const char*
     return "Failed to accept client connection";
   } else if (error == HY_ER_CREATE_THREAD) {
     return "Failed to create new thread";
+  } else if (error == HY_ER_FE_STOP_CREATE) {
+    return "Failed to create frontend stop condition file";
+  } else if (error == HY_ER_FE_STOP_REMOVE) {
+    return "Failed to remove previous frontend stop condition file";
   } else if (error == HY_ER_CF_KEY_BUFLEN_EXCEED) {
     return "Key buffer length exceeded (too long key)";
   } else if (error == HY_ER_CF_VAL_BUFLEN_EXCEED) {

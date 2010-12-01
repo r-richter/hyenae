@@ -78,6 +78,8 @@
 #define HY_ER_SOCK_LISTEN      -10
 #define HY_ER_SOCK_ACCEPT      -11
 #define HY_ER_CREATE_THREAD    -12
+#define HY_ER_FE_STOP_CREATE   -13
+#define HY_ER_FE_STOP_REMOVE   -14
 
 /* Config based errors */
 #define HY_ER_CF_KEY_BUFLEN_EXCEED -1001
@@ -294,6 +296,14 @@ void
     (
       unsigned char*,
       unsigned int
+    );
+
+/* -------------------------------------------------------------------------- */
+
+int
+  hy_file_exist
+    (
+      const char*
     );
 
 /* -------------------------------------------------------------------------- */
