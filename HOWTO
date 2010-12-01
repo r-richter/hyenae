@@ -296,6 +296,7 @@
   * Initializing
   * Starting daemon
   * Opening network interface (en1)
+  * Opening log file (/var/log/hyenaed.log)
   * Binding server to *@666
   * Hyenae Daemon v0.36-1: Online
 
@@ -313,6 +314,7 @@
   * Initializing
   * Starting daemon
   * Opening network interface (en1)
+  * Opening log file (/var/log/hyenaed.log)
   * Binding server to 192.168.0.2@666
   * Hyenae Daemon v0.36-1: Online
 
