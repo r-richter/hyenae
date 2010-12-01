@@ -27,7 +27,7 @@
 #include "hyenae.h"
 
 /* Frontend stop condition filename */
-#define HY_FE_STOP_FILENAME ".hyenae_fe_stop_wa"
+#define HY_FE_STOP_FILENAME ".hyenae_fe_stop"
 
 /* -------------------------------------------------------------------------- */
 
