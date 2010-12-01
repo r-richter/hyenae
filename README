@@ -79,12 +79,16 @@
   * Intelligent address and address protocol detection
   * Smart wildcard-based randomization
   * Daemon for setting up remote attack networks
+  * HyenaeFE QT-Frontend support
 
 --------------------------------------------------------------------------------
 
   3. Command Line Usage (hyenae)
 
   hyenae (Starts attack assistant...)
+
+  hyenae fe_stop (Creates a frontend stop condition file,
+                  should only be used by the HyenaeFE frontend)
 
   hyenae -l (Prints all available network interfaces and exits)
 
