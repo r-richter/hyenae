@@ -843,8 +843,6 @@ const char*
     return "Maximum input length exceeded";
   } else if (error == HY_ER_WRONG_PT_FMT) {
     return "Wrong pattern format";
-  } else if (error == HY_ER_FE_PATH_BUFLEN_EXCEED) {
-    return "Frontend stop condition file path buffer exceeded, to long log file path";
   } else {
     return "An unknown error occurred";
   }
