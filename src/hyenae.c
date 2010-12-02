@@ -1039,7 +1039,7 @@ int
         "No network interface given");
       return -1;
     }
-    if (hy_file_exist(HY_FE_STOP_FILENAME)) {
+    if (hy_file_exist(HY_FE_STOP_FILENAME) != 0) {
        hy_output(
           stdout,
           HY_OUT_T_TASK,
