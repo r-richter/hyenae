@@ -459,38 +459,12 @@ int
 
   FILE* f = NULL;
 
-  f = fopen(filename, "r");
   if ((f = fopen(filename, "r")) != NULL) {
     fclose(f);
     return 1;
   }
   return 0;
 } /* hy_file_exist */
-
-/* -------------------------------------------------------------------------- */
-
-int
-  hy_delete_file
-    (
-      const char* filename
-    ) {
-
-  /*
-   * USAGE:
-   *   Checks a file for existence.
-   */
-
-  #ifdef OS_WINDOWS
-    if (DeleteFile(filename) == 0) {
-      return HY_ER_DELETE_FILE;
-    }
-  #else
-    if (remove(filename) != 0) {
-      return HY_ER_DELETE_FILE;
-    }
-  #endif /* OS_WINDOWS */
-  return HY_ER_OK;
-} /* hy_delete_file */
 
 /* -------------------------------------------------------------------------- */
 

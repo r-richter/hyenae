@@ -1045,13 +1045,13 @@ int
           HY_OUT_T_TASK,
           0,
           "Deleting previous frontend stop condition file");
-      if ((ret = hy_delete_file(HY_FE_STOP_FILENAME)) != HY_ER_OK) {
+      if (remove(HY_FE_STOP_FILENAME) != 0) {
         hy_output(
           stdout,
           HY_OUT_T_ERROR,
           0,
           "%s",
-          hy_get_error_msg(ret));
+          hy_get_error_msg(HY_ER_DELETE_FILE));
         return -1;
       }
     }
