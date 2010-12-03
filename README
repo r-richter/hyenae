@@ -265,7 +265,7 @@
 
          OPTIONAL:
          -t [IP Time To Live (TTL)]
-         -S [IP-Address (IPv4 only)]
+         -S [Req IP-Address (IPv4 only)]
          -p | -P [Random payload length | Payload file]
          -r | -R [remote daemon address (Single) | address file (Clustered)]
          -c [Min packet count]
@@ -281,11 +281,11 @@
          -i | -I [Network interface name | index]
          -s [Src HW-Address]-[Src IP-Address (IPv4 only)]
          -d [Dst HW-Address]-[Dst IP-Address (IPv4 only)]
-         -D [Req IP-Address (IPv4 only)]
+         -D [Srv IP-Address (IPv4 only)]
 
          OPTIONAL:
          -t [IP Time To Live (TTL)]
-         -S [IP-Address (IPv4 only)]
+         -S [Req IP-Address (IPv4 only)]
          -r | -R [remote daemon address (Single) | address file (Clustered)]
          -c [Min packet count]
          -C [Max packet count]
