@@ -322,8 +322,8 @@
          -z [HSRP Priority]
 
          OPTIONAL:
-         -o [HSRP State Code]
          -t [IP Time To Live (TTL)]
+         -o [HSRP State Code]
          -h [HSRP Auth. Data]
          -g [HSRP Group Number]
          -p | -P [Random payload length | Payload file]
@@ -344,8 +344,8 @@
          -z [HSRP Priority]
 
          OPTIONAL:
-         -o [HSRP State Code]
          -t [IP Time To Live (TTL)]
+         -o [HSRP State Code]
          -h [HSRP Auth. Data]
          -g [HSRP Group Number]
          -p | -P [Random payload length | Payload file]
@@ -366,8 +366,8 @@
          -z [HSRP Priority]
 
          OPTIONAL:
-         -o [HSRP State Code]
          -t [IP Time To Live (TTL)]
+         -o [HSRP State Code]
          -h [HSRP Auth. Data]
          -g [HSRP Group Number]
          -p | -P [Random payload length | Payload file]
