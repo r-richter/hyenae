@@ -25,7 +25,6 @@ Section "WinPcap"
   SectionIn RO
   SetOutPath $INSTDIR
 
-  File ..\..\src\hyenaed.exe
   File components\WinPcap_4_1_2.exe
 
   ExecShell "" "$INSTDIR\WinPcap_4_1_2.exe"
@@ -35,9 +34,10 @@ Section "Hyenae"
   SectionIn RO
   SetOutPath $INSTDIR
 
-  File ..\..\HOWTO
-  File ..\..\README
   File ..\..\LICENSE
+  File ..\..\README
+  File ..\..\HOWTO
+  File ..\..\ChangeLog
   File ..\..\src\hyenae.exe
 
   ${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR"
