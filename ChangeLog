@@ -14,11 +14,12 @@
 
 --------------------------------------------------------------------------------
 
-  Version 0.36-1 (?)
+  Version 0.36-1 (Dec. 6th, 2010)
     * Bug fixes
     * Code refactoring
     * Updated / corrected documentation
     * Added HyenaeFE frontend stop condition support
+    * From now on all binary package releases will include HyenaeFE
 
   Version 0.35-3 (Nov. 29th, 2010)
     * Fixed send delay
