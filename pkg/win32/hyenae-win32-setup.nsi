@@ -2,7 +2,7 @@
 !include ".\include\EnvVarUpdate.nsh"
 
 Name "Hyenae 0.36-1"
-OutFile "hyenae-0.36-1-win32.exe"
+OutFile "hyenae-0.36-1_fe_0.1-1-win32.exe"
 InstallDir $PROGRAMFILES\Hyenae
 
 ; Required for Windows Vista
@@ -32,8 +32,8 @@ SectionEnd
 
 Section "Hyenae"
   SectionIn RO
-  SetOutPath $INSTDIR
 
+  SetOutPath $INSTDIR
   File ..\..\LICENSE
   File ..\..\README
   File ..\..\HOWTO
@@ -45,7 +45,23 @@ SectionEnd
 
 Section "Hyenae Daemon"
   SectionIn 2
-  SetOutPath $INSTDIR
 
+  SetOutPath $INSTDIR
   File ..\..\src\hyenaed.exe
+SectionEnd
+
+Section "HyenaeFE"
+  SectionIn 2
+
+  SetOutPath $SYSDIR
+  File components\libgcc_s_dw2-1.dll
+  File components\libstdc++-6.dll
+  File components\mingwm10.dll
+  File components\QtCore4.dll
+  File components\QtGui4.dll
+
+  SetOutPath $INSTDIR
+  File components\hyenaefe.exe
+
+  createShortCut "$SMPROGRAMS\HyenaeFE.lnk" "$INSTDIR\HyenaeFE.exe"
 SectionEnd
