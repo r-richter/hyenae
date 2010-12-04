@@ -21,7 +21,7 @@ RequestExecutionLevel admin
 
 !insertmacro MUI_LANGUAGE "English"
 
-Section "WinPcap 4.1.2"
+Section "WinPcap"
   SectionIn RO
   SetOutPath $INSTDIR
 
